@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import ButtonRecord from './components/Button_Record';
+import ButtonRecord from './components/ButtonRecord';
 
 function App() {
   return (

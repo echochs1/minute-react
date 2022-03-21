@@ -1,11 +1,14 @@
+// RESOURCES
+// https://www.assemblyai.com/blog/uploading-files-to-assemblyai-using-node-js-and-javascript/
+// https://github.com/AssemblyAI/nodejs-getting-started-stt/blob/main/upload.js
+// https://www.assemblyai.com/blog/getting-started-with-speech-to-text-transcriptions-with-assemblyai-javascript-and-node-js/
+
 import axios from "axios";
 import {} from 'dotenv/config';
 import fs from 'fs';
 
-const baseURL = "https://api.assemblyai.com/v2";
-
 /*
- * node ./src/utils/uploadAudio.js ./src/assets/audio/voice-memo-1.m4a
+ * node ./src/service/assemblyai/uploadAudio.js ./src/assets/audio/voice-memo-1.m4a
  */
 
 /**
@@ -23,10 +26,10 @@ const baseURL = "https://api.assemblyai.com/v2";
         }
 
         const assembly = axios.create({
-            baseURL: baseURL,
+            baseURL: "https://api.assemblyai.com/v2",
             headers: {
                 // authorization: process.env.ASSEMBLYAI_API_KEY,
-                authorization: "53a86dcca7c0414d8a4a553ad03cb797",
+                // authorization: "53a86dcca7c0414d8a4a553ad03cb797",
                 "content-type": "application/json",
                 "transfer-encoding": "chunked",
             },
