@@ -73,7 +73,8 @@ class ButtonRecord extends React.Component {
                 //   console.log(file);
                 
                 // const player = new Audio(URL.createObjectURL(file));
-                assembly(file);
+                const text = assembly(file);
+                this.setState({transcription: text});
             })
             .catch((e) => console.error(e));
             // uploadAudio(this.state.blobURL);
@@ -86,6 +87,7 @@ class ButtonRecord extends React.Component {
                 <button onClick={this.stopRecording} disabled={!this.state.isRecording}>Stop</button>
                 <audio src={this.state.blobURL} controls='controls'/>
                 <p>{this.state.blobURL}</p>
+                {/* <p>{this.state.transcription}</p> */}
             </div>
         )
     }
