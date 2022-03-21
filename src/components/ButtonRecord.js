@@ -5,6 +5,9 @@
 import React from 'react';
 import MicRecorder from 'mic-recorder-to-mp3';
 import assembly from '../service/assemblyai/assembly';
+import { connect } from 'react-redux';
+
+import axios from "axios";
 
 // new instance of the mic recorder
 const mp3Recorder = new MicRecorder({
@@ -22,21 +25,61 @@ class ButtonRecord extends React.Component {
             isBlocked: false,
             transcription: '',
         };
+        this.uploadAudio = this.uploadAudio.bind(this);
     }
 
-    // check permissions of web browser to access mic for recording
-    // componentDidMount() {
-    //     navigator.getUserMedia({ audio: true },
-    //         () => {
-    //             console.log('Permission Granted');
-    //             this.setState({ isBlocked: false });
-    //         },
-    //         () => {
-    //             console.log('Permission Denied');
-    //             this.setState({ isBlocked: true });
-    //         },
-    //     );
-    // };
+    uploadAudio = (audioFile) => {
+        const assembly = axios.create({
+            baseURL: "https://api.assemblyai.com/v2",
+            headers: {
+                // authorization: process.env.ASSEMBLYAI_API_KEY,
+                authorization: "53a86dcca7c0414d8a4a553ad03cb797",
+                "content-type": "application/json",
+                "transfer-encoding": "chunked-request",
+            },
+        });
+        assembly
+            .post("/upload", audioFile)
+            .then((res1) => {
+                console.log(`URL: ${res1.data['upload_url']}`);
+                const assembly1 = axios.create({
+                    baseURL: "https://api.assemblyai.com/v2",
+                    headers: {
+                        // authorization: process.env.ASSEMBLYAI_API_KEY,
+                        authorization: "53a86dcca7c0414d8a4a553ad03cb797",
+                        "content-type": "application/json",
+                    },
+                });
+            
+                assembly1
+                    .post("/transcript", {
+                        audio_url: res1.data['upload_url'],
+                        disfluencies: true,
+                        sentiment_analysis: true,
+                    })
+                    .then((res2) => {
+                        console.log(res2.data.id);
+                        const assembly2 = axios.create({
+                            baseURL: "https://api.assemblyai.com/v2",
+                            headers: {
+                                authorization: "53a86dcca7c0414d8a4a553ad03cb797",
+                                "content-type": "application/json",
+                            },
+                        });
+                        setTimeout(() => {
+                            assembly2
+                            .get(`/transcript/${res2.data.id}`)
+                            .then((res3) => {
+                                console.log(res3.data);
+                                this.setState({transcription: res3.data.text});
+                            })
+                            .catch((err) => console.error(err));
+                        }, 15000);
+                    })
+                    .catch((err) => console.error(err));
+            })
+            .catch((err) => console.log(err));
+    }
 
     // start audio recording with mp3Recorder -> returns Promise
     startRecording = () => {
@@ -60,11 +103,6 @@ class ButtonRecord extends React.Component {
             .stop()
             .getMp3()
             .then(([buffer, blob]) => {
-                // const blobURL = URL.createObjectURL(blob);
-                // this.setState({ blobURL, isRecording: false });
-                // console.log(blobURL);
-                // const transcription = assembly(blob);
-                // this.setState({ transcription });
                 const file = new File(buffer, 'me-at-thevoice.mp3', {
                     type: blob.type,
                     lastModified: Date.now()
@@ -73,12 +111,12 @@ class ButtonRecord extends React.Component {
                 //   console.log(file);
                 
                 // const player = new Audio(URL.createObjectURL(file));
-                const text = assembly(file);
-                this.setState({transcription: text});
+                const text = this.uploadAudio(file);
+                
             })
             .catch((e) => console.error(e));
             // uploadAudio(this.state.blobURL);
-    };
+    }
 
     render() {
         return(
@@ -87,10 +125,26 @@ class ButtonRecord extends React.Component {
                 <button onClick={this.stopRecording} disabled={!this.state.isRecording}>Stop</button>
                 <audio src={this.state.blobURL} controls='controls'/>
                 <p>{this.state.blobURL}</p>
-                {/* <p>{this.state.transcription}</p> */}
+                <p>{this.state.transcription}</p>
             </div>
         )
     }
 }
+
+// mapStateToProps = state => {
+//     return {
+//         someProp: state.someProp,
+//         anotherProp: state.anotherProp
+//     };
+//   };
+// mapDispatchToProps = dispatch => {
+//     return {
+//         updateSomeProp: () => dispatch({ type: 'SOME_ACTION' }),
+//         updateAnotherProp: () => dispatch({ 
+//             type: 'ANOTHER_ACTION',
+//             payload: someValue 
+//         })
+//     };
+// };
 
 export default ButtonRecord;
