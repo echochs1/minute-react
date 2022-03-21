@@ -1,3 +1,7 @@
+// RESOURCES
+// https://medium.com/front-end-weekly/recording-audio-in-mp3-using-reactjs-under-5-minutes-5e960defaf10
+// https://github.com/Matheswaaran/react-mp3-audio-recording/blob/master/src/App.js
+
 import React from 'react';
 import MicRecorder from 'mic-recorder-to-mp3';
 
