@@ -43,5 +43,4 @@ export default function uploadAudio(audioFile) {
                 return res.data['upload_url'];
             })
             .catch((err) => console.log(err));
-    // });
 }

@@ -60,11 +60,20 @@ class ButtonRecord extends React.Component {
             .stop()
             .getMp3()
             .then(([buffer, blob]) => {
-                const blobURL = URL.createObjectURL(blob);
-                this.setState({ blobURL, isRecording: false });
-                console.log(blobURL);
-                const transcription = assembly(blob);
+                // const blobURL = URL.createObjectURL(blob);
+                // this.setState({ blobURL, isRecording: false });
+                // console.log(blobURL);
+                // const transcription = assembly(blob);
                 // this.setState({ transcription });
+                const file = new File(buffer, 'me-at-thevoice.mp3', {
+                    type: blob.type,
+                    lastModified: Date.now()
+                  });
+
+                //   console.log(file);
+                
+                // const player = new Audio(URL.createObjectURL(file));
+                assembly(file);
             })
             .catch((e) => console.error(e));
             // uploadAudio(this.state.blobURL);
