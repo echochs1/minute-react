@@ -4,6 +4,7 @@
 
 import React from 'react';
 import MicRecorder from 'mic-recorder-to-mp3';
+import assembly from '../service/assemblyai/assembly';
 
 // new instance of the mic recorder
 const mp3Recorder = new MicRecorder({
@@ -19,6 +20,7 @@ class ButtonRecord extends React.Component {
             isRecording: false,
             blobURL: '',
             isBlocked: false,
+            transcription: '',
         };
     }
 
@@ -60,8 +62,12 @@ class ButtonRecord extends React.Component {
             .then(([buffer, blob]) => {
                 const blobURL = URL.createObjectURL(blob);
                 this.setState({ blobURL, isRecording: false });
+                console.log(blobURL);
+                const transcription = assembly(blob);
+                // this.setState({ transcription });
             })
             .catch((e) => console.error(e));
+            // uploadAudio(this.state.blobURL);
     };
 
     render() {
@@ -70,6 +76,7 @@ class ButtonRecord extends React.Component {
                 <button onClick={this.startRecording} disabled={this.state.isRecording}>Record</button>
                 <button onClick={this.stopRecording} disabled={!this.state.isRecording}>Stop</button>
                 <audio src={this.state.blobURL} controls='controls'/>
+                <p>{this.state.blobURL}</p>
             </div>
         )
     }

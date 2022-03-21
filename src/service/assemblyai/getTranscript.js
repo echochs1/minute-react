@@ -8,16 +8,21 @@ import {} from 'dotenv/config';
  * node ./src/service/assemblyai/getTranscript.js
  */
 
-// export default function getTranscript(audioID) {
+/**
+ * Function that takes in an audioID created by the AssemblyAI API POST request of a URL.
+ * Returns the transcript and other JSON data we desire from the recording.
+ * @param {*} audioID - the ID of the POST request of the audio file.
+ */
+export default function getTranscript(audioID) {
 
     // const audioID = "og3aszo649-a10f-4dbd-aa96-9148bbdf64d9"
-    const audioID = "os7s1gf3xc-d304-4a09-8832-85ab2761243e" // hello? this is andy...
+    // const audioID = "os7s1gf3xc-d304-4a09-8832-85ab2761243e" // hello? this is andy...
 
     const assembly = axios.create({
         baseURL: "https://api.assemblyai.com/v2",
         headers: {
             // authorization: process.env.ASSEMBLYAI_API_KEY,
-            // authorization: "53a86dcca7c0414d8a4a553ad03cb797",
+            authorization: "53a86dcca7c0414d8a4a553ad03cb797",
             "content-type": "application/json",
         },
     });
@@ -29,4 +34,4 @@ import {} from 'dotenv/config';
             return res.data['text'];
         })
         .catch((err) => console.error(err));
-// }
+}
