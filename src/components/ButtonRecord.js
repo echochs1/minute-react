@@ -14,6 +14,9 @@ const mp3Recorder = new MicRecorder({
     bitRate: 128
 });
 
+var current1 = new Date();
+var current2 = new Date();
+
 class ButtonRecord extends React.Component {
     constructor(props) {
         super(props);
@@ -41,7 +44,7 @@ class ButtonRecord extends React.Component {
         assembly
             .post("/upload", audioFile)
             .then((res1) => {
-                console.log(`URL: ${res1.data['upload_url']}`);
+                console.log(`URL: ${res1.data['upload_url']}`);         //FIRST LOG URL
                 const assembly1 = axios.create({
                     baseURL: "https://api.assemblyai.com/v2",
                     headers: {
@@ -58,7 +61,9 @@ class ButtonRecord extends React.Component {
                         sentiment_analysis: true,
                     })
                     .then((res2) => {
-                        console.log(res2.data.id);
+                        console.log(res2.data.id);                          //SECOND LOG receiving transcript code
+                        current1 = Date.now();
+                        // console.log(current1.getTime());
                         const assembly2 = axios.create({
                             baseURL: "https://api.assemblyai.com/v2",
                             headers: {
@@ -71,6 +76,9 @@ class ButtonRecord extends React.Component {
                             .get(`/transcript/${res2.data.id}`)
                             .then((res3) => {
                                 console.log(res3.data);
+                                current2 = Date.now();
+                                console.log(current2 - current1);
+                                this.setState({ isRecording: false });
                                 this.setState({transcription: res3.data.text});
                             })
                             .catch((err) => console.error(err));
@@ -111,6 +119,8 @@ class ButtonRecord extends React.Component {
                 //   console.log(file);
                 
                 // const player = new Audio(URL.createObjectURL(file));
+                const  blobURL = URL.createObjectURL(file);
+                this.setState({ blob: blobURL})
                 const text = this.uploadAudio(file);
                 
             })
@@ -124,7 +134,6 @@ class ButtonRecord extends React.Component {
                 <button onClick={this.startRecording} disabled={this.state.isRecording}>Record</button>
                 <button onClick={this.stopRecording} disabled={!this.state.isRecording}>Stop</button>
                 <audio src={this.state.blobURL} controls='controls'/>
-                <p>{this.state.blobURL}</p>
                 <p>{this.state.transcription}</p>
             </div>
         )
