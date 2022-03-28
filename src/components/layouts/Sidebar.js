@@ -2,6 +2,7 @@
 // https://github.com/SudeepTimalsina/ReactAnt/blob/master/src/components/layouts/sidebar.tsx
 // https://create-react-app.dev/docs/adding-images-fonts-and-files/
 // https://ant.design/components/icon/
+// https://reactrouter.com/docs/en/v6
 
 import React from "react";
 import { Menu } from "antd";
@@ -20,27 +21,27 @@ const SidebarNav = () => {
     const history = useNavigate();
 
     const handleRecordClick = () => {
-        // history.push("/record");
+        history("/record");
     }
 
     const handleGoalClick = () => {
-        // history.push("/goal");
+        history("/goal");
     }
 
     const handleLearnClick = () => {
-        // history.push("/learn");
+        history("/learn");
     }
 
     const handleAchievementClick = () => {
-        // history.push("/achievement");
+        history("/achievement");
     }
 
     const handleSettingClick = () => {
-        // history.push("/setting");
+        history("/setting");
     }
 
     const handleLogoutClick = () => {
-        // history.push("/logout");
+        history("/");
     }
 
     return (
