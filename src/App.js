@@ -1,25 +1,12 @@
 // import logo from './logo.svg';
 import './App.css';
-import ButtonRecord from './components/ButtonRecord';
+// import ButtonRecord from './components/ButtonRecord';
+import ApplicationRoutes from './config/ApplicationRoutes';
 
 function App() {
   return (
     <div className="App">
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-      <ButtonRecord/>
+      <ApplicationRoutes />
     </div>
   );
 }
