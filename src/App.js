@@ -8,28 +8,6 @@ import Learn from './screens/LearnScreen';
 import SignIn from "./firebase/signIn.js";
 
 function App() {
-  // const [authUser, setAuthUser] = useState({loggedIn:false, uid:null, email:null});
-  // const [error, setError] = useState(null);
-  // const firebase = new Firebase();
-
-  // useEffect(() => {
-  //   const getCurrentUser = firebase.auth.onAuthStateChanged(
-  //     authUser => {
-  //       authUser
-  //         ? setAuthUser({loggedIn:true, uid: authUser.uid, email:authUser.email})
-  //         : doCreateAnonymousUser()
-  //         .then(authUser => {
-  //           setAuthUser({loggedIn:false, uid:authUser.uid, email:null});
-  //         })
-  //         .catch(error => {
-  //           setAuthUser({loggedIn:false, uid:null, email:null});
-  //           setError(error);
-  //         });
-  //     },
-  //  );
-  //  getCurrentUser();
-  // }, []);
-
   return (
     <Router>
       <div className="App">
