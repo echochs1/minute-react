@@ -10,6 +10,7 @@ import Goals from "../components/pages/GoalsPage";
 import Learn from "../components/pages/LearnPage";
 import Achievements from "../components/pages/AchievementsPage";
 import Settings from "../components/pages/SettingsPage";
+import PageNotFound from "../components/pages/PageNotFound";
 
 import { Layout } from "antd";
 import SidebarNav from "../components/layouts/Sidebar";
@@ -29,13 +30,14 @@ const ApplicationRoutes = () => {
                 </Header>
                 <Content style={{ margin: "24px 16px 0", padding: 24, minHeight: "calc(100vh - 114px)", background: "#fff" }}>
                     <Routes>
-                        <Route path="/" element={<Home />} />
+                        <Route exact path="/" element={<Home />} />
                         <Route path="record" element={<Record />} />
                         <Route path="goal" element={<Goals />} />
                         <Route path="/learn" element={<Learn />} />
                         <Route path="/achievement" element={<Achievements />} />
                         <Route path="/setting" element={<Settings />} />
                         <Route path="/logout" component={() => <Navigate to="/" />} />
+                        <Route path="*" element={<PageNotFound/>} />
                     </Routes>
                 </Content>
             </Layout>
