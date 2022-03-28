@@ -2,12 +2,16 @@
 import './App.css';
 // import ButtonRecord from './components/ButtonRecord';
 import ApplicationRoutes from './config/ApplicationRoutes';
+import {FirebaseProvider} from './firebase/fbContext';
 
 function App() {
   return (
-    <div className="App">
+    <FirebaseProvider>
       <ApplicationRoutes />
-    </div>
+    </FirebaseProvider>
+    // <div className="App">
+    //   <ApplicationRoutes />
+    // </div>
   );
 }
 

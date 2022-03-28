@@ -3,7 +3,7 @@
 // https://github.com/SudeepTimalsina/ReactAnt/blob/master/src/config/ApplicationRoutes.tsx
 
 import React, { useState } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import Home from "../components/pages/HomePage";
 import Record from "../components/pages/RecordOptionsPage";
 import Goals from "../components/pages/GoalsPage";
@@ -14,11 +14,18 @@ import PageNotFound from "../components/pages/PageNotFound";
 
 import { Layout } from "antd";
 import SidebarNav from "../components/layouts/Sidebar";
+// import app from '../firebase/fbConfig';
 
 const { Header, Sider, Content } = Layout;
 
 const ApplicationRoutes = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const navigate = useNavigate();
+
+    // const fbSignOut = () => {
+    //     app.auth().signOut();
+    //     navigate("/");
+    // }
 
     return (
         <Layout>
@@ -36,7 +43,9 @@ const ApplicationRoutes = () => {
                         <Route path="/learn" element={<Learn />} />
                         <Route path="/achievement" element={<Achievements />} />
                         <Route path="/setting" element={<Settings />} />
-                        <Route path="/logout" component={() => <Navigate to="/" />} />
+                        {/* Check if user is logged in, click log out to redirect to home page 
+                            If user is not logged in, show log in tab */}
+                        {/* <Route path="/logout" component={() => fbSignOut()} /> */}
                         <Route path="*" element={<PageNotFound/>} />
                     </Routes>
                 </Content>
