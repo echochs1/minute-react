@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './store/reducer';
+import { FirebaseProvider } from './firebase/firebaseContext';
 
 const store = createStore(reducer);
 
@@ -16,9 +17,9 @@ const app = (
 );
 
 ReactDOM.render(
-  <React.StrictMode>
+  <FirebaseProvider> 
     <App />
-  </React.StrictMode>,
+  </FirebaseProvider> ,
   document.getElementById('root')
 );
 
