@@ -3,7 +3,7 @@
 // https://github.com/SudeepTimalsina/ReactAnt/blob/master/src/config/ApplicationRoutes.tsx
 
 import React, { useState, useContext } from "react";
-import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import Home from "../components/pages/HomePage";
 import Record from "../components/pages/RecordOptionsPage";
 import Goals from "../components/pages/GoalsPage";
@@ -14,8 +14,6 @@ import PageNotFound from "../components/pages/PageNotFound";
 
 import { Layout } from "antd";
 import SidebarNav from "../components/layouts/Sidebar";
-// import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
-// import { auth, provider } from '../firebase/fbConfig';
 import { FirebaseContext } from "../firebase/fbContext";
 
 const { Header, Sider, Content } = Layout;
@@ -23,6 +21,7 @@ const { Header, Sider, Content } = Layout;
 const ApplicationRoutes = () => {
     const [collapsed, setCollapsed] = useState(false);
     const {authUser} = useContext(FirebaseContext);
+
     return (
         <Layout>
             <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed} >
@@ -43,7 +42,7 @@ const ApplicationRoutes = () => {
                             If user is not logged in, show log in tab */}
                         {authUser.loggedIn == false ? 
                         <Route path="/logout" component={() => <Navigate to="/"/>} />
-                        : <Route path="/login" component={() => <Navigate to="/"/>}/>
+                        : <Route path="/login" component={() => <Navigate to="/settings"/>}/>
                         }
                         <Route path="*" element={<PageNotFound/>} />
                     </Routes>

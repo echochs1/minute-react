@@ -18,7 +18,7 @@ import {
 } from '@ant-design/icons';
 // import { ReactComponent as Logo } from './src/assets/images/logo-blue-teal.svg';
 import { useNavigate } from "react-router-dom";
-import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider, signOut, linkWithCredential } from 'firebase/auth';
 import { auth, provider } from '../../firebase/fbConfig';
 import { FirebaseContext } from "../../firebase/fbContext";
 
@@ -47,20 +47,18 @@ const SidebarNav = () => {
 
     const handleLogoutClick = () => {
         fbSignOut();
-        history("/");
     }
     const handleLoginClick = () => {
         fbSignIn();
-        history("/");
     }
 
     const {authUser} = useContext(FirebaseContext);
     console.log(authUser);
-    const navigate = useNavigate();
 
     const fbSignIn = async () => {
+        const isAnon = authUser.isAnonymous;
         provider.setCustomParameters({ prompt: 'select_account' });
-        signInWithPopup(auth, provider)
+            signInWithPopup(auth, provider)
             .then((result) => {
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -69,7 +67,17 @@ const SidebarNav = () => {
                 const user = result.user;
                 // redux action? --> dispatch({ type: SET_USER, user });
                 console.log("Logged in with Google: "+user);
-                navigate('/settings');
+                // Check if the user was signed in anonymously, if so link the account
+                if(isAnon) {
+                    linkWithCredential(auth.currentUser, credential)
+                    .then((usercred) => {
+                        const user = usercred.user;
+                        console.log("Anonymous account successfully upgraded", user);
+                    }).catch((error) => {
+                        console.log("Error upgrading anonymous account", error);
+                    });
+                }
+                history('/settings');
             })
             .catch((error) => {
                 // Handle Errors here.
@@ -87,7 +95,7 @@ const SidebarNav = () => {
         signOut(auth).then(() => {
             // Sign-out successful.
             console.log("logged out");
-            navigate("/");
+            history("/");
         })
     }
 
