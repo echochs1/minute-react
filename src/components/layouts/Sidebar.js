@@ -5,7 +5,7 @@
 // https://reactrouter.com/docs/en/v6
 // https://reactrouter.com/docs/en/v6/getting-started/tutorial
 
-import React from "react";
+import React, {useContext} from "react";
 import { Menu } from "antd";
 import {
     AudioOutlined,
@@ -14,9 +14,13 @@ import {
     TrophyTwoTone,
     SettingTwoTone,
     LogoutOutlined,
+    LoginOutlined
 } from '@ant-design/icons';
 // import { ReactComponent as Logo } from './src/assets/images/logo-blue-teal.svg';
 import { useNavigate } from "react-router-dom";
+import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
+import { auth, provider } from '../../firebase/fbConfig';
+import { FirebaseContext } from "../../firebase/fbContext";
 
 const SidebarNav = () => {
     const history = useNavigate();
@@ -38,11 +42,53 @@ const SidebarNav = () => {
     }
 
     const handleSettingClick = () => {
-        history("/setting");
+        history("/settings");
     }
 
     const handleLogoutClick = () => {
+        fbSignOut();
         history("/");
+    }
+    const handleLoginClick = () => {
+        fbSignIn();
+        history("/");
+    }
+
+    const {authUser} = useContext(FirebaseContext);
+    console.log(authUser);
+    const navigate = useNavigate();
+
+    const fbSignIn = async () => {
+        provider.setCustomParameters({ prompt: 'select_account' });
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+                // redux action? --> dispatch({ type: SET_USER, user });
+                console.log("Logged in with Google: "+user);
+                navigate('/settings');
+            })
+            .catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                const email = error.email;
+                // The AuthCredential type that was used.
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                console.log("Error with Google log-in: "+errorMessage);
+            });
+    };
+
+    const fbSignOut = () => {
+        signOut(auth).then(() => {
+            // Sign-out successful.
+            console.log("logged out");
+            navigate("/");
+        })
     }
 
     return (
@@ -69,10 +115,17 @@ const SidebarNav = () => {
                     <SettingTwoTone />
                     <span> Settings</span>
                 </Menu.Item>
-                <Menu.Item key="6" onClick={handleLogoutClick}>
-                    <LogoutOutlined />
-                    <span> Logout</span>
-                </Menu.Item>
+                {authUser.loggedIn ?
+                    <Menu.Item key="6" onClick={handleLogoutClick}>
+                        <LogoutOutlined />
+                        <span> Logout</span>
+                    </Menu.Item>
+                    :
+                    <Menu.Item key="6" onClick={handleLoginClick}>
+                        <LoginOutlined />
+                        <span> Login</span>
+                    </Menu.Item>
+                }
             </Menu>
         </div>
     )

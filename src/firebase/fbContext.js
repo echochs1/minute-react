@@ -1,6 +1,5 @@
 import React, {useState, useEffect, createContext} from 'react';
 import {auth} from './fbConfig';
-//  import { getAuth, signInAnonymously } from "firebase/auth";
 
 export const FirebaseContext = createContext(); 
 
@@ -13,11 +12,10 @@ export const FirebaseProvider = ({children}) => {
             authUser => {
                 authUser
                 ? setAuthUser({loggedIn:true, uid: authUser.uid, email:authUser.email})
-                //   : app.auth.signInAnonymously(auth)
+                //   : auth.signInAnonymously(auth)
                 //   .then(() => {app.auth.onAuthStateChanged(anonUser => 
                 // setAuthUser({loggedIn:false, uid:anonUser.uid, email:null}))});
                 : setAuthUser({loggedIn:false, uid:null, email:null});
-                console.log(authUser);
           },
        );
     }, []);

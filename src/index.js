@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './store/reducer';
+import {FirebaseProvider} from './firebase/fbContext';
 
 const store = createStore(reducer);
 
@@ -17,11 +18,13 @@ const app = (
 );
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <FirebaseProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+  </FirebaseProvider>,
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 
