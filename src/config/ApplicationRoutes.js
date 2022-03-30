@@ -16,6 +16,21 @@ import SidebarNav from "../components/layouts/Sidebar";
 
 const { Header, Sider, Content } = Layout;
 
+const MainAppRoutes = () => {
+    // https://stackoverflow.com/questions/49208310/is-it-possible-to-have-multiple-switch-in-react-js
+    return (
+        <Routes>
+            <Route exact path="home" element={<Home />} />
+            <Route exact path="record" element={<Record />} />
+            <Route exact path="goal" element={<Goals />} />
+            <Route exact path="learn" element={<Learn />} />
+            <Route exact path="achievement" element={<Achievements />} />
+            <Route exact path="setting" element={<Settings />} />
+            <Route path="logout" component={() => <Navigate to="/" />} />
+        </Routes>
+    )
+}
+
 const ApplicationRoutes = () => {
     const [collapsed, setCollapsed] = useState(false);
 
@@ -28,15 +43,7 @@ const ApplicationRoutes = () => {
                 <Header className="siteLayoutBackground" style={{ padding: 0, background: "#001529" }}>
                 </Header>
                 <Content style={{ margin: "24px 16px 0", padding: 24, minHeight: "calc(100vh - 114px)", background: "#fff" }}>
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="record" element={<Record />} />
-                        <Route path="goal" element={<Goals />} />
-                        <Route path="/learn" element={<Learn />} />
-                        <Route path="/achievement" element={<Achievements />} />
-                        <Route path="/setting" element={<Settings />} />
-                        <Route path="/logout" component={() => <Navigate to="/" />} />
-                    </Routes>
+                    <MainAppRoutes />
                 </Content>
             </Layout>
         </Layout>

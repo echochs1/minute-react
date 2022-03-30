@@ -1,0 +1,78 @@
+/* GLOBALS */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+/* ANT DESIGN OVERWRITES */
+/* LANDING */
+.text-blue {
+  color: #1D3953;
+}
+.landing {
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: transparent;
+}
+.landing-navbar {
+  background-color: transparent;
+  position: relative;
+  z-index: 10;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.landing-navbar .nav-links {
+  float: right;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.landing-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(42, 82, 120, 0.3);
+  z-index: 2;
+}
+.landing-hero {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  padding: 1rem 2rem;
+  z-index: 10;
+}
+.logo {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.logo img {
+  width: 3rem;
+  height: 3rem;
+  padding: 0.5rem;
+  object-fit: contain;
+}
+.logo h1 {
+  width: 100%;
+  height: 100%;
+  color: #1D3953;
+  margin-left: 0.5rem;
+}
+video#video {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  opacity: 0.8;
+}

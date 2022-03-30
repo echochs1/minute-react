@@ -16,6 +16,7 @@ import {
     LogoutOutlined,
 } from '@ant-design/icons';
 // import { ReactComponent as Logo } from './src/assets/images/logo-blue-teal.svg';
+import Logo from './logo-blue-teal.svg';
 import { useNavigate } from "react-router-dom";
 
 const SidebarNav = () => {
@@ -47,7 +48,10 @@ const SidebarNav = () => {
 
     return (
         <div>
-            <div style={{height: "32px", background: "rgba(255, 255, 255, 0.2)", margin: "16px"}}></div>
+            <div style={{height: "32px", margin: "16px"}}>
+                <img src={Logo} alt="logo" style={{height: "32px", width: "32px", margin: "8px"}}/>
+                <h1>Minute</h1>
+            </div>
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
                 <Menu.Item key="1" onClick={handleRecordClick}>
                     <AudioOutlined />

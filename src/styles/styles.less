@@ -1,0 +1,125 @@
+/* GLOBALS */
+
+@blue900: #1D3953;
+@blue800: #2A5278;
+@blue700: #386C9F;
+@blue600: #4A86C0;
+@blue500: #6F9FCD;
+@blue400: #95B8DA;
+@blue200: #BBD2E7;
+@blue100: #E1EBF4;
+@blue050: #F7FAFC;
+@gold600: #FAC818;
+@gold400: #FCE07D;
+@gold200: #FDECAF;
+@teal500: #6FCDB4;
+@teal200: #BBE7DB;
+@turquoise600: #4AB2C0;
+@turquoise400: #95D2DA;
+@red600: #F06A6A;
+@red400: #F59999;
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ANT DESIGN OVERWRITES */
+// https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less
+
+@primary-color: @blue800; // primary color for all components
+@link-color: @blue600; // link color
+@success-color: @teal500; // success state color
+@warning-color: @gold600; // warning state color
+@error-color: @red600; // error state color
+@font-size-base: 14px; // major text font size
+@heading-color: @blue900; // heading text color
+@text-color: @blue900; // major text color
+@text-color-secondary: @blue900; // secondary text color
+@disabled-color: rgba(0, 0, 0, 0.25); // disable state color
+@border-radius-base: 1rem; // major border radius
+@border-color-base: #d9d9d9; // major border color
+@box-shadow-base: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05); // major shadow for layers
+
+/* LANDING */
+
+.text-blue {
+    color: @blue900;
+}
+
+.landing {
+    min-height: 100vh;
+    min-width: 100vw;
+    background-color: transparent;
+
+    &-navbar {
+        background-color: transparent;
+        position: relative;
+        z-index: 10;
+        padding: 1rem 2rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .nav-links {
+            float: right;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+    }
+
+    &-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(42, 82, 120, 0.3);
+        z-index: 2;
+    }
+
+    &-hero {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        padding: 1rem 2rem;
+        z-index: 10;
+    }
+}
+
+.logo {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    img {
+        width: 3rem;
+        height: 3rem;
+        padding: 0.5rem;
+        object-fit: contain;
+    }
+
+    h1 {
+        width: 100%;
+        height: 100%;
+        color: @blue900;
+        margin-left: 0.5rem;
+    }
+}
+
+video#video {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;   
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    opacity: 0.8;
+}

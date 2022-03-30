@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&family=Raleway:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+
+h1 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+p {
+    font-family: 'Raleway', sans-serif;
+}
+
+span.large-bold-text {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 7rem;
+    font-weight: 700;
+}
