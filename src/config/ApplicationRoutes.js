@@ -28,6 +28,7 @@ const MainAppRoutes = () => {
             <Route exact path="achievement" element={<Achievements />} />
             <Route exact path="setting" element={<Settings />} />
             <Route path="logout" component={() => <Navigate to="/" />} />
+            <Route path="*" element={<PageNotFound/>} />
         </Routes>
     )
 }
@@ -45,16 +46,6 @@ const ApplicationRoutes = () => {
                 </Header>
                 <Content style={{ margin: "24px 16px 0", padding: 24, minHeight: "calc(100vh - 114px)", background: "#fff" }}>
                     <MainAppRoutes />
-                    <Routes>
-                        <Route exact path="/" element={<Home />} />
-                        <Route path="record" element={<Record />} />
-                        <Route path="goal" element={<Goals />} />
-                        <Route path="/learn" element={<Learn />} />
-                        <Route path="/achievement" element={<Achievements />} />
-                        <Route path="/setting" element={<Settings />} />
-                        <Route path="/logout" component={() => <Navigate to="/" />} />
-                        <Route path="*" element={<PageNotFound/>} />
-                    </Routes>
                 </Content>
             </Layout>
         </Layout>
