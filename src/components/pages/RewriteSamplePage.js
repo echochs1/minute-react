@@ -39,7 +39,10 @@ class Rewriter extends Component {
       
       fetch('https://tinq.ai/api/v1/rewrite', options)
         .then(response => response.json())
-        .then(response => console.log(response.paraphrase))
+        .then(response => {
+          console.log(response.paraphrase);
+          this.setState({translation: response.paraphrase});
+        })
         .catch(err => console.error(err));
     }
     catch (error) {
@@ -66,6 +69,7 @@ class Rewriter extends Component {
     return (
       <div className="App">
         <header className="App-header">
+        <p>{this.state.translation}</p>
           <form onSubmit={this.handleSubmit}>
         <label>
         <input type="text" value={this.state.original_text} onChange={this.handleChange} />
