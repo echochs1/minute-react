@@ -23,6 +23,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 /* ANT DESIGN OVERWRITES */
@@ -44,8 +45,32 @@
 
 /* LANDING */
 
+.text-white {
+    color: #fff;
+}
+
 .text-blue {
     color: @blue900;
+}
+
+.text-teal {
+    color: @teal500;
+}
+
+.text-turquoise {
+    color: @turquoise600;
+}
+
+.text-gold {
+    color: @gold600;
+}
+
+.text-red {
+    color: @red600;
+}
+
+.text-shadow-dark {
+    text-shadow: 0 0.25rem 0.25rem rgba(29, 57, 83, 0.3);
 }
 
 .landing {
@@ -55,8 +80,10 @@
 
     &-navbar {
         background-color: transparent;
-        position: relative;
-        z-index: 10;
+        position: fixed;
+        width: 100%;
+        height: 15vh;
+        z-index: 100;
         padding: 1rem 2rem;
         display: flex;
         flex-direction: row;
@@ -76,16 +103,54 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(42, 82, 120, 0.3);
+        background-color: rgba(29, 57, 83, 0.7);
+        // mix-blend-mode: overlay;
         z-index: 2;
     }
 
     &-hero {
         position: relative;
-        height: 100%;
+        height: 85vh;
         width: 100%;
         padding: 1rem 2rem;
         z-index: 10;
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+        // align-content: flex-start;
+    }
+
+    &-line-1 {
+        line-height: normal;
+    }
+
+    &-line-2 {
+        line-height: 100%;
+    }
+
+    &-button {
+        margin-top: 2rem;
+        // margin-bottom: 1rem;
+        padding: 2rem 3rem;
+        width: fit-content;
+        // height: 5vh;
+        background-color: @teal200;
+        color: @blue900;
+        border-radius: 1rem;
+        border-color: @teal200;
+        text-decoration: none;
+        text-transform: uppercase;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+            background-color: @blue900;
+            border-color: @blue900;
+            color: #fff;
+            box-shadow: 0 1rem 2rem rgba(29, 57, 83, 0.5);
+        }
     }
 }
 
@@ -101,15 +166,14 @@
     img {
         width: 3rem;
         height: 3rem;
-        padding: 0.5rem;
         object-fit: contain;
+        cursor: pointer;
     }
 
     h1 {
-        width: 100%;
-        height: 100%;
-        color: @blue900;
-        margin-left: 0.5rem;
+        color: #fff;
+        margin: 0 0 0 1rem;
+        cursor: pointer;
     }
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "antd";
-import { AudioOutlined } from '@ant-design/icons';
+import { AudioFilled } from '@ant-design/icons';
 import LandingNavbar from "../../layouts/LandingNavbar";
 import backgroundVideo from "./landing-background-comp.mp4";
 
@@ -16,10 +16,9 @@ const LandingPage = () => {
                 <LandingNavbar />
             </div>
             <div className="landing-hero">
-
-                <span className="large-bold-text text-blue">Build public speaking confidence in one minute.</span>
-                <p>This is the landing page!</p>
-                <Button type="primary" size="large" icon={<AudioOutlined />} className="landing-button">Start Recording</Button>
+                <span className="med-bold-text text-white text-shadow-dark landing-line-1">Build public speaking confidence in </span>
+                <span className="large-bold-text text-teal text-shadow-dark landing-line-2">one minute.</span>
+                <Button type="primary" size="large" icon={<AudioFilled />} className="landing-button"><span className="button-primary-text">Start Recording</span></Button>
             </div>
         </div>
     )

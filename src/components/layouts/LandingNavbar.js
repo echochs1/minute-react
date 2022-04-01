@@ -21,12 +21,12 @@ const LandingNavbar = () => {
     return (
         <div className="landing-navbar">
             <div className="logo" >
-                <img src={Logo} alt="logo"/>
-                <h1>Minute</h1>
+                <img src={Logo} alt="logo" onClick={handleLogoClick}/>
+                <h1 onClick={handleLogoClick}>Minute</h1>
             </div>
             <div className="nav-links">
-                <Button type="text" onClick={handleAboutClick}>About</Button>
-                <Button type="text" onClick={handleLoginClick}>Login</Button>
+                <Button type="text" onClick={handleAboutClick}><span className="button-text-text text-white">About</span></Button>
+                <Button type="text" onClick={handleLoginClick}><span className="button-text-text text-white">Login</span></Button>
             </div>
         </div>
     )
