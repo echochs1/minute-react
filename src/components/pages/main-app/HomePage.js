@@ -1,5 +1,5 @@
 import React from "react";
-import ButtonRecord from "../ButtonRecord";
+import ButtonRecord from "./ButtonRecord";
 
 const Home = () => {
     return (

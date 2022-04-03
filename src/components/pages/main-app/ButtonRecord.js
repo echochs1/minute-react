@@ -4,7 +4,7 @@
 
 import React from 'react';
 import MicRecorder from 'mic-recorder-to-mp3';
-import assembly from '../service/assemblyai/assembly';
+import assembly from '../../../service/assemblyai/assembly';
 import { connect } from 'react-redux';
 
 import axios from "axios";

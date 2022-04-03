@@ -8,7 +8,7 @@
 import React from "react";
 import { Menu } from "antd";
 import {
-    AudioOutlined,
+    AudioTwoTone,
     CalendarTwoTone,
     BookTwoTone,
     TrophyTwoTone,
@@ -17,29 +17,29 @@ import {
 } from '@ant-design/icons';
 // import { ReactComponent as Logo } from './src/assets/images/logo-blue-teal.svg';
 import Logo from './logo-blue-teal.svg';
-import { useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 const SidebarNav = () => {
     const history = useNavigate();
 
     const handleRecordClick = () => {
-        history("/record");
+        history("/app/record");
     }
 
     const handleGoalClick = () => {
-        history("/goal");
+        history("/app/goal");
     }
 
     const handleLearnClick = () => {
-        history("/learn");
+        history("/app/learn");
     }
 
     const handleAchievementClick = () => {
-        history("/achievement");
+        history("/app/achievement");
     }
 
     const handleSettingClick = () => {
-        history("/setting");
+        history("/app/setting");
     }
 
     const handleLogoutClick = () => {
@@ -49,13 +49,17 @@ const SidebarNav = () => {
     return (
         <div>
             <div style={{height: "32px", margin: "16px"}}>
-                <img src={Logo} alt="logo" style={{height: "32px", width: "32px", margin: "8px"}}/>
-                <h1>Minute</h1>
+                <Link to="/app">
+                    <img src={Logo} alt="logo" style={{height: "32px", width: "32px", margin: "8px"}}/>
+                    <h1>Minute</h1>
+                </Link>
             </div>
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                <Menu.Item key="1" onClick={handleRecordClick}>
-                    <AudioOutlined />
-                    <span> Record</span>
+                <Menu.Item key="1" >
+                    <Link to="record">
+                        <AudioTwoTone />
+                        <span> Record</span>
+                    </Link>
                 </Menu.Item>
                 <Menu.Item key="2" onClick={handleGoalClick}>
                     <CalendarTwoTone />
@@ -78,6 +82,7 @@ const SidebarNav = () => {
                     <span> Logout</span>
                 </Menu.Item>
             </Menu>
+            <Outlet />
         </div>
     )
 }

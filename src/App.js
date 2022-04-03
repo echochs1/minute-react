@@ -1,14 +1,11 @@
-// import logo from './logo.svg';
 import './App.css';
+import AllRoutes from './config/AllRoutes';
 // import ButtonRecord from './components/ButtonRecord';
-import ApplicationRoutes from './config/ApplicationRoutes';
-import LandingPageRoutes from './config/LandingRoutes';
 
 function App() {
   return (
     <div className="App">
-      <LandingPageRoutes />
-      {/* <ApplicationRoutes /> */}
+        <AllRoutes />
     </div>
   );
 }

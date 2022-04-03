@@ -11,11 +11,11 @@ const LandingNavbar = () => {
     }
 
     const handleAboutClick = () => {
-        history("/about");
+        history("about");
     }
 
     const handleLoginClick = () => {
-        history("/login");
+        history("app");
     }
 
     return (

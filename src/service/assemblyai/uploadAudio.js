@@ -5,7 +5,7 @@
 
 import axios from "axios";
 import {} from 'dotenv/config';
-import fs from 'fs';
+// import fs from 'fs';
 
 /*
  * node ./src/service/assemblyai/uploadAudio.js ./src/assets/audio/voice-memo-1.m4a
