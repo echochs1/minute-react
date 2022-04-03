@@ -48,7 +48,7 @@ const SidebarNav = () => {
 
     return (
         <div>
-            <div style={{height: "32px", margin: "16px"}}>
+            <div style={{height: "3rem", margin: "1rem"}}>
                 <Link to="/app">
                     <img src={Logo} alt="logo" style={{height: "32px", width: "32px", margin: "8px"}}/>
                     <h1>Minute</h1>

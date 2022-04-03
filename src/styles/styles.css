@@ -138,12 +138,13 @@ video#video {
   justify-content: center;
 }
 .recordOptionsPage-button {
-  margin-top: 2rem;
   padding: 2rem 3rem;
-  max-width: 20rem;
+  width: fit-content;
+  max-width: 64vw;
   height: auto;
   color: #1D3953;
   border-radius: 1rem;
+  border: none;
   text-decoration: none;
   text-transform: uppercase;
   display: flex;
@@ -153,19 +154,105 @@ video#video {
 }
 .recordOptionsPage-button-1 {
   background-color: #FDECAF;
-  border-color: #FDECAF;
+  box-shadow: 0 0.5rem 0 #FAC818;
+  transition: 300ms ease-in-out;
+}
+.recordOptionsPage-button-1:hover {
+  box-shadow: 0 1rem 0 #FAC818;
+  transition: 100ms ease-in-out;
+}
+.recordOptionsPage-button-1:active {
+  box-shadow: 0 0.25rem 0 #FAC818;
 }
 .recordOptionsPage-button-2 {
   background-color: #BBD2E7;
-  border-color: #BBD2E7;
+  box-shadow: 0 0.5rem 0 #386C9F;
+  margin-top: 2rem;
+  transition: 300ms ease-in-out;
+}
+.recordOptionsPage-button-2:hover {
+  box-shadow: 0 1rem 0 #386C9F;
+}
+.recordOptionsPage-button-2:active {
+  box-shadow: 0 0.25rem 0 #386C9F;
+  transition: 100ms ease-in-out;
+}
+.recordOptionsPage-button:hover {
+  cursor: pointer;
 }
 .button-icon-img {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 10rem;
+  height: auto;
+}
+.button-icon-img img {
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  margin-right: 0.5rem;
 }
 .button-text {
+  margin-left: 2rem;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+}
+/* ONE-MIN RECORD PAGE */
+.oneMinRecordLayout {
+  width: 100vw;
+  height: 100vh;
+}
+.oneMinRecordLayout .recordLayoutHeader {
+  background-color: #2A5278;
+}
+.oneMinRecordLayout .recordLayoutHeader .closeIcon {
+  color: #fff;
+}
+.oneMinPage {
+  background-color: #2A5278;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.oneMinPage .timer {
+  flex: 1;
+}
+.oneMinPage .timer .clock {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  font-weight: bold;
+}
+.oneMinPage .question {
+  flex: auto;
+}
+.oneMinPage .question h1 {
+  color: #fff;
+}
+.oneMinPage .record-btn {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.oneMinPage .record-btn button {
+  width: fit-content;
+  height: fit-content;
+  border-radius: 50%;
+  padding: 1rem 0.8125rem 1rem 1.1875rem;
+  border: none;
+  background-color: #E1EBF4;
+  box-shadow: 0 0.5rem 0 0 #4A86C0;
+  cursor: pointer;
+  transition: 300ms ease-in-out;
+}
+.oneMinPage .record-btn button:hover {
+  box-shadow: 0 0.75rem 0 0 #4A86C0;
+}
+.oneMinPage .record-btn button:active {
+  box-shadow: 0 0.25rem 0 0 #4A86C0;
+  transition: 100ms ease-in-out;
 }

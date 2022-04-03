@@ -6,7 +6,7 @@ import ApplicationRoutes from "../../config/ApplicationRoutes";
 const { Header, Sider, Content } = Layout;
 
 
-const AppPage = () => {
+const AppLayout = () => {
     const [collapsed, setCollapsed] = useState(false);
     return (
         <Layout>
@@ -16,7 +16,7 @@ const AppPage = () => {
             <Layout>
                 <Header className="siteLayoutBackground" style={{ padding: 0, background: "#001529" }}>
                 </Header>
-                <Content style={{ margin: "24px 16px 0", padding: 24, minHeight: "calc(100vh - 114px)", background: "#fff" }}>
+                <Content style={{ margin: "0.5rem", padding: 0, minHeight: "calc(100vh - 114px)", background: "#fff" }}>
                     <ApplicationRoutes />
                 </Content>
             </Layout>
@@ -24,4 +24,4 @@ const AppPage = () => {
     );
 }
 
-export default AppPage;
+export default AppLayout;
