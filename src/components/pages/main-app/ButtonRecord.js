@@ -133,7 +133,7 @@ class ButtonRecord extends React.Component {
     render() {
         return(
             <div className='ButtonRecord'>
-                <button className='record-btn' onClick={this.state.isRecording ? this.stopRecording : this.startRecording} /* disabled={this.state.isRecording ? true : false}*/><img src={this.state.isRecording ? Mic : Play} alt="Play Button" /></button>
+                <button className='record-btn' onClick={this.state.isRecording ? this.stopRecording : this.startRecording} style={this.state.isRecording ? { padding: "1rem" } : {padding: "1rem 0.8125rem 1rem 1.1875rem"}} /* disabled={this.state.isRecording ? true : false}*/><img src={this.state.isRecording ? Mic : Play} alt="Play Button" /></button>
                 {/* <button onClick={this.stopRecording} disabled={!this.state.isRecording}>Stop</button> */}
                 {/* <audio src={this.state.blobURL} controls='controls'/> */}
                 <p>{this.state.transcription}</p>
