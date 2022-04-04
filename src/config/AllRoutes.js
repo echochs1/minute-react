@@ -8,6 +8,7 @@ import OneMinRecordLayout from "../components/layouts/OneMinRecordLayout";
 import AboutPage from "../components/pages/landing/AboutPage";
 import LandingPage from "../components/pages/landing/LandingPage";
 import PageNotFound from "../components/pages/main-app/PageNotFound";
+import Rewriter from "../components/pages/main-app/RewriteSamplePage";
 
 const AllRoutes = () => {
     return (
@@ -16,6 +17,7 @@ const AllRoutes = () => {
             <Route exact path="about" element={<AboutPage />} />
             <Route path="app/*" element={<AppLayout />} />
             <Route path="one-min" element={<OneMinRecordLayout />} />
+            <Route path="rewrite" element={<Rewriter />} />
             <Route path="*" exact={true} element={<PageNotFound/>} />
         </Routes>
     );
