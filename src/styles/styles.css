@@ -159,10 +159,10 @@ video#video {
 }
 .recordOptionsPage-button-1:hover {
   box-shadow: 0 1rem 0 #FAC818;
-  transition: 100ms ease-in-out;
 }
 .recordOptionsPage-button-1:active {
   box-shadow: 0 0.25rem 0 #FAC818;
+  transition: 100ms ease-in-out;
 }
 .recordOptionsPage-button-2 {
   background-color: #BBD2E7;
@@ -222,9 +222,14 @@ video#video {
 .oneMinPage .timer .clock {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-end;
   font-weight: bold;
+}
+.oneMinPage .timer .clock-icon {
+  width: 2.25rem;
+  height: auto;
+  margin-right: 0.25rem;
 }
 .oneMinPage .question {
   flex: auto;
@@ -232,13 +237,13 @@ video#video {
 .oneMinPage .question h1 {
   color: #fff;
 }
-.oneMinPage .record-btn {
+.oneMinPage .record {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.oneMinPage .record-btn button {
+.record-btn {
   width: fit-content;
   height: fit-content;
   border-radius: 50%;
@@ -249,10 +254,10 @@ video#video {
   cursor: pointer;
   transition: 300ms ease-in-out;
 }
-.oneMinPage .record-btn button:hover {
+.record-btn:hover {
   box-shadow: 0 0.75rem 0 0 #4A86C0;
 }
-.oneMinPage .record-btn button:active {
+.record-btn:active {
   box-shadow: 0 0.25rem 0 0 #4A86C0;
   transition: 100ms ease-in-out;
 }
