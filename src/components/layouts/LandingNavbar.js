@@ -15,6 +15,10 @@ const LandingNavbar = () => {
     const handleAboutClick = () => {
         history("about");
     }
+
+    const handleHowItWorksClick = () => {
+        history("how-it-works");
+    }
     
     const handleLoginClick = () => {
         fbSignIn();
@@ -36,7 +40,8 @@ const LandingNavbar = () => {
                 <h1 onClick={handleLogoClick}>Minute</h1>
             </div>
             <div className="nav-links">
-                <Button type="text" onClick={handleAboutClick}><span className="button-text-text text-white">About</span></Button>
+                <Button type="text" onClick={handleAboutClick}><span className="button-text-text text-white">About Us</span></Button>
+                <Button type="text" onClick={handleHowItWorksClick}><span className="button-text-text text-white">How It Works</span></Button>
                 {authUser.loggedIn ?
                 // (googleAvatarImg ? <Avatar src={googleAvatarImg} /> : <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>U</Avatar>)
                 <Typography>{authUser.email}</Typography>
