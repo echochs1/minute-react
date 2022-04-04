@@ -220,11 +220,11 @@ video#video {
 
         &-1:hover {
             box-shadow: 0 1rem 0 @gold600;
-            transition: 100ms ease-in-out;
         }
-
+        
         &-1:active {
             box-shadow: 0 0.25rem 0 @gold600;
+            transition: 100ms ease-in-out;
         }
 
         &-2 {
@@ -298,9 +298,15 @@ video#video {
         .clock {
             display: flex;
             flex-direction: row;
-            align-items: center;
+            align-items: flex-start;
             justify-content: flex-end;
             font-weight: bold;
+
+            &-icon {
+                width: 2.25rem;
+                height: auto;
+                margin-right: 0.25rem;
+            }
         }
     }
 
@@ -312,32 +318,31 @@ video#video {
         }
     }
 
-    .record-btn {
+    .record {
         flex: 1;
         display: flex;
         justify-content: center;
         align-items: center;
-
-        button {
-            width: fit-content;
-            height: fit-content;
-            border-radius: 50%;
-            padding: 1rem 0.8125rem 1rem 1.1875rem;
-            border: none;
-            background-color: @blue100;
-            box-shadow: 0 0.5rem 0 0 @blue600;
-            cursor: pointer;
-            transition: 300ms ease-in-out;
-        }
-
-        button:hover {
-            box-shadow: 0 0.75rem 0 0 @blue600;
-        }
-
-        button:active {
-            box-shadow: 0 0.25rem 0 0 @blue600;
-            transition: 100ms ease-in-out;
-        }
     }
 }
 
+.record-btn {
+    width: fit-content;
+    height: fit-content;
+    border-radius: 50%;
+    padding: 1rem 0.8125rem 1rem 1.1875rem;
+    border: none;
+    background-color: @blue100;
+    box-shadow: 0 0.5rem 0 0 @blue600;
+    cursor: pointer;
+    transition: 300ms ease-in-out;
+}
+
+.record-btn:hover {
+    box-shadow: 0 0.75rem 0 0 @blue600;
+}
+
+.record-btn:active {
+    box-shadow: 0 0.25rem 0 0 @blue600;
+    transition: 100ms ease-in-out;
+}

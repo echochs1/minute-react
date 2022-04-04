@@ -6,6 +6,8 @@ import React from 'react';
 import MicRecorder from 'mic-recorder-to-mp3';
 import assembly from '../../../service/assemblyai/assembly';
 import { connect } from 'react-redux';
+import Play from "../../../assets/images/play.svg";
+import Mic from "../../../assets/images/mic.svg";
 
 import axios from "axios";
 
@@ -131,9 +133,9 @@ class ButtonRecord extends React.Component {
     render() {
         return(
             <div className='ButtonRecord'>
-                <button onClick={this.startRecording} disabled={this.state.isRecording}>Record</button>
-                <button onClick={this.stopRecording} disabled={!this.state.isRecording}>Stop</button>
-                <audio src={this.state.blobURL} controls='controls'/>
+                <button className='record-btn' onClick={this.state.isRecording ? this.stopRecording : this.startRecording} /* disabled={this.state.isRecording ? true : false}*/><img src={this.state.isRecording ? Mic : Play} alt="Play Button" /></button>
+                {/* <button onClick={this.stopRecording} disabled={!this.state.isRecording}>Stop</button> */}
+                {/* <audio src={this.state.blobURL} controls='controls'/> */}
                 <p>{this.state.transcription}</p>
             </div>
         )
