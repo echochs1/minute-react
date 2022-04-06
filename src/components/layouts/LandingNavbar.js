@@ -1,11 +1,13 @@
-import React, {useState, useContext} from "react";
-import { Button, Typography, Avatar } from "antd";
+import React, {useContext} from "react";
+import { Button, Avatar, Tooltip, Popover } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import Logo from './logo-blue-teal.svg';
 import { useNavigate } from "react-router-dom";
-import { fbSignIn, fbSignOut } from '../../service/firebase/fbConfig';
+import { fbSignIn } from '../../service/firebase/fbConfig';
 import { FirebaseContext } from "../../service/firebase/fbContext";
 
 const LandingNavbar = () => {
+    const {authUser} = useContext(FirebaseContext);
     const history = useNavigate();
     
     const handleLogoClick = () => {
@@ -20,15 +22,9 @@ const LandingNavbar = () => {
         fbSignIn();
         history("app/setting");
     }
-    
-    // FIREBASE AUTH FUNCTIONS
-    const authUser = useContext(FirebaseContext);
-    // const [googleAvatarImg, setGoogleAvatarImg] = useState(null);
 
     console.log(authUser);
 
-    // trying to display the logged in user's avatar if they are already signed in: correct imgUrl but not displaying
-    // fix later
     return (
         <div className="landing-navbar">
             <div className="logo" >
@@ -38,9 +34,14 @@ const LandingNavbar = () => {
             <div className="nav-links">
                 <Button type="text" onClick={handleAboutClick}><span className="button-text-text text-white">About</span></Button>
                 {authUser.loggedIn ?
-                // (googleAvatarImg ? <Avatar src={googleAvatarImg} /> : <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>U</Avatar>)
-                <Typography>{authUser.email}</Typography>
-                : (<Button type="text" onClick={handleLoginClick}><span className="button-text-text text-white">Login</span></Button>)
+                    <Tooltip title={authUser.displayName} placement="bottom">
+                    {/* <Popover content={<p>{authUser.displayName}</p>} title={authUser.displayName} trigger="hover"> */}
+                    {authUser.photoUrl ?
+                    <Avatar src={authUser.photoUrl} alt={authUser.displayName} size="large" onClick={handleLoginClick}/> 
+                    : <Avatar icon={<UserOutlined />} alt={authUser.displayName} size="large" onClick={handleLoginClick}/>}
+                    </Tooltip>
+                    // </Popover>
+                : <Button type="text" onClick={handleLoginClick}><span className="button-text-text text-white">Login</span></Button>
                 }
             </div>
         </div>

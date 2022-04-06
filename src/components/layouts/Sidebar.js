@@ -57,7 +57,6 @@ const SidebarNav = () => {
 
     // FIREBASE AUTH FUNCTIONS
     const {authUser} = useContext(FirebaseContext);
-    console.log(authUser);
 
     return (
         <div>

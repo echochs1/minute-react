@@ -1,6 +1,7 @@
 // SOURCE: https://travis.media/how-to-use-firebase-with-react/
 import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database";
+import { getDatabase, onValue, set, ref as dbRef } from "firebase/database";
+import { getStorage, ref as storRef, uploadBytes, downloadBytes } from "firebase/storage";
 // import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, linkWithCredential } from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
@@ -23,11 +24,14 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
 export const db = getDatabase(app);
+export const storage = (app);
 // export const analytics = getAnalytics(app);
 
+// AUTH FUNCTIONS
 export const fbSignIn = async () => {
-    // const isAnon = auth.currentUser.isAnonymous ? true : false;
-    provider.setCustomParameters({ prompt: 'select_account' });
+    if(!auth.currentUser) {
+        // const isAnon = auth.currentUser.isAnonymous ? true : false;
+        provider.setCustomParameters({ prompt: 'select_account' });
         signInWithPopup(auth, provider)
         .then((result) => {
             // This gives you a Google Access Token. You can use it to access the Google API.
@@ -57,11 +61,45 @@ export const fbSignIn = async () => {
             const credential = GoogleAuthProvider.credentialFromError(error);
             console.log("Error with Google log-in: "+errorMessage);
         });
+    }
 };
 
 export const fbSignOut = () => {
-    signOut(auth).then(() => {
+    signOut(auth)
+    .then(() => {
         // Sign-out successful.
         console.log("logged out");
+    }).catch((error) => {
+        console.log("Error logging out: "+error);
+    });
+}
+
+// REALTIME DATABASE FUNCTIONS
+// Get and Post transcripts and results
+export const fbGetData = (path) => {
+    onValue(dbRef(db, 'users/'+ auth.currentUser.uid +'/'+ path), (snapshot) => {
+        console.log("Data successfully retrieved: " + snapshot.val());
     })
 }
+
+export const fbSetData = (data, path) => {
+    set(dbRef(db, 'users/'+ auth.currentUser.uid +'/'+ path), data)
+    .then(() => {
+        console.log("Data successfully saved!");
+    })
+}
+
+// STORAGE FUNCTIONS
+// Upload audio files
+export const fbUploadAudioFile = (file) => {
+    const storageRef = storRef(storage, 'audio/' + auth.currentUser.uid+'/'+file.name);
+
+    uploadBytes(storageRef, file).then((snapshot) => {
+        console.log('Uploaded an audio file!');
+    });
+}
+
+// export const fbGetAudioFile = (fileName) => {
+//     const storageRef = storRef(storage, 'audio/' + auth.currentUser.uid + '/' + fileName);
+//     return downloadBytes(storageRef);
+// }
