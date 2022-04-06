@@ -26,6 +26,19 @@
     overflow: hidden;
 }
 
+@button-shadow-blue-600: 0 0.5rem 0 @blue600;
+@button-shadow-blue-600-hover: 0 1rem 0 @blue600;
+@button-shadow-blue-600-active: 0 0.25rem 0 @blue600;
+@button-shadow-blue-700: 0 0.5rem 0 @blue700;
+@button-shadow-blue-700-hover: 0 1rem 0 @blue700;
+@button-shadow-blue-700-active: 0 0.25rem 0 @blue700;
+@button-shadow-gold-600: 0 0.5rem 0 @gold600;
+@button-shadow-gold-600-hover: 0 1rem 0 @gold600;
+@button-shadow-gold-600-active: 0 0.25rem 0 @gold600;
+
+@button-transition: 300ms ease-in-out;
+@button-transition-active: 100ms ease-in-out;
+
 /* ANT DESIGN OVERWRITES */
 // https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less
 
@@ -142,12 +155,24 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        box-shadow: @button-shadow-blue-600;
+        transition: @button-transition;
 
         &:hover {
-            background-color: @blue900;
-            border-color: @blue900;
-            color: #fff;
-            box-shadow: 0 1rem 2rem rgba(29, 57, 83, 0.5);
+            background-color: @teal200;
+            color: @blue900;
+            border-radius: 1rem;
+            border-color: @teal200;
+            box-shadow: @button-shadow-blue-600-hover;
+        }
+
+        &:active {
+            background-color: @teal200;
+            color: @blue900;
+            border-radius: 1rem;
+            border-color: @teal200;
+            box-shadow: @button-shadow-blue-600-active;
+            transition: @button-transition-active;
         }
     }
 }
@@ -214,32 +239,32 @@ video#video {
 
         &-1 {
             background-color: @gold200;
-            box-shadow: 0 0.5rem 0 @gold600;
+            box-shadow: @button-shadow-gold-600;
             transition: 300ms ease-in-out;
         }
 
         &-1:hover {
-            box-shadow: 0 1rem 0 @gold600;
+            box-shadow: @button-shadow-gold-600-hover;
         }
         
         &-1:active {
-            box-shadow: 0 0.25rem 0 @gold600;
+            box-shadow: @button-shadow-gold-600-active;
             transition: 100ms ease-in-out;
         }
 
         &-2 {
             background-color: @blue200;
-            box-shadow: 0 0.5rem 0 @blue700;
+            box-shadow: @button-shadow-blue-700;
             margin-top: 2rem;
             transition: 300ms ease-in-out;
         }
 
         &-2:hover {
-            box-shadow: 0 1rem 0 @blue700;
+            box-shadow: @button-shadow-blue-700-hover;
         } 
         
         &-2:active {
-            box-shadow: 0 0.25rem 0 @blue700;
+            box-shadow: @button-shadow-blue-700-active;
             transition: 100ms ease-in-out;
         } 
     }

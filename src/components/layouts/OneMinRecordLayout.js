@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Layout, Statistic } from "antd";
+import React from "react";
+import { Layout } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import OneMinPage from "../pages/recording/OneMinPage";
 
 const { Header, Content } = Layout;
