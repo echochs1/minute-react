@@ -24,7 +24,7 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
 export const db = getDatabase(app);
-export const storage = (app);
+export const storage = getStorage(app);
 // export const analytics = getAnalytics(app);
 
 // AUTH FUNCTIONS
@@ -92,10 +92,10 @@ export const fbSetData = (data, path) => {
 // STORAGE FUNCTIONS
 // Upload audio files
 export const fbUploadAudioFile = (file) => {
-    const storageRef = storRef(storage, 'audio/' + auth.currentUser.uid+'/'+file.name);
+    const storageRef = storRef(storage, 'recordings/' + auth.currentUser.email +'/'+ file.name);
 
     uploadBytes(storageRef, file).then((snapshot) => {
-        console.log('Uploaded an audio file!');
+        console.log('Uploaded an audio file to ' + snapshot.ref.fullPath);
     });
 }
 

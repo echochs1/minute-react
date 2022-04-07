@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import Play from "../../../assets/images/play.svg";
 import Mic from "../../../assets/images/mic.svg";
 
+import { fbUploadAudioFile } from '../../../service/firebase/fbConfig';
+
 import axios from "axios";
 
 // new instance of the mic recorder
@@ -82,13 +84,20 @@ class ButtonRecord extends React.Component {
                                 console.log(current2 - current1);
                                 this.setState({ isRecording: false });
                                 this.setState({transcription: res3.data.text});
+
+                                // Push transcription to Firebase database
+                                
                             })
                             .catch((err) => console.error(err));
                         }, 15000);
+
                     })
                     .catch((err) => console.error(err));
             })
             .catch((err) => console.log(err));
+
+        // Upload audioFile to Firebase Storage
+        fbUploadAudioFile(audioFile);
     }
 
     // start audio recording with mp3Recorder -> returns Promise
@@ -113,6 +122,9 @@ class ButtonRecord extends React.Component {
             .stop()
             .getMp3()
             .then(([buffer, blob]) => {
+                // TODO: Add current timestamp to filename to make unique
+                // const date = new Date();
+                // const timestamp = date.getTime();
                 const file = new File(buffer, 'me-at-thevoice.mp3', {
                     type: blob.type,
                     lastModified: Date.now()

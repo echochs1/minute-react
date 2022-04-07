@@ -25,6 +25,7 @@ const LandingNavbar = () => {
 
     console.log(authUser);
 
+    // Tooltip on avatar not working :(
     return (
         <div className="landing-navbar">
             <div className="logo" >
@@ -35,7 +36,7 @@ const LandingNavbar = () => {
                 <Button type="text" onClick={handleAboutClick}><span className="button-text-text text-white">About</span></Button>
                 {authUser.loggedIn ?
                     <div style={{paddingRight: "1.5em"}}>
-                        <Tooltip title={authUser.displayName} color="white" placement="bottom">
+                        <Tooltip title={authUser.displayName} color="white" placement="bottom" >
                         {authUser.photoUrl ?
                         <Avatar src={authUser.photoUrl} alt={authUser.displayName} size="large" onClick={handleLoginClick}/> 
                         : <Avatar icon={<UserOutlined />} alt={authUser.displayName} size="large" onClick={handleLoginClick}/>}
