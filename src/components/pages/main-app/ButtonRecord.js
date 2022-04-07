@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import Play from "../../../assets/images/play.svg";
 import Mic from "../../../assets/images/mic.svg";
 
-import { fbUploadAudioFile } from '../../../service/firebase/fbConfig';
+import { fbUploadTranscript, fbUploadAudioFile } from '../../../service/firebase/fbConfig';
 
 import axios from "axios";
 
@@ -86,7 +86,7 @@ class ButtonRecord extends React.Component {
                                 this.setState({transcription: res3.data.text});
 
                                 // Push transcription to Firebase database
-                                
+                                fbUploadTranscript(res3.data.text, audioFile.name);
                             })
                             .catch((err) => console.error(err));
                         }, 15000);
@@ -122,9 +122,7 @@ class ButtonRecord extends React.Component {
             .stop()
             .getMp3()
             .then(([buffer, blob]) => {
-                // TODO: Add current timestamp to filename to make unique
-                // const date = new Date();
-                // const timestamp = date.getTime();
+                // TODO: Make each file name unique but easy to look up
                 const file = new File(buffer, 'me-at-thevoice.mp3', {
                     type: blob.type,
                     lastModified: Date.now()

@@ -75,24 +75,29 @@ export const fbSignOut = () => {
 }
 
 // REALTIME DATABASE FUNCTIONS
-// Get and Post transcripts and results
-export const fbGetData = (path) => {
-    onValue(dbRef(db, 'users/'+ auth.currentUser.uid +'/'+ path), (snapshot) => {
-        console.log("Data successfully retrieved: " + snapshot.val());
+// Upload and Retrieve transcripts and results
+export const fbUploadTranscript = (data, fileName) => {
+    // Pass in and add the prompt to uploadData in future
+    const uploadData = {
+        'audioFileName': fileName,
+        'transcript': data,
+    }
+    set(dbRef(db, 'users/'+ auth.currentUser.uid +'/transcripts'), uploadData)
+    .then(() => {
+        console.log("Uploaded transcript to database");
     })
 }
 
-export const fbSetData = (data, path) => {
-    set(dbRef(db, 'users/'+ auth.currentUser.uid +'/'+ path), data)
-    .then(() => {
-        console.log("Data successfully saved!");
-    })
-}
+// export const fbGetTranscript = (path) => {
+//     onValue(dbRef(db, 'users/'+ auth.currentUser.uid +'/'+ path), (snapshot) => {
+//         console.log("Transcript for "+ path +" successfully retrieved: " + snapshot.val());
+//     })
+// }
 
 // STORAGE FUNCTIONS
-// Upload audio files
+// Upload and Retrieve audio files
 export const fbUploadAudioFile = (file) => {
-    const storageRef = storRef(storage, 'recordings/' + auth.currentUser.email +'/'+ file.name);
+    const storageRef = storRef(storage, 'recordings/' + auth.currentUser.uid +'/'+ file.name);
 
     uploadBytes(storageRef, file).then((snapshot) => {
         console.log('Uploaded an audio file to ' + snapshot.ref.fullPath);
