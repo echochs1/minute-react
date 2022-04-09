@@ -39,8 +39,7 @@ class ButtonRecord extends React.Component {
         const assembly = axios.create({
             baseURL: "https://api.assemblyai.com/v2",
             headers: {
-                // authorization: process.env.ASSEMBLYAI_API_KEY,
-                authorization: "53a86dcca7c0414d8a4a553ad03cb797",
+                authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
                 "content-type": "application/json",
                 "transfer-encoding": "chunked-request",
             },
@@ -52,8 +51,7 @@ class ButtonRecord extends React.Component {
                 const assembly1 = axios.create({
                     baseURL: "https://api.assemblyai.com/v2",
                     headers: {
-                        // authorization: process.env.ASSEMBLYAI_API_KEY,
-                        authorization: "53a86dcca7c0414d8a4a553ad03cb797",
+                        authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
                         "content-type": "application/json",
                     },
                 });
@@ -71,7 +69,7 @@ class ButtonRecord extends React.Component {
                         const assembly2 = axios.create({
                             baseURL: "https://api.assemblyai.com/v2",
                             headers: {
-                                authorization: "53a86dcca7c0414d8a4a553ad03cb797",
+                                authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
                                 "content-type": "application/json",
                             },
                         });
