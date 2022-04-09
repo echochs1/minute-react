@@ -4,7 +4,6 @@
 
 import React from 'react';
 import MicRecorder from 'mic-recorder-to-mp3';
-import assembly from '../../../service/assemblyai/assembly';
 import { connect } from 'react-redux';
 import Play from "../../../assets/images/play.svg";
 import Mic from "../../../assets/images/mic.svg";
@@ -18,9 +17,6 @@ const mp3Recorder = new MicRecorder({
     bitRate: 128
 });
 
-var current1 = new Date();
-var current2 = new Date();
-
 class ButtonRecord extends React.Component {
     constructor(props) {
         super(props);
@@ -32,10 +28,16 @@ class ButtonRecord extends React.Component {
             isBlocked: false,
             transcription: '',
         };
-        this.uploadAudio = this.uploadAudio.bind(this);
+        this.transcribeAudio = this.transcribeAudio.bind(this);
     }
 
-    uploadAudio = (audioFile) => {
+    transcribeAudio = (audioFile) => {
+        // Upload audioFile to Firebase Storage
+        fbUploadAudioFile(audioFile);
+
+        // Use AssemblyAI to transcribe audioFile
+        var current1 = new Date();
+        var current2 = new Date();
         const assembly = axios.create({
             baseURL: "https://api.assemblyai.com/v2",
             headers: {
@@ -79,14 +81,17 @@ class ButtonRecord extends React.Component {
                             assembly2
                             .get(`/transcript/${res2.data.id}`)
                             .then((res3) => {
+                                // object storing transcription, sentiment, etc.
                                 console.log(res3.data);
                                 current2 = Date.now();
                                 console.log(current2 - current1);
-                                this.setState({ isRecording: false });
                                 this.setState({transcription: res3.data.text});
 
                                 // Push transcription to Firebase database
                                 fbUploadTranscript(res3.data.text, audioFile.name);
+
+                                // Call function to analyze transcript
+                                
                             })
                             .catch((err) => console.error(err));
                         }, 15000);
@@ -95,9 +100,6 @@ class ButtonRecord extends React.Component {
                     .catch((err) => console.error(err));
             })
             .catch((err) => console.log(err));
-
-        // Upload audioFile to Firebase Storage
-        fbUploadAudioFile(audioFile);
     }
 
     // start audio recording with mp3Recorder -> returns Promise
@@ -123,7 +125,7 @@ class ButtonRecord extends React.Component {
             .getMp3()
             .then(([buffer, blob]) => {
                 // TODO: Make each file name unique but easy to look up
-                const file = new File(buffer, 'me-at-thevoice.mp3', {
+                const file = new File(buffer, 'testAudio.mp3', {
                     type: blob.type,
                     lastModified: Date.now()
                   });
@@ -133,7 +135,8 @@ class ButtonRecord extends React.Component {
                 // const player = new Audio(URL.createObjectURL(file));
                 const  blobURL = URL.createObjectURL(file);
                 this.setState({ blob: blobURL})
-                const text = this.uploadAudio(file);
+                this.transcribeAudio(file);
+                this.setState({ isRecording: false });
                 
             })
             .catch((e) => console.error(e));
