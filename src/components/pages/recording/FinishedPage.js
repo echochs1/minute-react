@@ -32,6 +32,7 @@ const Finished = () => {
                 <p>{location.state.transcription}</p>
             </div>
             <button onClick={handleRecordClick}>Generate another prompt</button>
+            <br></br>
             <button onClick={handleHomeClick}>Return to app</button>
         </div>
     );

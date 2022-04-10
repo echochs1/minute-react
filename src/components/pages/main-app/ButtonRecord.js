@@ -92,7 +92,7 @@ class ButtonRecord extends React.Component {
                                 this.setState({assemblyData: res3.data});
 
                                 // Push transcription to Firebase database
-                                fbUploadTranscript(this.question, res3.data.text, audioFile.name);
+                                fbUploadTranscript(this.question[0], res3.data.text, audioFile.name);
                                 this.handleFinish({transcription: res3.data.text, assemblyData: res3.data});
                             })
                             .catch((err) => console.error(err));
@@ -126,8 +126,8 @@ class ButtonRecord extends React.Component {
             .stop()
             .getMp3()
             .then(([buffer, blob]) => {
-                // TODO: Make each file name unique but easy to look up
-                const file = new File(buffer, 'testAudio.mp3', {
+                // Make each file name unique
+                const file = new File(buffer, `${Date.now()}.mp3`, {
                     type: blob.type,
                     lastModified: Date.now()
                   });
@@ -140,11 +140,6 @@ class ButtonRecord extends React.Component {
                 this.setState({ isRecording: false });
                 // Upload audioFile to assemblyAI and firebase
                 this.transcribeAudio(file);
-
-                // Send current state to finished page to analyze transcription 
-                // if(!this.state.isUploading) {
-                //     history("/finished", {state: {transcription: this.state.transcription, assemblyData: this.state.assemblyData}});
-                // }
             })
             .catch((e) => console.error(e));
             // uploadAudio(this.state.blobURL);
