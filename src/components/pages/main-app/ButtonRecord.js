@@ -21,8 +21,8 @@ const mp3Recorder = new MicRecorder({
 class ButtonRecord extends React.Component {
     constructor(props) {
         super(props);
-        console.log(this.props);
         this.handleFinish = (data) => this.props.handleFinish(data);
+        this.question = this.props.question;
         
         // some basic state values to manage
         this.state = {
@@ -92,9 +92,8 @@ class ButtonRecord extends React.Component {
                                 this.setState({assemblyData: res3.data});
 
                                 // Push transcription to Firebase database
-                                fbUploadTranscript(res3.data.text, audioFile.name);
+                                fbUploadTranscript(this.question, res3.data.text, audioFile.name);
                                 this.handleFinish({transcription: res3.data.text, assemblyData: res3.data});
-
                             })
                             .catch((err) => console.error(err));
                         }, 15000);

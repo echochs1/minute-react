@@ -44,8 +44,6 @@ const OneMinPage = (props) => {
      */
     // TODO: Add some kind of buffering animation while we wait for analysis to complete
     const handleCountdownFinish = (data) => {
-        console.log(question);
-        console.log(data);
         history("/finished", {state: {prompt: question[0], transcription: data.transcription, assemblyData: data.assemblyData}});
     }
 
@@ -70,8 +68,7 @@ const OneMinPage = (props) => {
                 <h1 className="question-prompt">{question}</h1>
             </div>
             <div className="record" onClick={handleButtonRecordClick}>
-                {/* <button className="record-btn"><img src={Play} alt="Play Button" /></button> */}
-                <ButtonRecord handleFinish={(data) => handleCountdownFinish(data)}/>
+                <ButtonRecord question={question} handleFinish={(data) => handleCountdownFinish(data)}/>
             </div>
         </div>
     )

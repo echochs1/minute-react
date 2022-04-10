@@ -76,11 +76,12 @@ export const fbSignOut = () => {
 
 // REALTIME DATABASE FUNCTIONS
 // Upload and Retrieve transcripts and results
-export const fbUploadTranscript = (data, fileName) => {
+export const fbUploadTranscript = (prompt, data, fileName) => {
     const audioFile = fileName.split('.')[0];
     // Pass in and add the prompt to uploadData in future
     const uploadData = {
         'audioFile': fileName,
+        'prompt': prompt,
         'transcript': data
     }
     set(dbRef(db, 'users/'+ auth.currentUser.uid +'/recordings/'+audioFile), uploadData)
