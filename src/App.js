@@ -5,6 +5,9 @@ import ButtonRecord from './components/ButtonRecord';
 import socketIOClient from "socket.io-client";
 
 const ENDPOINT = "http://localhost:3001";
+import './App.css';
+import AllRoutes from './config/AllRoutes';
+// import ButtonRecord from './components/ButtonRecord';
 
 function App() {
   const [socket, setSocket] = useState(null);
@@ -29,6 +32,7 @@ function App() {
   return (
     <div className="App">
       {socket ? <ButtonRecord socket={socket}/> : null }
+        <AllRoutes />
     </div>
   );
 }

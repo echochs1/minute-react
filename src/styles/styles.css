@@ -1,0 +1,273 @@
+/* GLOBALS */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+/* ANT DESIGN OVERWRITES */
+/* LANDING */
+.text-white {
+  color: #fff;
+}
+.text-blue {
+  color: #1D3953;
+}
+.text-teal {
+  color: #6FCDB4;
+}
+.text-turquoise {
+  color: #4AB2C0;
+}
+.text-gold {
+  color: #FAC818;
+}
+.text-red {
+  color: #F06A6A;
+}
+.text-shadow-dark {
+  text-shadow: 0 0.25rem 0.25rem rgba(29, 57, 83, 0.3);
+}
+.landing {
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: transparent;
+}
+.landing-navbar {
+  background-color: transparent;
+  position: fixed;
+  width: 100%;
+  height: 15vh;
+  z-index: 100;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.landing-navbar .nav-links {
+  float: right;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.landing-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(29, 57, 83, 0.7);
+  z-index: 2;
+}
+.landing-hero {
+  position: relative;
+  height: 85vh;
+  width: 100%;
+  padding: 1rem 2rem;
+  z-index: 10;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+}
+.landing-line-1 {
+  line-height: normal;
+}
+.landing-line-2 {
+  line-height: 100%;
+}
+.landing-button {
+  margin-top: 2rem;
+  padding: 2rem 3rem;
+  width: fit-content;
+  background-color: #BBE7DB;
+  color: #1D3953;
+  border-radius: 1rem;
+  border-color: #BBE7DB;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0.5rem 0 #4A86C0;
+  transition: 300ms ease-in-out;
+}
+.landing-button:hover {
+  background-color: #BBE7DB;
+  color: #1D3953;
+  border-radius: 1rem;
+  border-color: #BBE7DB;
+  box-shadow: 0 1rem 0 #4A86C0;
+}
+.landing-button:active {
+  background-color: #BBE7DB;
+  color: #1D3953;
+  border-radius: 1rem;
+  border-color: #BBE7DB;
+  box-shadow: 0 0.25rem 0 #4A86C0;
+  transition: 100ms ease-in-out;
+}
+.logo {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.logo img {
+  width: 3rem;
+  height: 3rem;
+  object-fit: contain;
+  cursor: pointer;
+}
+.logo h1 {
+  color: #fff;
+  margin: 0 0 0 1rem;
+  cursor: pointer;
+}
+video#video {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  opacity: 0.8;
+}
+/* RECORD OPTIONS */
+.recordOptionsPage {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-image: url("/src/assets/images/speech-bubbles.svg");
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.recordOptionsPage-button {
+  padding: 2rem 3rem;
+  width: fit-content;
+  max-width: 64vw;
+  height: auto;
+  color: #1D3953;
+  border-radius: 1rem;
+  border: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.recordOptionsPage-button-1 {
+  background-color: #FDECAF;
+  box-shadow: 0 0.5rem 0 #FAC818;
+  transition: 300ms ease-in-out;
+}
+.recordOptionsPage-button-1:hover {
+  box-shadow: 0 1rem 0 #FAC818;
+}
+.recordOptionsPage-button-1:active {
+  box-shadow: 0 0.25rem 0 #FAC818;
+  transition: 100ms ease-in-out;
+}
+.recordOptionsPage-button-2 {
+  background-color: #BBD2E7;
+  box-shadow: 0 0.5rem 0 #386C9F;
+  margin-top: 2rem;
+  transition: 300ms ease-in-out;
+}
+.recordOptionsPage-button-2:hover {
+  box-shadow: 0 1rem 0 #386C9F;
+}
+.recordOptionsPage-button-2:active {
+  box-shadow: 0 0.25rem 0 #386C9F;
+  transition: 100ms ease-in-out;
+}
+.recordOptionsPage-button:hover {
+  cursor: pointer;
+}
+.button-icon-img {
+  width: 10rem;
+  height: auto;
+}
+.button-icon-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.button-text {
+  margin-left: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+/* ONE-MIN RECORD PAGE */
+.oneMinRecordLayout {
+  width: 100vw;
+  height: 100vh;
+}
+.oneMinRecordLayout .recordLayoutHeader {
+  background-color: #2A5278;
+}
+.oneMinRecordLayout .recordLayoutHeader .closeIcon {
+  color: #fff;
+}
+.oneMinPage {
+  background-color: #2A5278;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.oneMinPage .timer {
+  flex: 1;
+}
+.oneMinPage .timer .clock {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-end;
+  font-weight: bold;
+}
+.oneMinPage .timer .clock-icon {
+  width: 2.25rem;
+  height: auto;
+  margin-right: 0.25rem;
+}
+.oneMinPage .question {
+  flex: auto;
+}
+.oneMinPage .question h1 {
+  color: #fff;
+}
+.oneMinPage .record {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.record-btn {
+  width: fit-content;
+  height: fit-content;
+  border-radius: 50%;
+  border: none;
+  background-color: #E1EBF4;
+  box-shadow: 0 0.5rem 0 0 #4A86C0;
+  cursor: pointer;
+  transition: 300ms ease-in-out;
+}
+.record-btn:hover {
+  box-shadow: 0 0.75rem 0 0 #4A86C0;
+}
+.record-btn:active {
+  box-shadow: 0 0.25rem 0 0 #4A86C0;
+  transition: 100ms ease-in-out;
+}
