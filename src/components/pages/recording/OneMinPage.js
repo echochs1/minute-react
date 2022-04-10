@@ -21,6 +21,7 @@ const OneMinPage = (props) => {
     const [isRecording, setIsRecording] = React.useState(false); // is recording state
     const [countdownValue, setCountdownValue] = React.useState(0); // countdown value
     const [sliderValue, setSliderValue] = React.useState(60); // slider value
+    const [isUploading, setIsUploading] = React.useState(false); // is uploading state while assemblyAI is processing
     
     /**
      * @description outer function to handle the start and stop of recording
@@ -41,9 +42,11 @@ const OneMinPage = (props) => {
     /**
      * @description switching to finished page after 60 seconds
      */
-    const handleCountdownFinish = () => {
-        console.log("finished!");
-        history("/finished");
+    // TODO: Add some kind of buffering animation while we wait for analysis to complete
+    const handleCountdownFinish = (data) => {
+        console.log(question);
+        console.log(data);
+        history("/finished", {state: {prompt: question[0], transcription: data.transcription, assemblyData: data.assemblyData}});
     }
 
     return (
@@ -68,7 +71,7 @@ const OneMinPage = (props) => {
             </div>
             <div className="record" onClick={handleButtonRecordClick}>
                 {/* <button className="record-btn"><img src={Play} alt="Play Button" /></button> */}
-                <ButtonRecord />
+                <ButtonRecord handleFinish={(data) => handleCountdownFinish(data)}/>
             </div>
         </div>
     )
