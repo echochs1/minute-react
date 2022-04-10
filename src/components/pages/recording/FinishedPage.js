@@ -22,15 +22,18 @@ const Finished = () => {
     // Display highlighted filler words in the transcription
     return (
         <div className="finishedPage">
-            <h1>Congrats! You did it!</h1>
             <div>
-                <h3>Prompt: </h3>
-                <p>{location.state.prompt}</p>
+                <h1>Congrats! You did it!</h1>
+                <div>
+                    <h3>Prompt: </h3>
+                    <p>{location.state.prompt}</p>
+                </div>
+                <div style={{display:'inline'}}>
+                    <h3>Audio Transcription: </h3>
+                    <p>{location.state.transcription}</p>
+                </div>
             </div>
-            <div style={{display:'inline'}}>
-                <h3>Audio Transcription: </h3>
-                <p>{location.state.transcription}</p>
-            </div>
+            
             <button onClick={handleRecordClick}>Generate another prompt</button>
             <br></br>
             <button onClick={handleHomeClick}>Return to app</button>

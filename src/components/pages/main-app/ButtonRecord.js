@@ -23,6 +23,7 @@ class ButtonRecord extends React.Component {
         super(props);
         this.handleFinish = (data) => this.props.handleFinish(data);
         this.question = this.props.question;
+        this.goToLoadingPage = this.props.startLoading;
         
         // some basic state values to manage
         this.state = {
@@ -116,6 +117,8 @@ class ButtonRecord extends React.Component {
                     this.setState({ isRecording: true });
                 })
                 .catch((e) => console.error(e));
+            setTimeout(() => {this.stopRecording(); this.goToLoadingPage();}, 60000);
+
         }
     };
 
