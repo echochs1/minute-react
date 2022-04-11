@@ -11,6 +11,7 @@ import Mic from "../../../assets/images/mic.svg";
 import { fbUploadTranscript, fbUploadAudioFile } from '../../../service/firebase/fbConfig';
 
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 // new instance of the mic recorder
 const mp3Recorder = new MicRecorder({
@@ -20,6 +21,9 @@ const mp3Recorder = new MicRecorder({
 class ButtonRecord extends React.Component {
     constructor(props) {
         super(props);
+        this.handleFinish = (data) => this.props.handleFinish(data);
+        this.question = this.props.question;
+        this.goToLoadingPage = this.props.startLoading;
         
         // some basic state values to manage
         this.state = {
@@ -27,11 +31,13 @@ class ButtonRecord extends React.Component {
             blobURL: '',
             isBlocked: false,
             transcription: '',
+            assemblyData: null,
         };
         this.transcribeAudio = this.transcribeAudio.bind(this);
     }
 
     transcribeAudio = (audioFile) => {
+        // setIsUploading(true);
         // Upload audioFile to Firebase Storage
         fbUploadAudioFile(audioFile);
 
@@ -80,16 +86,15 @@ class ButtonRecord extends React.Component {
                             .get(`/transcript/${res2.data.id}`)
                             .then((res3) => {
                                 // object storing transcription, sentiment, etc.
-                                console.log(res3.data);
+                                // console.log(res3.data);
                                 current2 = Date.now();
                                 console.log(current2 - current1);
                                 this.setState({transcription: res3.data.text});
+                                this.setState({assemblyData: res3.data});
 
                                 // Push transcription to Firebase database
-                                fbUploadTranscript(res3.data.text, audioFile.name);
-
-                                // Call function to analyze transcript
-                                
+                                fbUploadTranscript(this.question[0], res3.data.text, audioFile.name);
+                                this.handleFinish({transcription: res3.data.text, assemblyData: res3.data});
                             })
                             .catch((err) => console.error(err));
                         }, 15000);
@@ -112,6 +117,8 @@ class ButtonRecord extends React.Component {
                     this.setState({ isRecording: true });
                 })
                 .catch((e) => console.error(e));
+            setTimeout(() => {this.stopRecording(); this.goToLoadingPage();}, 60000);
+
         }
     };
 
@@ -122,8 +129,8 @@ class ButtonRecord extends React.Component {
             .stop()
             .getMp3()
             .then(([buffer, blob]) => {
-                // TODO: Make each file name unique but easy to look up
-                const file = new File(buffer, 'testAudio.mp3', {
+                // Make each file name unique
+                const file = new File(buffer, `${Date.now()}.mp3`, {
                     type: blob.type,
                     lastModified: Date.now()
                   });
@@ -133,9 +140,9 @@ class ButtonRecord extends React.Component {
                 // const player = new Audio(URL.createObjectURL(file));
                 const  blobURL = URL.createObjectURL(file);
                 this.setState({ blob: blobURL})
-                this.transcribeAudio(file);
                 this.setState({ isRecording: false });
-                
+                // Upload audioFile to assemblyAI and firebase
+                this.transcribeAudio(file);
             })
             .catch((e) => console.error(e));
             // uploadAudio(this.state.blobURL);
@@ -173,7 +180,7 @@ class ButtonRecord extends React.Component {
                 <button
                     className='record-btn'
                     onClick={this.state.isRecording ? this.stopRecording : this.startRecording}
-                    style={this.state.isRecording ? { padding: "1rem" } : {padding: "1rem 0.8125rem 1rem 1.1875rem"}}
+                    style={this.state.isRecording ? { padding: "1rem", cursor: "not-allowed"} : {padding: "1rem 0.8125rem 1rem 1.1875rem"}}
                     /*disabled={this.state.isRecording ? true : false}*/>
                     <img src={this.state.isRecording ? Mic : Play} alt="Play Button" />
                 </button>
