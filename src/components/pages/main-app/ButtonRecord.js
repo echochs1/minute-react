@@ -23,6 +23,7 @@ class ButtonRecord extends React.Component {
         super(props);
         this.handleFinish = (data) => this.props.handleFinish(data);
         this.question = this.props.question;
+        this.goToLoadingPage = this.props.startLoading;
         
         // some basic state values to manage
         this.state = {
@@ -117,6 +118,8 @@ class ButtonRecord extends React.Component {
                     this.setState({ isRecording: true });
                 })
                 .catch((e) => console.error(e));
+            setTimeout(() => {this.stopRecording(); this.goToLoadingPage();}, 60000);
+
         }
     };
 
@@ -148,6 +151,31 @@ class ButtonRecord extends React.Component {
             // uploadAudio(this.state.blobURL);
     }
 
+    parse = (string) => {
+        // return string.split(/(, | )/g)
+        let parsable = string.split(/(, | )/g);
+    }
+
+    parseDisfluencies = (string) => {
+        // return string.split(/(, | )/g)
+        let parsable = string.split(/(, | )/g);
+        console.log(parsable);
+            let output = [];
+            let counter = 0;
+            for (const element of parsable){
+                if (element == 'um' || element == 'um.' ||  element == 'uh' || element == 'uh.' || element == 'hmm' || element == 'hmm.' || element == 'mhm' || element == 'mhm.' || element == 'uh huh' || element == 'uh huh.') {
+                    output.push(counter)
+                    counter++
+                }
+                else {
+                    //nothing is done
+                    counter++
+                    continue
+                }
+            };
+            return output
+    }
+    
     render() {
         return(
             <div className='ButtonRecord'>
@@ -155,7 +183,7 @@ class ButtonRecord extends React.Component {
                 <button
                     className='record-btn'
                     onClick={this.state.isRecording ? this.stopRecording : this.startRecording}
-                    style={this.state.isRecording ? { padding: "1rem" } : {padding: "1rem 0.8125rem 1rem 1.1875rem"}}
+                    style={this.state.isRecording ? { padding: "1rem", cursor: "not-allowed"} : {padding: "1rem 0.8125rem 1rem 1.1875rem"}}
                     /*disabled={this.state.isRecording ? true : false}*/>
                     <img src={this.state.isRecording ? Mic : Play} alt="Play Button" />
                 </button>

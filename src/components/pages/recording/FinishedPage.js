@@ -32,16 +32,17 @@ const Finished = () => {
         <div className="finishedPage">
             <h1>Congrats! You did it!</h1>
             <div>
-                <h3>Prompt: </h3>
-                <p>{location.state.prompt}</p>
+                <h3 style={{display: "inline", marginRight:"1em"}}>Prompt: </h3>
+                <p style={{display: "inline"}}>{location.state.prompt}</p>
             </div>
             <audio controls>
                 <source src={url} type="audio/mpeg" />
             </audio>
-            <div style={{display:'inline'}}>
-                <h3>Audio Transcription: </h3>
-                <p>{location.state.transcription}</p>
+            <div>
+                <h3 style={{display: "inline", marginRight:"1em"}}>Audio Transcription: </h3>
+                <p style={{display: "inline"}}>{location.state.transcription}</p>
             </div>
+            
             <button onClick={handleRecordClick}>Generate another prompt</button>
             <br></br>
             <button onClick={handleHomeClick}>Return to app</button>
