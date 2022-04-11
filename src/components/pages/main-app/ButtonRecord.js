@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import Play from "../../../assets/images/play.svg";
 import Mic from "../../../assets/images/mic.svg";
 
-import { fbUploadTranscript, fbUploadAudioFile } from '../../../service/firebase/fbConfig';
+import { fbUploadRecording, fbUploadAudioFile, fbGetUrl } from '../../../service/firebase/fbConfig';
 
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
@@ -30,16 +30,13 @@ class ButtonRecord extends React.Component {
             blobURL: '',
             isBlocked: false,
             transcription: '',
+            url: '',
             assemblyData: null,
         };
         this.transcribeAudio = this.transcribeAudio.bind(this);
     }
 
     transcribeAudio = (audioFile) => {
-        // setIsUploading(true);
-        // Upload audioFile to Firebase Storage
-        fbUploadAudioFile(audioFile);
-
         // Use AssemblyAI to transcribe audioFile
         var current1 = new Date();
         var current2 = new Date();
@@ -55,6 +52,7 @@ class ButtonRecord extends React.Component {
             .post("/upload", audioFile)
             .then((res1) => {
                 console.log(`URL: ${res1.data['upload_url']}`);         //FIRST LOG URL
+                // this.setState({ url: res1.data['upload_url'] });
                 const assembly1 = axios.create({
                     baseURL: "https://api.assemblyai.com/v2",
                     headers: {
@@ -62,6 +60,9 @@ class ButtonRecord extends React.Component {
                         "content-type": "application/json",
                     },
                 });
+                // Get audio file download url for firebase now that audio file has been uploaded to storage
+                // const downloadUrl = fbSetAudioFileDownloadURL(audioFile.name);
+                // this.setState({ url: downloadUrl });
             
                 assembly1
                     .post("/transcript", {
@@ -92,8 +93,8 @@ class ButtonRecord extends React.Component {
                                 this.setState({assemblyData: res3.data});
 
                                 // Push transcription to Firebase database
-                                fbUploadTranscript(this.question[0], res3.data.text, audioFile.name);
-                                this.handleFinish({transcription: res3.data.text, assemblyData: res3.data});
+                                fbUploadRecording(audioFile.name, this.question[0], res3.data.text);
+                                this.handleFinish({name: audioFile.name, transcription: res3.data.text, assemblyData: res3.data, url: fbGetUrl(audioFile.name)});
                             })
                             .catch((err) => console.error(err));
                         }, 15000);
@@ -138,7 +139,9 @@ class ButtonRecord extends React.Component {
                 const  blobURL = URL.createObjectURL(file);
                 this.setState({ blob: blobURL})
                 this.setState({ isRecording: false });
-                // Upload audioFile to assemblyAI and firebase
+                // Upload audioFile to Firebase Storage
+                fbUploadAudioFile(file);
+                // Upload audioFile info to assemblyAI and firebase
                 this.transcribeAudio(file);
             })
             .catch((e) => console.error(e));

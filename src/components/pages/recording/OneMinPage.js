@@ -44,7 +44,7 @@ const OneMinPage = (props) => {
      */
     // TODO: Add some kind of buffering animation while we wait for analysis to complete
     const handleCountdownFinish = (data) => {
-        history("/finished", {state: {prompt: question[0], transcription: data.transcription, assemblyData: data.assemblyData}});
+        history("/finished", {state: {name: data.name, prompt: question[0], transcription: data.transcription, assemblyData: data.assemblyData, url: data.url}});
     }
 
     return (

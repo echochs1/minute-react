@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import DataVisualization from "./DataVisualization";
+import { fbGetUrl } from "../../../service/firebase/fbConfig";
 
 const Finished = () => {
     // TODO: Add some kind of buffering animation while we wait for analysis to complete
     // Get the transcription and assembly data from ButtonRecord.js
     const location = useLocation();
-    const history = useNavigate
+    const history = useNavigate();
+    const [url, setUrl] = useState(null);
 
     // assemblyAI full results in location.state.assemblyData
-    console.log(location.state);
+    // console.log(location.state.name);
+
+    // alsdfkjasldfkaj it's currently not setting the audio file url bc of async issues so the audio player
+    // here doesn't work. the one on achievement page works though.
+    useEffect(() => {
+        setUrl(fbGetUrl(location.state.name));
+        // console.log(url);
+    }, [url]);
 
     const handleHomeClick = () => {
         history("/app/setting");
@@ -27,6 +35,9 @@ const Finished = () => {
                 <h3>Prompt: </h3>
                 <p>{location.state.prompt}</p>
             </div>
+            <audio controls>
+                <source src={url} type="audio/mpeg" />
+            </audio>
             <div style={{display:'inline'}}>
                 <h3>Audio Transcription: </h3>
                 <p>{location.state.transcription}</p>

@@ -1,7 +1,7 @@
 // SOURCE: https://travis.media/how-to-use-firebase-with-react/
 import { initializeApp } from "firebase/app";
-import { getDatabase, onValue, set, ref as dbRef } from "firebase/database";
-import { getStorage, ref as storRef, uploadBytes, downloadBytes } from "firebase/storage";
+import { getDatabase, onValue, set, update, ref as dbRef, get } from "firebase/database";
+import { getStorage, ref as storRef, uploadBytes, downloadBytes, listAll, getDownloadURL } from "firebase/storage";
 // import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, linkWithCredential } from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
@@ -75,39 +75,100 @@ export const fbSignOut = () => {
 }
 
 // REALTIME DATABASE FUNCTIONS
-// Upload and Retrieve transcripts and results
-export const fbUploadTranscript = (prompt, data, fileName) => {
+// Upload name, url, prompt, and transcript after each recording
+export const fbUploadRecording = (fileName, prompt, transcript) => {
     const audioFile = fileName.split('.')[0];
     // Pass in and add the prompt to uploadData in future
     const uploadData = {
         'audioFile': fileName,
         'prompt': prompt,
-        'transcript': data
+        'transcript': transcript
     }
-    set(dbRef(db, 'users/'+ auth.currentUser.uid +'/recordings/'+audioFile), uploadData)
+    set(dbRef(db, `users/${auth.currentUser.uid}/recordings/${audioFile}`), uploadData)
     .then(() => {
-        console.log("Uploaded transcript to database");
+        console.log("Uploaded prompt and transcript to database for "+fileName);
+        fbUploadAudioFileDownloadURL(fileName);
     })
 }
 
+// Upload downloadURL for a given audio file
+export const fbUploadUrl = (audioFile, url) => {
+    const fileName = audioFile.split('.')[0];
+    update(dbRef(db, `users/${auth.currentUser.uid}/recordings/${fileName}`), {'url': url})
+    .then(() => {
+        console.log("Uploaded url to database for "+audioFile);
+    })
+    .catch((error) => {
+        console.log("Error uploading url to database: "+error);
+    });
+}
+
+// Get a transcript for an audio file
 export const fbGetTranscript = (fileName) => {
     const audioFile = fileName.split('.')[0];
-    onValue(dbRef(db, 'users/'+ auth.currentUser.uid +'/recordings/'+ audioFile), (snapshot) => {
+    onValue(dbRef(db, `users/${auth.currentUser.uid}/recordings/${audioFile}/transcript`), (snapshot) => {
         console.log("Transcript for "+ fileName +" successfully retrieved: " + snapshot.val());
+        return snapshot.val();
     })
+}
+
+export const fbGetUrl = (fileName) => {
+    const audioFile = fileName.split('.')[0];
+    onValue(dbRef(db, `users/${auth.currentUser.uid}/recordings/${audioFile}/url`), (snapshot) => {
+        console.log("URL for "+ fileName +" successfully retrieved: " + snapshot.val());
+        return snapshot.val();
+    })
+}
+
+// Get the user's recordings
+export const fbGetAllRecordings = () => {
+    const recordings = [];
+    onValue(dbRef(db, `users/${auth.currentUser.uid}/recordings`), (snapshot) => {
+        snapshot.forEach((recording) => {
+            const recordingData = {};
+            recordingData.audioFile = recording.val().audioFile;
+            recordingData.url = recording.val().url;
+            recordingData.prompt = recording.val().prompt;
+            recordingData.transcript = recording.val().transcript;
+            recordings.push(recordingData);
+        });
+    })
+    return recordings;
+}
+
+// Retrieve data for a given recording: audioFile name, prompt, transcript, etc
+export const fbGetRecording = (audioFile) => {
+    onValue(dbRef(db, `users/${auth.currentUser.uid}/recordings/${audioFile}`), (snapshot) => {
+        const data = snapshot.val();
+        console.log("Data for "+ audioFile +" successfully retrieved: " + data);
+        // return data;
+    });      
 }
 
 // STORAGE FUNCTIONS
 // Upload and Retrieve audio files
 export const fbUploadAudioFile = (file) => {
-    const storageRef = storRef(storage, 'users/' + auth.currentUser.uid +'/recordings/'+ file.name);
+    const storageRef = storRef(storage, `users/${auth.currentUser.uid}/recordings/${file.name}`);
 
     uploadBytes(storageRef, file).then((snapshot) => {
-        console.log('Uploaded an audio file to ' + snapshot.ref.fullPath);
+        console.log('Uploaded an audio file: ' + file.name);
     });
 }
 
-// export const fbGetAudioFile = (fileName) => {
-//     const storageRef = storRef(storage, 'audio/' + auth.currentUser.uid + '/' + fileName);
-//     return downloadBytes(storageRef);
+export const fbUploadAudioFileDownloadURL = (fileName) => {
+    const storageRef = storRef(storage, `users/${auth.currentUser.uid}/recordings/${fileName}`);
+    getDownloadURL(storageRef)
+    .then((url) => {
+        console.log("Download URL for "+fileName+" successfully retrieved: "+url);
+        // Update the url in the database
+        fbUploadUrl(fileName, url);
+    }).catch((error) => {
+        console.log("Error retrieving download URL for "+fileName+": "+error);
+    });
+}
+
+// export const fbGetAudioFiles = () => {
+//     const storageRef = storRef(storage, `users/${auth.currentUser.uid}/recordings`);
+//     const list = listAll(storageRef);
+//     return list;
 // }
