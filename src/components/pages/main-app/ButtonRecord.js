@@ -33,6 +33,7 @@ class ButtonRecord extends React.Component {
             transcription: '',
             url: '',
             assemblyData: null,
+            transcriptionStrlist: [],
         };
         this.transcribeAudio = this.transcribeAudio.bind(this);
     }
@@ -151,29 +152,9 @@ class ButtonRecord extends React.Component {
             // uploadAudio(this.state.blobURL);
     }
 
-    parse = (string) => {
-        // return string.split(/(, | )/g)
-        let parsable = string.split(/(, | )/g);
-    }
-
     parseDisfluencies = (string) => {
-        // return string.split(/(, | )/g)
-        let parsable = string.split(/(, | )/g);
-        console.log(parsable);
-            let output = [];
-            let counter = 0;
-            for (const element of parsable){
-                if (element == 'um' || element == 'um.' ||  element == 'uh' || element == 'uh.' || element == 'hmm' || element == 'hmm.' || element == 'mhm' || element == 'mhm.' || element == 'uh huh' || element == 'uh huh.') {
-                    output.push(counter)
-                    counter++
-                }
-                else {
-                    //nothing is done
-                    counter++
-                    continue
-                }
-            };
-            return output
+        this.setState({transcriptionStrlist:  string.split(/( um| Um| uh| Uh| hmm| Hmm| mhm| Mhm| uh huh| Uh huh)/g)});
+        console.log("transcriptionlist: ", this.state.transcriptionStrlist);
     }
     
     render() {
