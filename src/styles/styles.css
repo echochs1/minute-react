@@ -271,3 +271,42 @@ video#video {
   box-shadow: 0 0.25rem 0 0 #4A86C0;
   transition: 100ms ease-in-out;
 }
+/* FINISHED PAGE */
+.finishedPage {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.finishedPage .fieldName {
+  display: "inline";
+  margin-right: "1em";
+}
+.finishedPage .fieldValue {
+  display: "inline";
+}
+/* HISTORY PAGE */
+.historyPage {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.historyPage .recordingsList {
+  overflow: auto;
+}
+.historyPage .recordingItem {
+  margin-bottom: "1em";
+}
+.historyPage .recordingItem .recordingInfo {
+  margin-bottom:"1em";
+}
+.historyPage .recordingItem .recordingInfo .fieldName {
+  display: "inline";
+  margin-right: "1em";
+}
+.historyPage .recordingItem .recordingInfo .fieldValue {
+  display: "inline";
+}

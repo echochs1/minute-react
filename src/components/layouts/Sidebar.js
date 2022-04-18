@@ -37,8 +37,8 @@ const SidebarNav = () => {
         history("/app/learn");
     }
 
-    const handleAchievementClick = () => {
-        history("/app/achievement");
+    const handleHistoryClick = () => {
+        history("/app/history");
     }
 
     const handleSettingClick = () => {
@@ -81,9 +81,9 @@ const SidebarNav = () => {
                     <BookTwoTone />
                     <span> Learn</span>
                 </Menu.Item>
-                <Menu.Item key="4" onClick={handleAchievementClick}>
+                <Menu.Item key="4" onClick={handleHistoryClick}>
                     <TrophyTwoTone />
-                    <span> Achievements</span>
+                    <span> History</span>
                 </Menu.Item>
                 <Menu.Item key="5" onClick={handleSettingClick}>
                     <SettingTwoTone />

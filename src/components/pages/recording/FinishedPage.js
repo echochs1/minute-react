@@ -16,11 +16,10 @@ const Finished = () => {
     // here doesn't work. the one on achievement page works though.
     useEffect(() => {
         setUrl(fbGetUrl(location.state.name));
-        // console.log(url);
     }, [url]);
 
     const handleHomeClick = () => {
-        history("/app/setting");
+        history("/app/history");
     }
 
     const handleRecordClick = () => {
@@ -32,15 +31,15 @@ const Finished = () => {
         <div className="finishedPage">
             <h1>Congrats! You did it!</h1>
             <div>
-                <h3 style={{display: "inline", marginRight:"1em"}}>Prompt: </h3>
-                <p style={{display: "inline"}}>{location.state.prompt}</p>
+                <h3 className="fieldName">Prompt: </h3>
+                <p className="fieldValue">{location.state.prompt}</p>
             </div>
             <audio controls>
                 <source src={url} type="audio/mpeg" />
             </audio>
             <div>
-                <h3 style={{display: "inline", marginRight:"1em"}}>Audio Transcription: </h3>
-                <p style={{display: "inline"}}>{location.state.transcription}</p>
+                <h3 className="fieldName">Audio Transcription: </h3>
+                <p className="fieldValue">{location.state.transcription}</p>
             </div>
             
             <button onClick={handleRecordClick}>Generate another prompt</button>

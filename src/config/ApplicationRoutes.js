@@ -8,7 +8,7 @@ import Home from "../components/pages/main-app/HomePage";
 import Record from "../components/pages/main-app/RecordOptionsPage";
 import Goals from "../components/pages/main-app/GoalsPage";
 import Learn from "../components/pages/main-app/LearnPage";
-import Achievements from "../components/pages/main-app/AchievementsPage";
+import History from "../components/pages/main-app/HistoryPage";
 import Settings from "../components/pages/main-app/SettingsPage";
 import PageNotFound from "../components/pages/main-app/PageNotFound";
 
@@ -20,7 +20,7 @@ const ApplicationRoutes = () => {
             <Route path="record" element={<Record />} />
             <Route path="goal" element={<Goals />} />
             <Route path="learn" element={<Learn />} />
-            <Route path="achievement" element={<Achievements />} />
+            <Route path="history" element={<History />} />
             <Route path="setting" element={<Settings />} />
             <Route path="logout" component={() => <Navigate to="/" />} />
             <Route path="*" element={<PageNotFound/>} />
