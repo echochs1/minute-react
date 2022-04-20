@@ -8,9 +8,11 @@ const Finished = () => {
     const location = useLocation();
     const history = useNavigate();
     const [url, setUrl] = useState(null);
+    const prompt = location.state.prompt;
+    const transcription = location.state.transcription;
 
     // assemblyAI full results in location.state.assemblyData
-    // console.log(location.state.name);
+    console.log(location.state.name);
 
     // alsdfkjasldfkaj it's currently not setting the audio file url bc of async issues so the audio player
     // here doesn't work. the one on achievement page works though.
@@ -32,7 +34,7 @@ const Finished = () => {
             <h1>Congrats! You did it!</h1>
             <div>
                 <h3 className="fieldName">Prompt: </h3>
-                <p className="fieldValue">{location.state.prompt}</p>
+                <p className="fieldValue">{prompt}</p>
             </div>
             <audio controls>
                 <source src={url} type="audio/mpeg" />

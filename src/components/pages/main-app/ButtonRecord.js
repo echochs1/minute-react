@@ -38,74 +38,74 @@ class ButtonRecord extends React.Component {
         this.transcribeAudio = this.transcribeAudio.bind(this);
     }
 
-    transcribeAudio = (audioFile) => {
-        // Use AssemblyAI to transcribe audioFile
-        var current1 = new Date();
-        var current2 = new Date();
-        const assembly = axios.create({
-            baseURL: "https://api.assemblyai.com/v2",
-            headers: {
-                authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
-                "content-type": "application/json",
-                "transfer-encoding": "chunked-request",
-            },
-        });
-        assembly
-            .post("/upload", audioFile)
-            .then((res1) => {
-                console.log(`URL: ${res1.data['upload_url']}`);         //FIRST LOG URL
-                // this.setState({ url: res1.data['upload_url'] });
-                const assembly1 = axios.create({
-                    baseURL: "https://api.assemblyai.com/v2",
-                    headers: {
-                        authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
-                        "content-type": "application/json",
-                    },
-                });
-                // Get audio file download url for firebase now that audio file has been uploaded to storage
-                // const downloadUrl = fbSetAudioFileDownloadURL(audioFile.name);
-                // this.setState({ url: downloadUrl });
+    // transcribeAudio = (audioFile) => {
+    //     // Use AssemblyAI to transcribe audioFile
+    //     var current1 = new Date();
+    //     var current2 = new Date();
+    //     const assembly = axios.create({
+    //         baseURL: "https://api.assemblyai.com/v2",
+    //         headers: {
+    //             authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
+    //             "content-type": "application/json",
+    //             "transfer-encoding": "chunked-request",
+    //         },
+    //     });
+    //     assembly
+    //         .post("/upload", audioFile)
+    //         .then((res1) => {
+    //             console.log(`URL: ${res1.data['upload_url']}`);         //FIRST LOG URL
+    //             // this.setState({ url: res1.data['upload_url'] });
+    //             const assembly1 = axios.create({
+    //                 baseURL: "https://api.assemblyai.com/v2",
+    //                 headers: {
+    //                     authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
+    //                     "content-type": "application/json",
+    //                 },
+    //             });
+    //             // Get audio file download url for firebase now that audio file has been uploaded to storage
+    //             // const downloadUrl = fbSetAudioFileDownloadURL(audioFile.name);
+    //             // this.setState({ url: downloadUrl });
             
-                assembly1
-                    .post("/transcript", {
-                        audio_url: res1.data['upload_url'],
-                        disfluencies: true,
-                        sentiment_analysis: true,
-                    })
-                    .then((res2) => {
-                        console.log(res2.data.id);                          //SECOND LOG receiving transcript code
-                        current1 = Date.now();
-                        // console.log(current1.getTime());
-                        const assembly2 = axios.create({
-                            baseURL: "https://api.assemblyai.com/v2",
-                            headers: {
-                                authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
-                                "content-type": "application/json",
-                            },
-                        });
-                        setTimeout(() => {
-                            assembly2
-                            .get(`/transcript/${res2.data.id}`)
-                            .then((res3) => {
-                                // object storing transcription, sentiment, etc.
-                                // console.log(res3.data);
-                                current2 = Date.now();
-                                console.log(current2 - current1);
-                                this.setState({transcription: res3.data.text});
-                                this.setState({assemblyData: res3.data});
+    //             assembly1
+    //                 .post("/transcript", {
+    //                     audio_url: res1.data['upload_url'],
+    //                     disfluencies: true,
+    //                     sentiment_analysis: true,
+    //                 })
+    //                 .then((res2) => {
+    //                     console.log(res2.data.id);                          //SECOND LOG receiving transcript code
+    //                     current1 = Date.now();
+    //                     // console.log(current1.getTime());
+    //                     const assembly2 = axios.create({
+    //                         baseURL: "https://api.assemblyai.com/v2",
+    //                         headers: {
+    //                             authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
+    //                             "content-type": "application/json",
+    //                         },
+    //                     });
+    //                     setTimeout(() => {
+    //                         assembly2
+    //                         .get(`/transcript/${res2.data.id}`)
+    //                         .then((res3) => {
+    //                             // object storing transcription, sentiment, etc.
+    //                             // console.log(res3.data);
+    //                             current2 = Date.now();
+    //                             console.log(current2 - current1);
+    //                             this.setState({transcription: res3.data.text});
+    //                             this.setState({assemblyData: res3.data});
 
-                                // Push transcription to Firebase database
-                                fbUploadRecording(audioFile.name, this.question[0], res3.data.text);
-                                this.handleFinish({name: audioFile.name, transcription: res3.data.text, assemblyData: res3.data, url: fbGetUrl(audioFile.name)});
-                            })
-                            .catch((err) => console.error(err));
-                        }, 15000);
+    //                             // Push transcription to Firebase database
+    //                             fbUploadRecording(audioFile.name, this.question[0], res3.data.text);
+    //                             this.handleFinish({name: audioFile.name, transcription: res3.data.text, assemblyData: res3.data, url: fbGetUrl(audioFile.name)});
+    //                         })
+    //                         .catch((err) => console.error(err));
+    //                     }, 15000);
 
-                    })
-                    .catch((err) => console.error(err));
-            })
-            .catch((err) => console.log(err));
-    }
+    //                 })
+    //                 .catch((err) => console.error(err));
+    //         })
+    //         .catch((err) => console.log(err));
+    // }
 
     // start audio recording with mp3Recorder -> returns Promise
     startRecording = () => {
@@ -146,16 +146,16 @@ class ButtonRecord extends React.Component {
                 // Upload audioFile to Firebase Storage
                 fbUploadAudioFile(file);
                 // Upload audioFile info to assemblyAI and firebase
-                this.transcribeAudio(file);
+                // this.transcribeAudio(file);
             })
             .catch((e) => console.error(e));
             // uploadAudio(this.state.blobURL);
     }
 
-    parseDisfluencies = (string) => {
-        this.setState({transcriptionStrlist:  string.split(/( um| Um| uh| Uh| hmm| Hmm| mhm| Mhm| uh huh| Uh huh)/g)});
-        console.log("transcriptionlist: ", this.state.transcriptionStrlist);
-    }
+    // parseDisfluencies = (string) => {
+    //     this.setState({transcriptionStrlist:  string.split(/( um| Um| uh| Uh| hmm| Hmm| mhm| Mhm| uh huh| Uh huh)/g)});
+    //     console.log("transcriptionlist: ", this.state.transcriptionStrlist);
+    // }
     
     render() {
         return(
