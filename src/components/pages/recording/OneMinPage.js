@@ -4,6 +4,10 @@ import { randomPrompts } from "../../../service/recording/one-min/randomPrompts"
 import Clock from "../../../assets/images/clock.svg";
 import ButtonRecord from "../main-app/ButtonRecord";
 import { useNavigate } from "react-router-dom";
+import LoadingPage from "./LoadingPage";
+
+// https://github.com/tameemsafi/typewriterjs
+import Typewriter from "typewriter-effect";
 
 const { Countdown } = Statistic;
 
@@ -20,8 +24,8 @@ const OneMinPage = (props) => {
     const question = React.useState(randomPrompts[randomIndex(randomPrompts)]); // question generated upon load
     const [isRecording, setIsRecording] = React.useState(false); // is recording state
     const [countdownValue, setCountdownValue] = React.useState(0); // countdown value
-    const [sliderValue, setSliderValue] = React.useState(60); // slider value
-    const [isUploading, setIsUploading] = React.useState(false); // is uploading state while assemblyAI is processing
+    // const [sliderValue, setSliderValue] = React.useState(60); // slider value
+    // const [isUploading, setIsUploading] = React.useState(false); // is uploading state while assemblyAI is processing
     const [isLoading, setIsLoading] = React.useState(false);
 
     /**
@@ -34,9 +38,9 @@ const OneMinPage = (props) => {
         console.log(countdownValue);
     }
 
-    const handleSliderChange = () => {
-        setSliderValue(countdownValue);
-    }
+    // const handleSliderChange = () => {
+    //     setSliderValue(countdownValue);
+    // }
 
     const history = useNavigate();
 
@@ -45,6 +49,11 @@ const OneMinPage = (props) => {
      */
     // TODO: Add some kind of buffering animation while we wait for analysis to complete
     const handleCountdownFinish = (data) => {
+        // setIsLoading(true);
+        // setTimeout(() => {
+        //     console.log("loading");
+        // }, 15000);
+        // renderTimer();
         history("/finished", {state: {name: data.name, prompt: question[0], transcription: data.transcription, assemblyData: data.assemblyData, url: data.url}});
     }
 
@@ -54,7 +63,7 @@ const OneMinPage = (props) => {
             return (
                 <div>
                     <div className="timer">
-                        <Slider
+                        {/* <Slider
                             min={0}
                             max={60}
                             defaultValue={60}
@@ -62,7 +71,7 @@ const OneMinPage = (props) => {
                             // handleStyle={{margin: "1rem"}}
                             onChange={handleSliderChange}
                             value={sliderValue}
-                        />
+                        /> */}
                         <div className="clock">
                             <img className="clock-icon" src={Clock} alt="clock" />
                             <Countdown format="mm:ss" value={isRecording ? countdownValue : countdownValue} valueStyle={{ color: "#fff" }} onFinish={handleCountdownFinish} />
@@ -78,9 +87,21 @@ const OneMinPage = (props) => {
         
         } else {
             return (
-                <div>
-                   <p>Loading</p>
-                </div>)
+                // <div>
+                //     <p>Loading...</p>
+                // </div>
+                <div className="loading-page">
+                    <h1 className="question-prompt">
+                        <Typewriter
+                            options={{
+                                strings: ["Getting your audio file...", "Building your recording...", "Writing your transcription...", "Analyzing the data...", "Finding those filler words..."],
+                                autoStart: true,
+                                loop: true,
+                            }}
+                        />
+                    </h1>
+                </div>
+            )
         }
     }
 

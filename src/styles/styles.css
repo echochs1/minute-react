@@ -271,42 +271,47 @@ video#video {
   box-shadow: 0 0.25rem 0 0 #4A86C0;
   transition: 100ms ease-in-out;
 }
-/* FINISHED PAGE */
-.finishedPage {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
-.finishedPage .fieldName {
-  display: "inline";
-  margin-right: "1em";
-}
-.finishedPage .fieldValue {
-  display: "inline";
-}
 /* HISTORY PAGE */
 .historyPage {
   width: 100%;
   height: 100%;
   position: relative;
-  align-items: center;
+  overflow-y: auto;
+  padding: 2rem 2rem 0 2rem;
+}
+ul.recordingsList {
+  list-style: none;
+  margin-top: 3rem;
+}
+li.recordingItem {
+  width: 100%;
+  height: auto;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+li.recordingItem .recordingContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+li.recordingItem .recordingImage {
+  width: 4rem;
+  height: 4rem;
+  margin-right: 2rem;
+}
+li.recordingItem .recordingImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+li.recordingItem .recordingItem-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
 }
-.historyPage .recordingsList {
-  overflow: auto;
-}
-.historyPage .recordingItem {
-  margin-bottom: "1em";
-}
-.historyPage .recordingItem .recordingInfo {
-  margin-bottom:"1em";
-}
-.historyPage .recordingItem .recordingInfo .fieldName {
-  display: "inline";
-  margin-right: "1em";
-}
-.historyPage .recordingItem .recordingInfo .fieldValue {
-  display: "inline";
+li.recordingItem .recordingLine {
+  margin-top: 1rem;
 }

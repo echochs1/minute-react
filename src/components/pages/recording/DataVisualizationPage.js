@@ -1,6 +1,6 @@
 import React from "react";
 
-const DataVisualization = () => {
+const DataVisualizationPage = () => {
     return (
         <div>
             <h1>Data Visualization</h1>
@@ -8,4 +8,4 @@ const DataVisualization = () => {
     )
 }
 
-export default DataVisualization;
+export default DataVisualizationPage;

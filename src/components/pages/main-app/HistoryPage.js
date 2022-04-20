@@ -1,6 +1,16 @@
 import React, {useState, useContext, useEffect} from "react";
+import { moneyverse } from "../../../assets/images/moneyverse";
 import { fbGetAllRecordings, fbUploadAudioFileDownloadURL } from "../../../service/firebase/fbConfig";
 import { FirebaseContext } from "../../../service/firebase/fbContext";
+
+/**
+ * 
+ * @param {*} arr array of items
+ * @returns random index of the array arr
+ */
+ const randomIndex = (arr) => {
+    return Math.floor(Math.random() * arr.length);
+}
 
 // TODO: the ui for this page is so wack, the list of recordings is cut off and not scrollable rn
 // so need to add some css
@@ -16,24 +26,27 @@ const History = () => {
     return (
         <div className="historyPage">
             <h1>History</h1>
-            <h3>Logged in as: {authUser.email ? authUser.email : "none"}</h3>
+            {/* <h3>Logged in as: {authUser.email ? authUser.email : "none"}</h3> */}
             {recordings == null ?
                 <p>Loading recordings...</p>
                 :
                 <ul className="recordingsList">
                     {recordings.map((recording, index) =>
                         <li key={index} className="recordingItem">
-                            <div className="recordingInfo">
-                                <h3 className="fieldName">{index+1}.</h3>
-                                <p className="fieldValue">{recording.prompt}</p>
+                            <div className="recordingContent">
+                                <div className="recordingImage">
+                                    <img src={moneyverse[randomIndex(moneyverse)]} alt="fun recording img" />
+                                </div>
+                                <div className="recordingInfo">
+                                    {/* <h3 className="fieldName">{index+1}.</h3> */}
+                                    <p className="fieldValue"><b>Topic: </b>{recording.prompt}</p>
+                                    <p className="fieldName"><b>Transcription: </b>{recording.transcript}</p>
+                                    <audio controls>
+                                        <source src={recording.url} type="audio/mpeg" />
+                                    </audio>
+                                </div>
                             </div>
-                            <audio controls className="recordingInfo">
-                                <source src={recording.url} type="audio/mpeg" />
-                            </audio>
-                            <div className="recordingInfo">
-                                <h4 className="fieldName">Transcription:</h4>
-                                <p className="fieldValue">{recording.transcript}</p>
-                            </div>
+                            <hr className="recordingLine" size="2px" width="100%" color="#BBD2E7"></hr>
                         </li>
                     )}
                 </ul>
