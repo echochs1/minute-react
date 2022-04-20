@@ -159,11 +159,11 @@ export const fbUploadAudioFileDownloadURL = (fileName) => {
     const storageRef = storRef(storage, `users/${auth.currentUser.uid}/recordings/${fileName}`);
     getDownloadURL(storageRef)
     .then((url) => {
-        console.log("Download URL for "+fileName+" successfully retrieved: "+url);
+        console.log("Download URL for "+fileName+" successfully uploading: "+url);
         // Update the url in the database
         fbUploadUrl(fileName, url);
     }).catch((error) => {
-        console.log("Error retrieving download URL for "+fileName+": "+error);
+        console.log("Error uploading download URL for "+fileName+": "+error);
     });
 }
 

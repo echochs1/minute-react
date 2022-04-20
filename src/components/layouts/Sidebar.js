@@ -66,7 +66,7 @@ const SidebarNav = () => {
                     <h1>Minute</h1>
                 </Link>
             </div>
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+            <Menu theme="dark" mode="inline" defaultSelectedKeys={['5']}>
                 <Menu.Item key="1" >
                     <Link to="record">
                         <AudioTwoTone />
