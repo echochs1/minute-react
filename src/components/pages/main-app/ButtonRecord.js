@@ -94,12 +94,21 @@ class ButtonRecord extends React.Component {
     //                             this.setState({transcription: res3.data.text});
     //                             this.setState({assemblyData: res3.data});
 
+<<<<<<< Updated upstream
     //                             // Push transcription to Firebase database
     //                             fbUploadRecording(audioFile.name, this.question[0], res3.data.text);
     //                             this.handleFinish({name: audioFile.name, transcription: res3.data.text, assemblyData: res3.data, url: fbGetUrl(audioFile.name)});
     //                         })
     //                         .catch((err) => console.error(err));
     //                     }, 15000);
+=======
+                                // Push transcription to Firebase database
+                                fbUploadRecording(audioFile.name, this.question[0], res3.data.text);
+                                this.handleFinish({name: audioFile.name, transcription: res3.data.text, assemblyData: res3.data, url: fbGetUrl(audioFile.name)});
+                            })
+                            .catch((err) => console.error(err));
+                        }, 30000);
+>>>>>>> Stashed changes
 
     //                 })
     //                 .catch((err) => console.error(err));
