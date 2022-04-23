@@ -38,6 +38,8 @@ const OneMinPage = (props) => {
     const [assemblyData, setAssemblyData] = useState(null); // assembly data of recording
     const [transcription, setTranscription] = useState(null); // transcription of recording
     const [audioUrl, setAudioUrl] = useState(null); // url of recording
+
+    const [savefile, setFile] = useState(null);
     
     // new instance of the mic recorder
     const [mp3Recorder, setmp3Recorder] = useState(

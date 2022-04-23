@@ -3,16 +3,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { fbGetRecording } from "../../../service/firebase/fbConfig";
 import {Space, Spin} from 'antd';
 
-const Finished = () => {
+const Finished = (props) => {
     const location = useLocation();
     const history = useNavigate();
-    const [recordingData, setRecordingData] = useState(null);
+    // const [recordingData, setRecordingData] = useState(null);
 
-    useEffect(() => {
-        setTimeout(() => {
-            setRecordingData(fbGetRecording(location.state.name));
-        }, 5000);   // sleep for 5 seconds before fetching the recoding to ensure url has been uploaded
-    }, []);
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setRecordingData(fbGetRecording(location.state.name));
+    //     }, 5000);   // sleep for 5 seconds before fetching the recoding to ensure url has been uploaded
+    // }, []);
 
     // Display highlighted filler words in the transcription
     // const renderTranscription = () => {
@@ -36,14 +36,14 @@ const Finished = () => {
                 <div className="finishResults">
                     <div>
                         <h3 className="fieldName">Prompt: </h3>
-                        <p className="fieldValue">{recordingData.prompt}</p>
+                        {/* <p className="fieldValue">{recordingData.prompt}</p> */}
                     </div>
-                        <audio controls>
+                        {/* <audio controls>
                         <source src={recordingData.url} type="audio/mpeg" />
-                        </audio>
+                        </audio> */}
                     <div>
                         <h3 className="fieldName">Audio Transcription: </h3>
-                        <p className="fieldValue">{recordingData.transcript}</p>
+                        {/* <p className="fieldValue">{recordingData.transcript}</p> */}
                     </div>
                     
                     <button onClick={handleRecordClick}>Generate another prompt</button>
