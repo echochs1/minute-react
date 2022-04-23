@@ -169,12 +169,12 @@ const OneMinPage = (props) => {
                                 setTranscription(res3.data.text);
                                 
                                 // Push transcription to Firebase database
-                                fbUploadRecording(audioFile.name, question[0], res3.data.text);
+                                // fbUploadRecording(audioFile.name, question[0], res3.data.text);
                                 // setAudioUrl(fbGetUrl(audioFile.name));
                                 setisUploading(false);
                                 // const audio_url = fbGetUrl(audioFile.name);
                                 // handleUploadFinish(audioFile.name, audio_url);
-                                history("/finished", {state: {name: audioFile.name}});
+                                history("/finished", {state: {name: audioFile.name, transcription: transcription, prompt: question[0]}});
                             })
                             .catch((err) => console.error(err));
                         }, 30000);

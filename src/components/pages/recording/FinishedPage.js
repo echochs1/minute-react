@@ -6,6 +6,9 @@ import {Space, Spin} from 'antd';
 const Finished = (props) => {
     const location = useLocation();
     const history = useNavigate();
+    const [transcription, setTranscription] = useState(location.state.transcription); // transcription of recording
+    const [prompt, setPrompt] = useState(location.state.prompt);
+
     // const [recordingData, setRecordingData] = useState(null);
 
     // useEffect(() => {
@@ -14,7 +17,7 @@ const Finished = (props) => {
     //     }, 5000);   // sleep for 5 seconds before fetching the recoding to ensure url has been uploaded
     // }, []);
 
-    // Display highlighted filler words in the transcription
+    // // Display highlighted filler words in the transcription
     // const renderTranscription = () => {
     //     if (recordingData) {
     //         const transcription = recordingData.transcript;
@@ -31,12 +34,13 @@ const Finished = (props) => {
 
     const renderResults = () => {
         // console.log(isLoading);
-        if(recordingData) {
+        if(recordingData) { //remove if else
             return (
                 <div className="finishResults">
                     <div>
                         <h3 className="fieldName">Prompt: </h3>
                         {/* <p className="fieldValue">{recordingData.prompt}</p> */}
+                        <p className="fieldValue">{prompt}</p>
                     </div>
                         {/* <audio controls>
                         <source src={recordingData.url} type="audio/mpeg" />
@@ -44,6 +48,7 @@ const Finished = (props) => {
                     <div>
                         <h3 className="fieldName">Audio Transcription: </h3>
                         {/* <p className="fieldValue">{recordingData.transcript}</p> */}
+                        <p className="fieldValue">{recordingData.transcript}</p>
                     </div>
                     
                     <button onClick={handleRecordClick}>Generate another prompt</button>
