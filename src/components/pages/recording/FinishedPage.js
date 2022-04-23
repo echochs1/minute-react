@@ -6,22 +6,20 @@ import {Space, Spin} from 'antd';
 const Finished = () => {
     const location = useLocation();
     const history = useNavigate();
-    const [isLoading, setIsLoading] = useState(true);
     const [recordingData, setRecordingData] = useState(null);
 
     useEffect(() => {
         setTimeout(() => {
-            const fetch = () => {
-                const recording = fbGetRecording(location.state.name);
-                setRecordingData(recording);
-            };
-            fetch();
-            if(!recordingData) {
-                fetch();
-            }
-            setIsLoading(false);
+            setRecordingData(fbGetRecording(location.state.name));
         }, 5000);   // sleep for 5 seconds before fetching the recoding to ensure url has been uploaded
     }, []);
+
+    // Display highlighted filler words in the transcription
+    // const renderTranscription = () => {
+    //     if (recordingData) {
+    //         const transcription = recordingData.transcript;
+    //     }
+    // }
 
     const handleHomeClick = () => {
         history("/app");
@@ -32,8 +30,8 @@ const Finished = () => {
     }
 
     const renderResults = () => {
-        console.log(isLoading);
-        if(!isLoading) {
+        // console.log(isLoading);
+        if(recordingData) {
             return (
                 <div className="finishResults">
                     <div>
@@ -64,8 +62,6 @@ const Finished = () => {
         }
     }
     
-    // Display highlighted filler words in the transcription
-
     return (
         <div className="finishedPage">
             <h1>Congrats! You did it!</h1>
