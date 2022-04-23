@@ -137,12 +137,18 @@ export const fbGetAllRecordings = () => {
 }
 
 // Retrieve data for a given recording: audioFile name, prompt, transcript, etc
-export const fbGetRecording = (audioFile) => {
+export const fbGetRecording = (filename) => {
+    const audioFile = filename.split('.')[0];
+    const recording = {};
     onValue(dbRef(db, `users/${auth.currentUser.uid}/recordings/${audioFile}`), (snapshot) => {
         const data = snapshot.val();
-        console.log("Data for "+ audioFile +" successfully retrieved: " + data);
-        // return data;
+        recording.audioFile = data.audioFile;
+        recording.url = data.url;
+        recording.prompt = data.prompt;
+        recording.transcript = data.transcript;
+        console.log(recording);
     });      
+    return recording;
 }
 
 // STORAGE FUNCTIONS

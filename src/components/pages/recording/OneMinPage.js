@@ -35,37 +35,31 @@ const OneMinPage = (props) => {
     const [isUploading, setisUploading] = useState(false); // true when assemblyAI/firebase uploading
     const [blobURL, setBlobURL] = useState(null); // blob url of recording
     const [isBlocked, setIsBlocked] = useState(false); // true when recording is blocked (permission issue)
-    const [fileName, setFileName] = useState(null); // name of recording
     const [assemblyData, setAssemblyData] = useState(null); // assembly data of recording
     const [transcription, setTranscription] = useState(null); // transcription of recording
     const [audioUrl, setAudioUrl] = useState(null); // url of recording
-
-    const history = useNavigate();
+    
     // new instance of the mic recorder
     const [mp3Recorder, setmp3Recorder] = useState(
         new MicRecorder({ bitRate: 128 })
         );
-    // const mp3Recorder = new MicRecorder({
-    //     bitRate: 128
-    // });
 
-    /**
-     * check for permission to record audio
-     * 
-     * /
-    // useEffect(() => {
-    //     navigator.getUserMedia(
-    //       { audio: true },
-    //       () => {
-    //         console.log("Permission Granted");
-    //         setIsBlocked(false);
-    //       },
-    //       () => {
-    //         console.log("Permission Denied");
-    //         setIsBlocked(true);
-    //       }
-    //     );
-    //   }, [])
+    const history = useNavigate();
+
+    useEffect(() => {
+        // check if the user has granted the permission to record audio
+        navigator.getUserMedia(
+          { audio: true },
+          () => {
+            console.log("Permission Granted");
+            setIsBlocked(false);
+          },
+          () => {
+            console.log("Permission Denied");
+            setIsBlocked(true);
+          }
+        );
+      }, [])
 
     /**
      * @description start audio recording with mp3Recorder -> returns Promise
@@ -107,17 +101,15 @@ const OneMinPage = (props) => {
                     type: blob.type,
                     lastModified: dateNow
                 });
+                // Upload audioFile to Firebase Storage
+                fbUploadAudioFile(file);
 
-                
                 const  blobURL = URL.createObjectURL(file);
                 setBlobURL(blobURL);
                 setIsRecording(false);
-                // Upload audioFile to Firebase Storage
-                console.log(name);
-                setFileName(name);
-                fbUploadAudioFile(file);
+
                 // Upload audioFile info to assemblyAI and firebase
-                fileName && transcribeAudio(file);
+                transcribeAudio(file);
             })
             .catch((e) => console.error(e));
     }
@@ -128,7 +120,6 @@ const OneMinPage = (props) => {
      */
     const transcribeAudio = (audioFile) => {
         // Use AssemblyAI to transcribe audioFile
-        console.log(fileName);
         var current1 = new Date();
         var current2 = new Date();
         const assembly = axios.create({
@@ -176,9 +167,12 @@ const OneMinPage = (props) => {
                                 setTranscription(res3.data.text);
                                 
                                 // Push transcription to Firebase database
-                                fbUploadRecording(fileName, question[0], transcription);
-                                setAudioUrl(fbGetUrl(fileName));
-                                audioUrl && handleUploadFinish();
+                                fbUploadRecording(audioFile.name, question[0], res3.data.text);
+                                // setAudioUrl(fbGetUrl(audioFile.name));
+                                setisUploading(false);
+                                // const audio_url = fbGetUrl(audioFile.name);
+                                // handleUploadFinish(audioFile.name, audio_url);
+                                history("/finished", {state: {name: audioFile.name}});
                             })
                             .catch((err) => console.error(err));
                         }, 30000);
@@ -193,11 +187,9 @@ const OneMinPage = (props) => {
      * @description once the uploading is finished, we need to redirect to finish page with info
      * about the recording.
      */
-    const handleUploadFinish = () => {
-        setisUploading(false);
-        console.log(audioUrl);
-        history("/finished", {state: {prompt: question[0], transcription: transcription, assemblyData: assemblyData, url: audioUrl}});
-    }
+    // const handleUploadFinish = (filename, audio_url) => {
+    //     history("/finished", {state: {name: filename, prompt: question[0], transcription: transcription, assemblyData: assemblyData, url: audio_url}});
+    // }
 
     const renderTimer = () => {
         console.log(isUploading);

@@ -21,7 +21,7 @@ const History = () => {
     const {authUser} = useContext(FirebaseContext);
 
     useEffect(() => {
-        setRecordings(fbGetAllRecordings());
+        setRecordings(fbGetAllRecordings().reverse());
     }, []);
 
     const renderHistory = () => {

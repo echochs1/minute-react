@@ -1,52 +1,70 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { fbGetUrl } from "../../../service/firebase/fbConfig";
+import { fbGetRecording } from "../../../service/firebase/fbConfig";
+import {Space, Spin} from 'antd';
 
 const Finished = () => {
-    // TODO: Add some kind of buffering animation while we wait for analysis to complete
-    // Get the transcription and assembly data from ButtonRecord.js
     const location = useLocation();
     const history = useNavigate();
-    const [url, setUrl] = useState(null);
-    const prompt = location.state.prompt;
-    const transcription = location.state.transcription;
+    const [isLoading, setIsLoading] = useState(true);
+    const [recordingData, setRecordingData] = useState(null);
 
-    // assemblyAI full results in location.state.assemblyData
-    console.log(location.state.name);
-
-    // alsdfkjasldfkaj it's currently not setting the audio file url bc of async issues so the audio player
-    // here doesn't work. the one on achievement page works though.
     useEffect(() => {
-        setUrl(fbGetUrl(location.state.name));
-    }, [url]);
+        setTimeout(() => {
+            setRecordingData(fbGetRecording(location.state.name));
+            if(recordingData.url != null) {
+                setIsLoading(false);
+            }
+        }, 5000);   // sleep for 5 seconds before fetching the recoding to ensure url has been uploaded
+    }, []);
 
     const handleHomeClick = () => {
-        history("/app/history");
+        history("/app");
     }
 
     const handleRecordClick = () => {
         history("/one-min");
     }
+
+    const renderResults = () => {
+        console.log(isLoading);
+        if(!isLoading) {
+            return (
+                <div className="finishResults">
+                    <div>
+                        <h3 className="fieldName">Prompt: </h3>
+                        <p className="fieldValue">{recordingData.prompt}</p>
+                    </div>
+                        <audio controls>
+                        <source src={recordingData.url} type="audio/mpeg" />
+                        </audio>
+                    <div>
+                        <h3 className="fieldName">Audio Transcription: </h3>
+                        <p className="fieldValue">{recordingData.transcript}</p>
+                    </div>
+                    
+                    <button onClick={handleRecordClick}>Generate another prompt</button>
+                    <br></br>
+                    <button onClick={handleHomeClick}>Return to app</button>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <Space size="middle">
+                        <Spin size="large" />
+                    </Space>
+                </div>
+            )
+        }
+    }
     
     // Display highlighted filler words in the transcription
+
     return (
         <div className="finishedPage">
             <h1>Congrats! You did it!</h1>
-            <div>
-                <h3 className="fieldName">Prompt: </h3>
-                <p className="fieldValue">{prompt}</p>
-            </div>
-            <audio controls>
-                <source src={url} type="audio/mpeg" />
-            </audio>
-            <div>
-                <h3 className="fieldName">Audio Transcription: </h3>
-                <p className="fieldValue">{location.state.transcription}</p>
-            </div>
-            
-            <button onClick={handleRecordClick}>Generate another prompt</button>
-            <br></br>
-            <button onClick={handleHomeClick}>Return to app</button>
+            {renderResults()}
         </div>
     );
 }
