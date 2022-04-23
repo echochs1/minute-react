@@ -137,12 +137,18 @@ export const fbGetAllRecordings = () => {
 }
 
 // Retrieve data for a given recording: audioFile name, prompt, transcript, etc
-export const fbGetRecording = (audioFile) => {
+export const fbGetRecording = (filename) => {
+    const audioFile = filename.split('.')[0];
+    const recording = {};
     onValue(dbRef(db, `users/${auth.currentUser.uid}/recordings/${audioFile}`), (snapshot) => {
         const data = snapshot.val();
-        console.log("Data for "+ audioFile +" successfully retrieved: " + data);
-        // return data;
+        recording.audioFile = data.audioFile;
+        recording.url = data.url;
+        recording.prompt = data.prompt;
+        recording.transcript = data.transcript;
+        console.log(recording);
     });      
+    return recording;
 }
 
 // STORAGE FUNCTIONS
@@ -159,11 +165,11 @@ export const fbUploadAudioFileDownloadURL = (fileName) => {
     const storageRef = storRef(storage, `users/${auth.currentUser.uid}/recordings/${fileName}`);
     getDownloadURL(storageRef)
     .then((url) => {
-        console.log("Download URL for "+fileName+" successfully retrieved: "+url);
+        console.log("Download URL for "+fileName+" successfully uploading: "+url);
         // Update the url in the database
         fbUploadUrl(fileName, url);
     }).catch((error) => {
-        console.log("Error retrieving download URL for "+fileName+": "+error);
+        console.log("Error uploading download URL for "+fileName+": "+error);
     });
 }
 

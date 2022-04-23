@@ -2,6 +2,7 @@ import React, {useState, useContext, useEffect} from "react";
 import { moneyverse } from "../../../assets/images/moneyverse";
 import { fbGetAllRecordings, fbUploadAudioFileDownloadURL } from "../../../service/firebase/fbConfig";
 import { FirebaseContext } from "../../../service/firebase/fbContext";
+import { Space, Spin } from "antd";
 
 /**
  * 
@@ -20,16 +21,12 @@ const History = () => {
     const {authUser} = useContext(FirebaseContext);
 
     useEffect(() => {
-        setRecordings(fbGetAllRecordings());
+        setRecordings(fbGetAllRecordings().reverse());
     }, []);
 
-    return (
-        <div className="historyPage">
-            <h1>History</h1>
-            {/* <h3>Logged in as: {authUser.email ? authUser.email : "none"}</h3> */}
-            {recordings == null ?
-                <p>Loading recordings...</p>
-                :
+    const renderHistory = () => {
+        if (recordings) {
+            return (
                 <ul className="recordingsList">
                     {recordings.map((recording, index) =>
                         <li key={index} className="recordingItem">
@@ -50,7 +47,24 @@ const History = () => {
                         </li>
                     )}
                 </ul>
-            }
+            )
+        } else {
+            return (
+                <div>
+                    <Space size="middle">
+                        <Spin size="large" />
+                    </Space>
+                </div>
+            )
+        }
+    }
+
+
+    return (
+        <div className="historyPage">
+            <h1>History</h1>
+            {/* <h3>Logged in as: {authUser.email ? authUser.email : "none"}</h3> */}
+            {renderHistory()}
 
         </div>
     );
