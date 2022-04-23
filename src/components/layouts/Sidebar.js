@@ -61,12 +61,12 @@ const SidebarNav = () => {
     return (
         <div>
             <div style={{height: "3rem", margin: "1rem"}}>
-                <Link to="/app">
+                <Link to="/app" style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                     <img src={Logo} alt="logo" style={{height: "32px", width: "32px", margin: "8px"}}/>
-                    <h1>Minute</h1>
+                    {/* <h1>Minute</h1> */}
                 </Link>
             </div>
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={['5']}>
+            <Menu theme="light" mode="inline" defaultSelectedKeys={['5']}>
                 <Menu.Item key="1" >
                     <Link to="record">
                         <AudioTwoTone />
