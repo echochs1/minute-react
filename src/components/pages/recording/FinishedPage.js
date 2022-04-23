@@ -11,10 +11,15 @@ const Finished = () => {
 
     useEffect(() => {
         setTimeout(() => {
-            setRecordingData(fbGetRecording(location.state.name));
-            if(recordingData && (recordingData.url != null)) {
-                setIsLoading(false);
+            const fetch = () => {
+                const recording = fbGetRecording(location.state.name);
+                setRecordingData(recording);
+            };
+            fetch();
+            if(!recordingData) {
+                fetch();
             }
+            setIsLoading(false);
         }, 5000);   // sleep for 5 seconds before fetching the recoding to ensure url has been uploaded
     }, []);
 
