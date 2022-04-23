@@ -12,7 +12,7 @@ const Finished = () => {
     useEffect(() => {
         setTimeout(() => {
             setRecordingData(fbGetRecording(location.state.name));
-            if(recordingData.url != null) {
+            if(recordingData && (recordingData.url != null)) {
                 setIsLoading(false);
             }
         }, 5000);   // sleep for 5 seconds before fetching the recoding to ensure url has been uploaded
