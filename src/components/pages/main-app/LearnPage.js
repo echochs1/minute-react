@@ -1,9 +1,8 @@
 import React from "react";
-// Resources:
-// https://professional.dce.harvard.edu/blog/10-tips-for-improving-your-public-speaking-skills/
-// https://www.nytimes.com/guides/year-of-living-better/how-to-speak-in-public
-// https://fortune.com/2022/01/18/the-new-best-practices-for-public-speaking-knowledge-charisma-and-authenticity/
-// https://www.verywellmind.com/public-speaking-skills-3024308
+import { moneyverse } from "../../../assets/images/moneyverse";
+import "antd/dist/antd.css";
+// import "./index.css";
+import { List, Avatar, Space } from "antd";
 
 const articles = [
   {
@@ -64,42 +63,74 @@ const articles = [
   },
 ];
 
-const CardListItem = (props) => {
-  return (
-    <li>
-      <div
-        className="card-container"
-        style={{
-          width: "50%",
-          border: "solid 3px #d3d3d3",
-          margin: "10px auto",
-        }}
+const randomIndex = (arr) => {
+  return Math.floor(Math.random() * articles.length);
+};
+
+const IconText = ({ icon, text }) => (
+  <Space>
+    {React.createElement(icon)}
+    {text}
+  </Space>
+);
+
+export default () => (
+  <List
+    itemLayout="vertical"
+    size="large"
+    pagination={{
+      onChange: (page) => {
+        console.log(page);
+      },
+      pageSize: 5,
+    }}
+    dataSource={articles}
+    // footer={
+    //   <div>
+    //     <b>ant design</b> footer part
+    //   </div>
+    // }
+    renderItem={(item) => (
+      <List.Item
+        key={item.title}
+        // actions={[
+        //   <IconText
+        //     icon={StarOutlined}
+        //     text="156"
+        //     key="list-vertical-star-o"
+        //   />,
+        //   <IconText
+        //     icon={LikeOutlined}
+        //     text="156"
+        //     key="list-vertical-like-o"
+        //   />,
+        //   <IconText
+        //     icon={MessageOutlined}
+        //     text="2"
+        //     key="list-vertical-message"
+        //   />,
+        // ]}
+        extra={
+          <div className="recordingImage">
+            <img
+              width={100}
+              src={moneyverse[randomIndex(moneyverse)]}
+              alt="fun recording img"
+            />
+          </div>
+        }
       >
-        <a href={props.character.address} target="_blank">
-          <p>
-            <strong>{props.character.name}</strong>
-          </p>
-        </a>
-        <p>{props.character.published}</p>
-      </div>
-    </li>
-  );
-};
-
-const CardList = () => {
-  return (
-    <ul style={{ listStyleType: "none" }}>
-      {articles.map((article) => {
-        return <CardListItem character={article} key={article.id} />;
-      })}
-    </ul>
-  );
-};
-
-export default function App() {
-  return (
-    <div className="App">
-      <CardList />
-    </div>
-  );
-}
+        <List.Item.Meta
+          avatar={<Avatar src={item.avatar} />}
+          title={
+            <a href={item.address} target="_blank">
+              {item.name}
+            </a>
+          }
+          description={item.published}
+        />
+        {/* {item.content} */}
+      </List.Item>
+    )}
+  />
+);
