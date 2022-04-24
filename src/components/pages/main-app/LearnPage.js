@@ -33,6 +33,35 @@ const articles = [
     address:
       "https://professional.dce.harvard.edu/blog/10-tips-for-improving-your-public-speaking-skills/",
   },
+  {
+    id: 5,
+    name: "How to Stop Saying “Um,” “Ah,” and “You Know”",
+    published: "August 1, 2018",
+    address: "https://hbr.org/2018/08/how-to-stop-saying-um-ah-and-you-know",
+  },
+  {
+    id: 6,
+    name: "Speaking as a Skill for Success",
+    published: "September 15, 2016",
+    address:
+      "https://www.edutopia.org/practice/public-speaking-oracy-skills-real-world",
+  },
+  {
+    id: 7,
+    name:
+      "How The Pandemic Is Giving Public Speakers A Boost: Four Silver Linings To Presenting Virtually",
+    published: "November 17, 2020",
+    address:
+      "https://www.forbes.com/sites/forbesagencycouncil/2020/11/17/how-the-pandemic-is-giving-public-speakers-a-boost-four-silver-linings-to-presenting-virtually/?sh=464527f754f6",
+  },
+  {
+    id: 8,
+    name:
+      "A Communication Coach's 3 Best Tips to Make Zoom Presentations Less Awkward",
+    published: "November 17, 2020",
+    address:
+      "https://www.inc.com/jessica-stillman/communication-public-speaking-zoom-presentation-tips.html",
+  },
 ];
 
 const CardListItem = (props) => {
