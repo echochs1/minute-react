@@ -36,21 +36,23 @@ const Finished = () => {
         console.log(isLoading);
         if(!isLoading && recordingData) {
             return (
-                <div className="finishResults">
-                    <div>
-                        <h3 className="fieldName">Prompt: </h3>
-                        <p className="fieldValue">{recordingData.prompt}</p>
+                <div className="finishedResults">
+                    <div className="finishedResults-title">
+                        <h1>Results</h1>
                     </div>
+                    <div className="finishedResults-textWrapper">
+                        <span className="finishedResults-textContent"><b>Topic:</b> {recordingData.prompt}</span>
+                    </div>
+                    <div className="finishedResults-textWrapper">
+                        <span className="finishedResults-textContent"><b>Text:</b> {recordingData.transcript}</span>
+                    </div>
+                    
                     {recordingData.url && 
                         <audio controls>
                             <source src={recordingData.url} type="audio/mpeg" />
                         </audio>
                     }
-                    <div>
-                        <h3 className="fieldName">Audio Transcription: </h3>
-                        <p className="fieldValue">{recordingData.transcript}</p>
-                    </div>
-                    
+
                     <button onClick={handleRecordClick}>Generate another prompt</button>
                     <br></br>
                     <button onClick={handleHomeClick}>Return to app</button>
@@ -58,7 +60,8 @@ const Finished = () => {
             )
         } else {
             return (
-                <div>
+                <div className="loadingResults">
+                    <h1 className="question-prompt">Congrats! You did it!</h1>
                     <Space size="middle">
                         <Spin size="large" />
                     </Space>
@@ -69,7 +72,6 @@ const Finished = () => {
     
     return (
         <div className="finishedPage">
-            <h1>Congrats! You did it!</h1>
             {renderResults()}
         </div>
     );

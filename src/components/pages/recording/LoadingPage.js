@@ -13,6 +13,7 @@ const LoadingPage = () => {
                         strings: ["Getting your audio file...", "Building your recording...", "Writing your transcription...", "Analyzing the data...", "Finding those filler words..."],
                         autoStart: true,
                         loop: true,
+                        delay: 75,
                     }}
                 />
             </h1>

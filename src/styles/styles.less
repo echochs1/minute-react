@@ -217,6 +217,7 @@ video#video {
     height: 100%;
     position: relative;
     background-image: url("/src/assets/images/speech-bubbles.svg");
+    background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -293,7 +294,6 @@ video#video {
 }
 
 /* ONE-MIN RECORD PAGE */
-
 .oneMinRecordLayout {
     width: 100vw;
     height: 100vh;
@@ -376,7 +376,7 @@ video#video {
 
 .historyPage {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     position: relative;
     overflow-y: auto;
     padding: 2rem 2rem 0 2rem;
@@ -453,4 +453,44 @@ li.recordingItem {
     //     box-shadow: 0 0.25rem 0 0 @blue600;
     //     transition: 100ms ease-in-out;
     // }
+}
+
+/* FINISHED PAGE */
+.finishedPage {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+.loadingResults {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    padding-top: 2rem;
+    background-image: url("/src/assets/images/finish-line.svg");
+    background-repeat: no-repeat;
+
+    .question-prompt {
+        margin-bottom: 2rem;
+    }
+}
+
+.finishedResults {
+    color: @blue900;
+
+    &-title {
+        margin-bottom: 2rem;
+        color: @blue900;
+    }
+
+    &-textWrapper {
+        margin-bottom: 2rem;
+    }
+}
+
+audio.finishedResults-audio {
+    width: 100%;
+    height: auto;
 }
