@@ -40,6 +40,9 @@ const OneMinPage = (props) => {
     const [audioUrl, setAudioUrl] = useState(null); // url of recording
 
     const [savefile, setFile] = useState(null);
+
+    const [u_audio, setUploadAudio] = useState(null);
+    const [transcriptID, setTranscriptID] = useState(null);
     
     // new instance of the mic recorder
     const [mp3Recorder, setmp3Recorder] = useState(
@@ -69,7 +72,7 @@ const OneMinPage = (props) => {
     const startRecording = () => {
         if(!isRecording && !isBlocked) {
             setIsRecording(!isRecording); // start false and then set to true on click
-            setCountdownValue(Date.now() + 6 * 10 * 1000); // 60 seconds
+            setCountdownValue(Date.now() + 2 * 10 * 1000); // 60 seconds
             mp3Recorder
                 .start()
                 .then(() => {
@@ -91,99 +94,212 @@ const OneMinPage = (props) => {
 
     // stop recording -> calls getMp3() which returns a Promise
     // blob and buffers received as arguments when Promise is resolved
-    const stopRecording = () => {
-        mp3Recorder
-            .stop()
-            .getMp3()
-            .then(([buffer, blob]) => {
-                // Make each file name unique
-                const dateNow = Date.now();
-                const name = `${dateNow}.mp3`;
-                const file = new File(buffer, name, {
-                    type: blob.type,
-                    lastModified: dateNow
-                });
-                // Upload audioFile to Firebase Storage
-                fbUploadAudioFile(file);
+    // const stopRecording = () => {
+    //     mp3Recorder
+    //         .stop()
+    //         .getMp3()
+    //         .then(([buffer, blob]) => {
+    //             // Make each file name unique
+    //             const dateNow = Date.now();
+    //             const name = `${dateNow}.mp3`;
+    //             const file = new File(buffer, name, {
+    //                 type: blob.type,
+    //                 lastModified: dateNow
+    //             });
+    //             // Upload audioFile to Firebase Storage
+    //             fbUploadAudioFile(file);
 
-                const  blobURL = URL.createObjectURL(file);
-                setBlobURL(blobURL);
-                setIsRecording(false);
+    //             const  blobURL = URL.createObjectURL(file);
+    //             setBlobURL(blobURL);
+    //             setIsRecording(false);
 
-                // Upload audioFile info to assemblyAI and firebase
-                transcribeAudio(file);
+    //             // Upload audioFile info to assemblyAI and firebase
+    //             // transcribeAudio(file);
+    //             uploadAudio(file);
+    //         })
+    //         .then(postTranscript(u_audio))
+    //         .then(getTranscript(transcriptID))
+    //         .then(history("/finished", {state: {transcription: transcription, prompt: question[0]}}))
+    //         .catch((e) => console.error(e));
+    // }
+
+    const stopRecording = async () => {
+        try {
+            const [buffer, blob] = await mp3Recorder.stop().getMp3()
+                
+            // Make each file name unique
+            const dateNow = Date.now();
+            const name = `${dateNow}.mp3`;
+            const file = new File(buffer, name, {
+                type: blob.type,
+                lastModified: dateNow
             })
-            .catch((e) => console.error(e));
+            // Upload audioFile to Firebase Storage
+            fbUploadAudioFile(file);
+
+            const  blobURL = URL.createObjectURL(file);
+            setBlobURL(blobURL);
+            setIsRecording(false);
+
+            // Upload audioFile info to assemblyAI and firebase
+            // transcribeAudio(file);
+            try {
+                await uploadAudio(file);
+                try {
+                    await postTranscript(u_audio);
+                    try {
+                        await getTranscript(transcriptID);
+                        history("/finished", {state: {transcription: transcription, prompt: question[0]}});
+                    } catch (err) {
+                        console.log("Error is SR getTranscrip: ", err)
+                    }
+                } catch (err) {
+                    console.log("Error is SR postTranscript: ", err)
+                }
+            } catch (err) {
+                console.log("Error is SR uploadAudio: ", err)
+            }
+        } catch (err) {
+            console.log("Error in StopRecording")
+        }
+
     }
 
-    /**
-     * @description once the countdown is finished, we need to
-     * transcribe the audio and render the finished page.
-     */
-    const transcribeAudio = (audioFile) => {
-        // Use AssemblyAI to transcribe audioFile
-        var current1 = new Date();
-        var current2 = new Date();
-        const assembly = axios.create({
-            baseURL: "https://api.assemblyai.com/v2",
-            headers: {
-                authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
-                "content-type": "application/json",
-                "transfer-encoding": "chunked-request",
-            },
-        });
-        assembly
-            .post("/upload", audioFile)
-            .then((res1) => {
-                console.log(`URL: ${res1.data['upload_url']}`);         //FIRST LOG URL
-                const assembly1 = axios.create({
-                    baseURL: "https://api.assemblyai.com/v2",
-                    headers: {
-                        authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
-                        "content-type": "application/json",
-                    },
-                });
+    const uploadAudio = async (audioFile) => {
+        try {
+            const assembly = axios.create({
+                baseURL: "https://api.assemblyai.com/v2",
+                headers: {
+                    authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
+                    "content-type": "application/json",
+                    "transfer-encoding": "chunked-request",
+                },
+            });
+                assembly
+                    .post("/upload", audioFile)
+                    .then((res) => {
+                        console.log("uploadAudio outputs: ", res.data);
+                        setUploadAudio(res.data);})
+                    .catch((err) => console.error("uploadAudio Error1: ", err));
+            } catch (err) {
+                console.log("uploadAudio Error2: ", err)
+            }
+        }
+
+    const postTranscript = async (fileURL) => {
+        try {
+            const assembly = axios.create({
+                baseURL: "https://api.assemblyai.com/v2",
+                headers: {
+                    authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
+                    "content-type": "application/json",
+                },
+            });
+            assembly
+                .post("/transcript", {
+                    audio_url: fileURL,
+                    disfluencies: true
+                })
+                .then((res) => {
+                    console.log("postTranscript outputs: ", res.data);
+                    setTranscriptID(res.data);})
+                .catch((err) => console.error("postTranscript Error1: ",err));
+        }
+        catch (err){
+            console.log("postTranscript Error2: ", err)
+        }
+    }
+
+    const getTranscript = async (transcriptID) => {
+        try{
+            const assembly = axios.create({
+                baseURL: "https://api.assemblyai.com/v2",
+                headers: {
+                    authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
+                    "content-type": "application/json",
+                },
+            });
+            assembly
+                .get(`/transcript/${transcriptID}`)
+                .then((res) => {
+                    console.log("getTranscript outputs: ", res.data)
+                    setAssemblyData(res.data);
+                    setTranscription(res.data.text);
+                    })
+                .catch((err) => console.error(err));
+        } catch (err) {
+
+        }
+    }
+
+    // /**
+    //  * @description once the countdown is finished, we need to
+    //  * transcribe the audio and render the finished page.
+    //  */
+    // const transcribeAudio = (audioFile) => {
+    //     // Use AssemblyAI to transcribe audioFile
+    //     var current1 = new Date();
+    //     var current2 = new Date();
+    //     const assembly = axios.create({
+    //         baseURL: "https://api.assemblyai.com/v2",
+    //         headers: {
+    //             authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
+    //             "content-type": "application/json",
+    //             "transfer-encoding": "chunked-request",
+    //         },
+    //     });
+    //     assembly
+    //         .post("/upload", audioFile)
+    //         .then((res1) => {
+    //             console.log(`URL: ${res1.data['upload_url']}`);         //FIRST LOG URL
+    //             const assembly1 = axios.create({
+    //                 baseURL: "https://api.assemblyai.com/v2",
+    //                 headers: {
+    //                     authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
+    //                     "content-type": "application/json",
+    //                 },
+    //             });
             
-                assembly1
-                    .post("/transcript", {
-                        audio_url: res1.data['upload_url'],
-                        disfluencies: true,
-                        sentiment_analysis: true,
-                    })
-                    .then((res2) => {
-                        console.log(res2.data.id);                          //SECOND LOG receiving transcript code
-                        current1 = Date.now();
-                        const assembly2 = axios.create({
-                            baseURL: "https://api.assemblyai.com/v2",
-                            headers: {
-                                authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
-                                "content-type": "application/json",
-                            },
-                        });
-                        setTimeout(() => {
-                            assembly2
-                            .get(`/transcript/${res2.data.id}`)
-                            .then((res3) => {
-                                current2 = Date.now();
-                                setAssemblyData(res3.data);
-                                setTranscription(res3.data.text);
+    //             assembly1
+    //                 .post("/transcript", {
+    //                     audio_url: res1.data['upload_url'],
+    //                     disfluencies: true,
+    //                     sentiment_analysis: true,
+    //                 })
+    //                 .then((res2) => {
+    //                     console.log(res2.data.id);                          //SECOND LOG receiving transcript code
+    //                     current1 = Date.now();
+    //                     const assembly2 = axios.create({
+    //                         baseURL: "https://api.assemblyai.com/v2",
+    //                         headers: {
+    //                             authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
+    //                             "content-type": "application/json",
+    //                         },
+    //                     });
+    //                     setTimeout(() => {
+    //                         assembly2
+    //                         .get(`/transcript/${res2.data.id}`)
+    //                         .then((res3) => {
+    //                             current2 = Date.now();
+    //                             setAssemblyData(res3.data);
+    //                             setTranscription(res3.data.text);
                                 
-                                // Push transcription to Firebase database
-                                // fbUploadRecording(audioFile.name, question[0], res3.data.text);
-                                // setAudioUrl(fbGetUrl(audioFile.name));
-                                setisUploading(false);
-                                // const audio_url = fbGetUrl(audioFile.name);
-                                // handleUploadFinish(audioFile.name, audio_url);
-                                history("/finished", {state: {name: audioFile.name, transcription: transcription, prompt: question[0]}});
-                            })
-                            .catch((err) => console.error(err));
-                        }, 30000);
+    //                             // Push transcription to Firebase database
+    //                             // fbUploadRecording(audioFile.name, question[0], res3.data.text);
+    //                             // setAudioUrl(fbGetUrl(audioFile.name));
+    //                             setisUploading(false);
+    //                             // const audio_url = fbGetUrl(audioFile.name);
+    //                             // handleUploadFinish(audioFile.name, audio_url);
+    //                             history("/finished", {state: {name: audioFile.name, transcription: transcription, prompt: question[0]}});
+    //                         })
+    //                         .catch((err) => console.error(err));
+    //                     }, 30000);
 
-                    })
-                    .catch((err) => console.error(err));
-            })
-            .catch((err) => console.log(err));
-    }
+    //                 })
+    //                 .catch((err) => console.error(err));
+    //         })
+    //         .catch((err) => console.log(err));
+    // }
 
     /**
      * @description once the uploading is finished, we need to redirect to finish page with info
@@ -249,7 +365,38 @@ const OneMinPage = (props) => {
 
     return (
         <div className="oneMinPage">
-            {renderTimer()}
+            {/* {renderTimer()} */}
+            <div>
+                    <div className="timer">
+                        {/* <Slider
+                            min={0}
+                            max={60}
+                            defaultValue={60}
+                            reverse={true}
+                            // handleStyle={{margin: "1rem"}}
+                            onChange={handleSliderChange}
+                            value={sliderValue}
+                        /> */}
+                        <div className="clock">
+                            <img className="clock-icon" src={Clock} alt="clock" />
+                            <Countdown format="mm:ss" value={isRecording ? countdownValue : countdownValue} valueStyle={{ color: "#fff" }} onFinish={handleCountdownFinish} />
+                        </div>
+                    </div>
+                    <div className="question">
+                        <h1 className="question-prompt">{question}</h1>
+                    </div>
+                    <div className="record">
+                        <div className='ButtonRecord'>
+                            {/* onclick should change state, change icon, change padding bc of icon, and change to disabled */}
+                            <button
+                                className='record-btn'
+                                onClick={isRecording ? null : startRecording}
+                                style={isRecording ? { padding: "1rem", cursor: "not-allowed"} : {padding: "1rem 0.8125rem 1rem 1.1875rem"}}>
+                                <img src={isRecording ? Mic : Play} alt="Play Button" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
         </div>
     )
 }

@@ -32,11 +32,49 @@ const Finished = (props) => {
         history("/one-min");
     }
 
-    const renderResults = () => {
-        // console.log(isLoading);
-        if(recordingData) { //remove if else
-            return (
-                <div className="finishResults">
+    // const renderResults = () => {
+    //     // console.log(isLoading);
+    //     if(recordingData) { //remove if else
+    //         return (
+    //             <div className="finishResults">
+    //                 <div>
+    //                     <h3 className="fieldName">Prompt: </h3>
+    //                     {/* <p className="fieldValue">{recordingData.prompt}</p> */}
+    //                     <p className="fieldValue">{prompt}</p>
+    //                 </div>
+    //                     {/* <audio controls>
+    //                     <source src={recordingData.url} type="audio/mpeg" />
+    //                     </audio> */}
+    //                 <div>
+    //                     <h3 className="fieldName">Audio Transcription: </h3>
+    //                     {/* <p className="fieldValue">{recordingData.transcript}</p> */}
+    //                     <p className="fieldValue">{transcription}</p>
+    //                 </div>
+                    
+    //                 <button onClick={handleRecordClick}>Generate another prompt</button>
+    //                 <br></br>
+    //                 <button onClick={handleHomeClick}>Return to app</button>
+    //             </div>
+    //         )
+    //     } else {
+    //         return (
+    //             <div>
+    //                 <Space size="middle">
+    //                     <Spin size="large" />
+    //                 </Space>
+    //             </div>
+    //         )
+    //     }
+    // }
+    
+    return (
+        // <div className="finishedPage">
+        //     <h1>Congrats! You did it!</h1>
+        //     {renderResults()}
+        // </div>
+        <div className="finishedPage">
+            <h1>Congrats! You did it!</h1>
+            <div className="finishResults">
                     <div>
                         <h3 className="fieldName">Prompt: </h3>
                         {/* <p className="fieldValue">{recordingData.prompt}</p> */}
@@ -48,29 +86,13 @@ const Finished = (props) => {
                     <div>
                         <h3 className="fieldName">Audio Transcription: </h3>
                         {/* <p className="fieldValue">{recordingData.transcript}</p> */}
-                        <p className="fieldValue">{recordingData.transcript}</p>
+                        <p className="fieldValue">{transcription}</p>
                     </div>
                     
                     <button onClick={handleRecordClick}>Generate another prompt</button>
                     <br></br>
                     <button onClick={handleHomeClick}>Return to app</button>
                 </div>
-            )
-        } else {
-            return (
-                <div>
-                    <Space size="middle">
-                        <Spin size="large" />
-                    </Space>
-                </div>
-            )
-        }
-    }
-    
-    return (
-        <div className="finishedPage">
-            <h1>Congrats! You did it!</h1>
-            {renderResults()}
         </div>
     );
 }
