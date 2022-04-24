@@ -10,11 +10,11 @@ const AppLayout = () => {
     const [collapsed, setCollapsed] = useState(false);
     return (
         <Layout>
-            <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed} >
+            <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed} style={{background: "#FFF" }} >
                 <SidebarNav />
             </Sider>
             <Layout>
-                <Header className="siteLayoutBackground" style={{ padding: 0, background: "#001529" }}>
+                <Header className="siteLayoutBackground" style={{ padding: 0, background: "#F7FAFC" }}>
                 </Header>
                 <Content style={{ margin: "0.5rem", padding: 0, minHeight: "calc(100vh - 114px)", background: "#fff" }}>
                     <ApplicationRoutes />
