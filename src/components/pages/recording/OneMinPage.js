@@ -237,6 +237,7 @@ const OneMinPage = (props) => {
                                 autoStart: true,
                                 loop: true,
                                 color: "#fff",
+                                delay: 75,
                             }}
                         />
                     </h1>

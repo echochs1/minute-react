@@ -60,3 +60,11 @@ h1.question-prompt {
     font-size: 6rem;
     font-weight: 700;
 }
+
+span.finishedResults-textContent {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    text-align: left;
+    line-height: 3.125rem;
+}
