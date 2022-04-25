@@ -23,7 +23,9 @@ const LandingNavbar = () => {
     }
     
     const handleLoginClick = () => {
-        fbSignIn();
+        if(!authUser.loggedIn) {
+            fbSignIn();
+        }
         history("app/record");
     }
 
