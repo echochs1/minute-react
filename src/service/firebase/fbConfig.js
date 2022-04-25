@@ -74,7 +74,8 @@ export const fbSignOut = () => {
     });
 }
 
-// REALTIME DATABASE FUNCTIONS
+/** REALTIME DATABASE FUNCTIONS */
+// UPLOAD FUNCTIONS //
 // Upload name, url, prompt, and transcript after each recording
 export const fbUploadRecording = (fileName, prompt, transcript) => {
     const audioFile = fileName.split('.')[0];
@@ -103,6 +104,20 @@ export const fbUploadUrl = (audioFile, url) => {
     });
 }
 
+// Upload user created goals
+export const fbUploadGoal = (goal) => {
+    const goalsArr = fbGetAllGoals();
+    goalsArr.push(goal);
+    set(dbRef(db, `users/${auth.currentUser.uid}/goals`), goalsArr)
+    .then(() => {
+        console.log("Goal successfully uploaded to database");
+    }
+    ).catch((error) => {
+        console.log("Error uploading goal to database: "+error);
+    });
+}
+
+// GET FUNCTIONS //
 // Get a transcript for an audio file
 export const fbGetTranscript = (fileName) => {
     const audioFile = fileName.split('.')[0];
@@ -112,6 +127,7 @@ export const fbGetTranscript = (fileName) => {
     })
 }
 
+// Get the downloadURL for an audio file
 export const fbGetUrl = (fileName) => {
     const audioFile = fileName.split('.')[0];
     onValue(dbRef(db, `users/${auth.currentUser.uid}/recordings/${audioFile}/url`), (snapshot) => {
@@ -121,6 +137,7 @@ export const fbGetUrl = (fileName) => {
 }
 
 // Get the user's recordings
+// Used in HistoryPage
 export const fbGetAllRecordings = () => {
     const recordings = [];
     onValue(dbRef(db, `users/${auth.currentUser.uid}/recordings`), (snapshot) => {
@@ -137,6 +154,7 @@ export const fbGetAllRecordings = () => {
 }
 
 // Retrieve data for a given recording: audioFile name, prompt, transcript, etc
+// Used in FinishedPage
 export const fbGetRecording = (filename) => {
     const audioFile = filename.split('.')[0];
     const recording = {};
@@ -149,43 +167,6 @@ export const fbGetRecording = (filename) => {
         console.log(recording);
     });      
     return recording;
-}
-
-// STORAGE FUNCTIONS
-// Upload and Retrieve audio files
-export const fbUploadAudioFile = (file) => {
-    const storageRef = storRef(storage, `users/${auth.currentUser.uid}/recordings/${file.name}`);
-
-    uploadBytes(storageRef, file).then((snapshot) => {
-        console.log('Uploaded an audio file: ' + file.name);
-    });
-}
-
-export const fbUploadAudioFileDownloadURL = (fileName) => {
-    const storageRef = storRef(storage, `users/${auth.currentUser.uid}/recordings/${fileName}`);
-    getDownloadURL(storageRef)
-    .then((url) => {
-        console.log("Download URL for "+fileName+" successfully uploading: "+url);
-        // Update the url in the database
-        fbUploadUrl(fileName, url);
-    }).catch((error) => {
-        console.log("Error uploading download URL for "+fileName+": "+error);
-    });
-}
-
-// export const fbGetAudioFiles = () => {
-//     const storageRef = storRef(storage, `users/${auth.currentUser.uid}/recordings`);
-//     const list = listAll(storageRef);
-//     return list;
-// }
-
-// Upload user created goals
-export const fbUploadGoal = (goal) => {
-    const storageRef = storRef(storage, `users/${auth.currentUser.uid}/goals/${goal.name}`);
-
-    uploadBytes(storageRef, goal).then((snapshot) => {
-        console.log('Uploaded a goal: ' + goal.name);
-    });
 }
 
 // Get all user goals
@@ -202,4 +183,28 @@ export const fbGetAllGoals = () => {
         });
     })
     return goals;
+}
+
+/** STORAGE FUNCTIONS */
+// Upload and Retrieve audio files
+export const fbUploadAudioFile = (file) => {
+    const storageRef = storRef(storage, `users/${auth.currentUser.uid}/recordings/${file.name}`);
+
+    uploadBytes(storageRef, file).then((snapshot) => {
+        console.log('Uploaded an audio file: ' + file.name);
+    });
+}
+
+// Called when a recording is uploaded to the database
+// Gets the downloadURL for the audio file, then calls fbUploadUrl to upload it to the database
+export const fbUploadAudioFileDownloadURL = (fileName) => {
+    const storageRef = storRef(storage, `users/${auth.currentUser.uid}/recordings/${fileName}`);
+    getDownloadURL(storageRef)
+    .then((url) => {
+        console.log("Download URL for "+fileName+" successfully uploading: "+url);
+        // Update the url in the database
+        fbUploadUrl(fileName, url);
+    }).catch((error) => {
+        console.log("Error uploading download URL for "+fileName+": "+error);
+    });
 }
