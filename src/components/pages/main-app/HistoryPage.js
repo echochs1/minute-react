@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from "react";
 import { moneyverse } from "../../../assets/images/moneyverse";
-import { fbGetAllRecordings, fbUploadAudioFileDownloadURL } from "../../../service/firebase/fbConfig";
+import { fbGetAllRecordings } from "../../../service/firebase/fbConfig";
 import { FirebaseContext } from "../../../service/firebase/fbContext";
 import { Space, Spin } from "antd";
 

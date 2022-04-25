@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { fbGetRecording, fbGetUrl } from "../../../service/firebase/fbConfig";
+import { fbGetRecording } from "../../../service/firebase/fbConfig";
 import {Space, Spin} from 'antd';
 import { parseDisfluencies, redHighlight } from "../../../service/recording/fillerWordDetect";
 
@@ -17,13 +17,6 @@ const Finished = () => {
             setIsLoading(false);
         }, 5000);   // sleep for 5 seconds before fetching the recoding to ensure url has been uploaded
     }, []);
-
-    // Display highlighted filler words in the transcription
-    // const renderTranscription = () => {
-    //     if (recordingData) {
-    //         const transcription = recordingData.transcript;
-    //     }
-    // }
 
     const handleHomeClick = () => {
         history("/app");

@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import MicRecorder from 'mic-recorder-to-mp3';
 import Play from "../../../assets/images/play.svg";
 import Mic from "../../../assets/images/mic.svg";
-import { fbUploadRecording, fbUploadAudioFile, fbGetUrl } from '../../../service/firebase/fbConfig';
+import { fbUploadRecording, fbUploadAudioFile } from '../../../service/firebase/fbConfig';
 import axios from 'axios';
 // RESOURCES
 // https://medium.com/front-end-weekly/recording-audio-in-mp3-using-reactjs-under-5-minutes-5e960defaf10

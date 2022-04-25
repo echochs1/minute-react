@@ -1,10 +1,9 @@
 // SOURCE: https://travis.media/how-to-use-firebase-with-react/
 import { initializeApp } from "firebase/app";
-import { getDatabase, onValue, set, update, ref as dbRef, get } from "firebase/database";
-import { getStorage, ref as storRef, uploadBytes, downloadBytes, listAll, getDownloadURL } from "firebase/storage";
+import { getDatabase, onValue, set, update, ref as dbRef } from "firebase/database";
+import { getStorage, ref as storRef, uploadBytes, getDownloadURL } from "firebase/storage";
 // import { getAnalytics } from "firebase/analytics";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, linkWithCredential } from 'firebase/auth';
-import { useNavigate } from "react-router-dom";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional

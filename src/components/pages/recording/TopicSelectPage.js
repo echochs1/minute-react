@@ -1,8 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Input, Statistic, Slider, Button } from "antd";
-import { randomPrompts } from "../../../service/recording/one-min/randomPrompts";
-import Clock from "../../../assets/images/clock.svg";
-// import ButtonRecord from "../main-app/ButtonRecord";
+import { Input, Slider } from "antd";
 import { useNavigate } from "react-router-dom";
 // import LoadingPage from "./LoadingPage";
 import MicRecorder from 'mic-recorder-to-mp3';

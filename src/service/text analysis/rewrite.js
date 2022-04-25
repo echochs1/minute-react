@@ -2,7 +2,7 @@
 // https://developers.tinq.ai/reference/rewriter
 
 import './App.css';
-import React, {Component} from 'react';
+// import React, {Component} from 'react';
 
 // Function takes in a string and calls the Tinq.ai Rewriter API, which rewrites/rephrases the content of the string.
 // The function outputs the rephrased string from the Rewriter API JSON object. 

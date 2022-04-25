@@ -51,7 +51,7 @@ const SidebarNav = () => {
     }
     const handleLoginClick = () => {
         fbSignIn();
-        history("/app/record");
+        // history("/app/record");  // happens before sign in completes
     }
 
 

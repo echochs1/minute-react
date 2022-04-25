@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-// import { Button } from "antd";
 import Fire from "../../../assets/images/fire.svg";
 import Topic from "../../../assets/images/topic.svg";
 

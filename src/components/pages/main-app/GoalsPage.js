@@ -14,7 +14,6 @@ import moment from 'moment';
 import { FirebaseContext } from "../../../service/firebase/fbContext";
 import { fbUploadGoal, fbGetAllGoals } from "../../../service/firebase/fbConfig";
 import { moneyverse } from "../../../assets/images/moneyverse";
-// moment.format();
 
 /**
  * 
