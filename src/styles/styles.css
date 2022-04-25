@@ -61,7 +61,7 @@
 }
 .landing-hero {
   position: relative;
-  height: 100vh;
+  height: 85vh;
   width: 100%;
   padding: 1rem 2rem;
   z-index: 10;
@@ -140,7 +140,7 @@ video#video {
 /* RECORD OPTIONS */
 .recordOptionsPage {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   position: relative;
   background-image: url("/src/assets/images/speech-bubbles.svg");
   background-repeat: no-repeat;
@@ -316,6 +316,42 @@ li.recordingItem .recordingItem-info {
 li.recordingItem .recordingLine {
   margin-top: 1rem;
 }
+.goalPage {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow-y: auto;
+  padding: 2rem 2rem 0 2rem;
+}
+ul.goalsList {
+  list-style: none;
+}
+li.goalItem {
+  width: 100%;
+  height: auto;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+li.goalItem .goalImage {
+  width: 4rem;
+  height: 4rem;
+  margin-right: 2rem;
+}
+li.goalItem .goalImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+li.goalItem .goalContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+li.goalItem .goalLine {
+  margin-top: 1rem;
+}
 /* FINISHED PAGE */
 .finishedPage {
   width: 100%;
@@ -349,50 +385,9 @@ audio.finishedResults-audio {
   width: 100%;
   height: auto;
 }
-
 .select_dropdown {
   display: inline-block;
 }
-
-.goalPage {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  overflow-y: auto;
-  padding: 2rem 2rem 0 2rem;
-}
-ul.goalsList {
-  list-style: none;
-}
-li.goalItem {
-  width: 100%;
-  height: auto;
-  margin-bottom: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-li.goalItem .goalContent {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-}
-li.goalItem .goalImage {
-  width: 4rem;
-  height: 4rem;
-  margin-right: 2rem;
-}
-li.goalItem .goalImage img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-li.goalItem .goalItem-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-}
-li.goalItem .goalLine {
-  margin-top: 1rem;
+.redHighlight {
+  color: #F06A6A;
 }

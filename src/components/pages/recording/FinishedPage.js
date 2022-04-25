@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fbGetRecording, fbGetUrl } from "../../../service/firebase/fbConfig";
 import {Space, Spin} from 'antd';
+import { parseDisfluencies, redHighlight } from "../../../service/recording/fillerWordDetect";
 
 const Finished = () => {
     const location = useLocation();
@@ -44,7 +45,7 @@ const Finished = () => {
                         <span className="finishedResults-textContent"><b>Topic:</b> {recordingData.prompt}</span>
                     </div>
                     <div className="finishedResults-textWrapper">
-                        <span className="finishedResults-textContent"><b>Text:</b> {recordingData.transcript}</span>
+                        <span className="finishedResults-textContent"><b>Text:</b> {redHighlight(recordingData.transcript)}</span>
                     </div>
                     
                     {recordingData.url && 
@@ -56,6 +57,12 @@ const Finished = () => {
                     <button onClick={handleRecordClick}>Generate another prompt</button>
                     <br></br>
                     <button onClick={handleHomeClick}>Return to app</button>
+
+                    {/* <div>
+                        <h3>{typeof(recordingData.transcript)}</h3>
+                        <h3>{parseDisfluencies(recordingData.transcript).stringSplit}</h3>
+                        <h3>{redHighlight(recordingData.transcript)}</h3>
+                    </div> */}
                 </div>
             )
         } else {
