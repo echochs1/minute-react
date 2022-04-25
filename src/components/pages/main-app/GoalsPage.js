@@ -14,6 +14,7 @@ import moment from 'moment';
 import { FirebaseContext } from "../../../service/firebase/fbContext";
 import { fbUploadGoal, fbGetAllGoals } from "../../../service/firebase/fbConfig";
 import { moneyverse } from "../../../assets/images/moneyverse";
+// moment.format();
 
 /**
  * 
@@ -36,6 +37,8 @@ const defaultValues = {
 const createGoalModalTitle = "Create a Goal";
 const editGoalModalTitle = "Edit a Goal";
 
+const currentdate = new Date();
+
 const Goals = () => {
   const [formValues, setFormValues] = useState(defaultValues)
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -54,6 +57,13 @@ const Goals = () => {
       [name]: value,
     });
   };
+
+  const getDaysLeft = (targetDate) => {
+    var tempDate = new Date(targetDate);
+    var diffTime = (tempDate - currentdate);
+    var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    return diffDays;
+  }
 
   const openCreateGoalModal = () => {
     setModalTitle(createGoalModalTitle);
@@ -95,6 +105,7 @@ const Goals = () => {
                 <div className="goalInfo">
                   <p className="goalName"><b>Name: </b>{goal.name}</p>
                   <p className="goalDate"><b>Target Date: </b>{goal.date}</p>
+                  <p className="goalDaysLeft"><b>Days Left: </b>{getDaysLeft(goal.date)}</p>
                   <p className="goalFreq"><b>Practice Frequency: </b>{goal.freq}</p>
                   <p className="goalDescription"><b>Description: </b>{goal.description}</p>
                 </div>
