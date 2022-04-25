@@ -2,7 +2,7 @@
 // https://ant.design/components/form/#components-form-demo-time-related-controls
 
 import React, { useState, useContext, useEffect } from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Space, Spin } from 'antd';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,7 +13,16 @@ import Grid from '@mui/material/Grid';
 import moment from 'moment';
 import { FirebaseContext } from "../../../service/firebase/fbContext";
 import { fbUploadGoal, fbGetAllGoals } from "../../../service/firebase/fbConfig";
-moment().format();
+import { moneyverse } from "../../../assets/images/moneyverse";
+
+/**
+ * 
+ * @param {*} arr array of items
+ * @returns random index of the array arr
+ */
+ const randomIndex = (arr) => {
+  return Math.floor(Math.random() * arr.length);
+}
 
 const tips = "We recommend you practice daily, but you can also practice twice a day, twice a week, or once a week.";
 
@@ -24,18 +33,19 @@ const defaultValues = {
   freq: "",
 };
 
-// const today = moment().year().toString() + '-' + moment().month().toString()+ '-' + moment().date().toString();
+const createGoalModalTitle = "Create a Goal";
+const editGoalModalTitle = "Edit a Goal";
 
 const Goals = () => {
   const [formValues, setFormValues] = useState(defaultValues)
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [goals, setGoals] = useState(null);
-  const {authUser} = useContext(FirebaseContext);
+  const [modalTitle, setModalTitle] = useState(createGoalModalTitle);
+  const { authUser } = useContext(FirebaseContext);
 
   useEffect(() => {
-    setGoals(fbGetAllGoals().reverse());
-    console.log(goals)
-}, []);
+    setGoals(fbGetAllGoals());
+  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -46,13 +56,25 @@ const Goals = () => {
   };
 
   const openCreateGoalModal = () => {
+    setModalTitle(createGoalModalTitle);
+    setFormValues(defaultValues);
     setIsModalVisible(true);
     console.log(formValues);
+    console.log(goals);
   };
 
+  const openEditGoalModal = goal => {
+    setModalTitle(editGoalModalTitle);
+    setFormValues({
+      name: goal.name,
+      description: goal.description,
+      date: goal.date,
+      freq: goal.freq,
+    });
+    setIsModalVisible(true);
+  }
   const handleOk = () => {
     setIsModalVisible(false);
-    console.log(formValues);
     fbUploadGoal(formValues);
   };
 
@@ -61,48 +83,59 @@ const Goals = () => {
   };
 
   const renderGoals = () => {
-    // if (goals) {
-    //   return (
-    //     <ul className="recordingsList">
-    //       {goals.map((goal, index) =>
-    //         <li key={index} className="recordingItem">
-
-    //         </li>
-    //       )}
-    //     </ul>
-    //   )
-    // } else {
-    //   return (
-    //     <div>
-    //       <Space size="middle">
-    //         <Spin size="large" />
-    //       </Space>
-    //     </div>
-    //   )
-    // }
+    if (goals) {
+      return (
+        <ul className="goalsList">
+          {goals.map((goal, index) =>
+            <li key={index} className="goalItem" onClick={() => openEditGoalModal(goal)}>
+              <div className="goalContent">
+                <div className="goalImage">
+                  <img src={moneyverse[randomIndex(moneyverse)]} alt="fun recording img" />
+                </div>
+                <div className="goalInfo">
+                  <p className="goalName"><b>Name: </b>{goal.name}</p>
+                  <p className="goalDate"><b>Target Date: </b>{goal.date}</p>
+                  <p className="goalFreq"><b>Practice Frequency: </b>{goal.freq}</p>
+                  <p className="goalDescription"><b>Description: </b>{goal.description}</p>
+                </div>
+              </div>
+              <hr className="goalLine" size="2px" width="100%" color="#BBD2E7"></hr>
+            </li>
+          )}
+        </ul>
+      )
+    } else {
+      return (
+        <div>
+          <Space size="middle">
+            <Spin size="large" />
+          </Space>
+        </div>
+      )
+    }
   }
 
   return (
-    <div>
-      <Grid container direction="row" justifyContent="space-between" align-items="center" style={{padding: '20px'}}>
+    <div className='goalPage'>
+      <Grid container direction="row" justifyContent="space-between" align-items="center" style={{ padding: '20px' }}>
         <Grid item>
           <h1>Goals</h1>
         </Grid>
         <Grid item
-        align-items="center"
-        justify-content="center">
+          align-items="center"
+          justify-content="center">
           <Button type='primary' onClick={openCreateGoalModal}>
             Create a goal
           </Button>
         </Grid>
       </Grid>
       {renderGoals()}
-      <Modal title="Create a Goal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="Submit">
+      <Modal title={modalTitle} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="Submit">
         <div>
           <form >
             <Grid container alignItems="center" justify="center" direction="column" gap="10px 20px">
               <Grid item>
-                <TextField style={{ width: "350px" }} id="name" name="name" label="Goal Name" variant="filled" onChange={handleChange} />
+                <TextField value={formValues.name} style={{ width: "350px" }} id="name" name="name" label="Goal Name" variant="filled" onChange={handleChange} />
               </Grid>
               <Grid item>
                 <FormControl style={{ width: "350px" }} variant="filled">
@@ -135,6 +168,7 @@ const Goals = () => {
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  value={formValues.date}
                   onChange={handleChange}
                 />
               </Grid>
@@ -149,6 +183,7 @@ const Goals = () => {
                   defaultValue=""
                   variant="filled"
                   onChange={handleChange}
+                  value={formValues.description}
                 />
               </Grid>
             </Grid>

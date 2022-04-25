@@ -14,8 +14,8 @@ const AppLayout = () => {
                 <SidebarNav />
             </Sider>
             <Layout>
-                <Header className="siteLayoutBackground" style={{ padding: 0, background: "#F7FAFC" }}>
-                </Header>
+                {/* <Header className="siteLayoutBackground" style={{ padding: 0, background: "#F7FAFC" }}>
+                </Header> */}
                 <Content style={{ margin: "0.5rem", padding: 0, minHeight: "calc(100vh - 114px)", background: "#fff" }}>
                     <ApplicationRoutes />
                 </Content>

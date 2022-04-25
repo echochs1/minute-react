@@ -455,6 +455,50 @@ li.recordingItem {
     // }
 }
 
+.goalPage {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow-y: auto;
+    padding: 2rem 2rem 0 2rem;
+}
+
+ul.goalsList {
+    list-style: none;
+}
+
+li.goalItem {
+    width: 100%;
+    height: auto;
+    margin-bottom: 2rem;
+    // padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .goalImage {
+        width: 4rem;
+        height: 4rem;
+        margin-right: 2rem;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .goalContent {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+    .goalLine {
+        margin-top: 1rem;
+    }
+}
+
+li.goalItem:hover {
+}
 /* FINISHED PAGE */
 .finishedPage {
     width: 100%;

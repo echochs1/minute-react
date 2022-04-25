@@ -107,6 +107,7 @@ export const fbUploadUrl = (audioFile, url) => {
 // Upload user created goals
 export const fbUploadGoal = (goal) => {
     const goalsArr = fbGetAllGoals();
+    console.log(goalsArr);
     goalsArr.push(goal);
     set(dbRef(db, `users/${auth.currentUser.uid}/goals`), goalsArr)
     .then(() => {

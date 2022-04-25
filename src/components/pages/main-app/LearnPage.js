@@ -75,62 +75,65 @@ const IconText = ({ icon, text }) => (
 );
 
 export default () => (
-  <List
-    itemLayout="vertical"
-    size="large"
-    pagination={{
-      onChange: (page) => {
-        console.log(page);
-      },
-      pageSize: 5,
-    }}
-    dataSource={articles}
-    // footer={
-    //   <div>
-    //     <b>ant design</b> footer part
-    //   </div>
-    // }
-    renderItem={(item) => (
-      <List.Item
-        key={item.title}
-        // actions={[
-        //   <IconText
-        //     icon={StarOutlined}
-        //     text="156"
-        //     key="list-vertical-star-o"
-        //   />,
-        //   <IconText
-        //     icon={LikeOutlined}
-        //     text="156"
-        //     key="list-vertical-like-o"
-        //   />,
-        //   <IconText
-        //     icon={MessageOutlined}
-        //     text="2"
-        //     key="list-vertical-message"
-        //   />,
-        // ]}
-        extra={
-          <div className="recordingImage">
-            <img
-              width={100}
-              src={moneyverse[randomIndex(moneyverse)]}
-              alt="fun recording img"
-            />
-          </div>
-        }
-      >
-        <List.Item.Meta
-          avatar={<Avatar src={item.avatar} />}
-          title={
-            <a href={item.address} target="_blank">
-              {item.name}
-            </a>
+  <div style={{height: '100vh'}}>
+    <List
+      itemLayout="vertical"
+      size="large"
+      pagination={{
+        onChange: (page) => {
+          console.log(page);
+        },
+        pageSize: 5,
+      }}
+      dataSource={articles}
+      // footer={
+      //   <div>
+      //     <b>ant design</b> footer part
+      //   </div>
+      // }
+      renderItem={(item) => (
+        <List.Item
+          key={item.title}
+          // actions={[
+          //   <IconText
+          //     icon={StarOutlined}
+          //     text="156"
+          //     key="list-vertical-star-o"
+          //   />,
+          //   <IconText
+          //     icon={LikeOutlined}
+          //     text="156"
+          //     key="list-vertical-like-o"
+          //   />,
+          //   <IconText
+          //     icon={MessageOutlined}
+          //     text="2"
+          //     key="list-vertical-message"
+          //   />,
+          // ]}
+          extra={
+            <div className="recordingImage">
+              <img
+                width={100}
+                src={moneyverse[randomIndex(moneyverse)]}
+                alt="fun recording img"
+              />
+            </div>
           }
-          description={item.published}
-        />
-        {/* {item.content} */}
-      </List.Item>
-    )}
-  />
+        >
+          <List.Item.Meta
+            avatar={<Avatar src={item.avatar} />}
+            title={
+              <a href={item.address} target="_blank">
+                {item.name}
+              </a>
+            }
+            description={item.published}
+          />
+          {/* {item.content} */}
+        </List.Item>
+      )}
+    />
+  </div>
+
 );
