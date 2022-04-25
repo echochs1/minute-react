@@ -42,12 +42,11 @@ const ApplicationRoutes = () => {
             </>
             : 
             <>
-            <Route path="record" element={<PageNotAuthenticated />} />
-            <Route path="goal" element={<PageNotAuthenticated />} />
-            <Route path="learn" element={<PageNotAuthenticated />} />
-            <Route path="history" element={<PageNotAuthenticated />} />
-            <Route path="setting" element={<PageNotAuthenticated />} />
-            <Route path="login" component={() => <Navigate to="/" />} />
+            <Route path="record" element={<PageNotAuthenticated route="record"/>} />
+            <Route path="goal" element={<PageNotAuthenticated route="goal"/>} />
+            <Route path="learn" element={<PageNotAuthenticated route="learn"/>} />
+            <Route path="history" element={<PageNotAuthenticated route="history"/>} />
+            <Route path="setting" element={<PageNotAuthenticated route="setting"/>} />
             <Route path="*" element={<PageNotFound/>} />
             </>}
         </Routes>

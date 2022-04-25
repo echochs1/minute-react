@@ -51,7 +51,7 @@ const SidebarNav = () => {
     }
     const handleLoginClick = () => {
         fbSignIn();
-        history("/app/setting");
+        history("/app/record");
     }
 
 
