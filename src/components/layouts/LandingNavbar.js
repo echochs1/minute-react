@@ -24,7 +24,7 @@ const LandingNavbar = () => {
     
     const handleLoginClick = () => {
         fbSignIn();
-        history("app/setting");
+        history("app/record");
     }
 
     console.log(authUser);

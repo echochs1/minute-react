@@ -10,7 +10,7 @@ const LandingPage = () => {
     const history = useNavigate();
     const handleLoginClick = () => {
         fbSignIn();
-        history("app/setting");
+        history("app/record");
     }
 
     return (

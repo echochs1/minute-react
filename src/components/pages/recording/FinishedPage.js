@@ -52,7 +52,7 @@ const Finished = () => {
                             <source src={recordingData.url} type="audio/mpeg" />
                         </audio>
                     }
-
+                    <br></br>
                     <button onClick={handleRecordClick}>Generate another prompt</button>
                     <br></br>
                     <button onClick={handleHomeClick}>Return to app</button>

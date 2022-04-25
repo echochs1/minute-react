@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Statistic, Slider } from "antd";
+import { Input, Statistic, Slider, Button } from "antd";
 import { randomPrompts } from "../../../service/recording/one-min/randomPrompts";
 import Clock from "../../../assets/images/clock.svg";
 // import ButtonRecord from "../main-app/ButtonRecord";
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import MicRecorder from 'mic-recorder-to-mp3';
 import Play from "../../../assets/images/play.svg";
 import Mic from "../../../assets/images/mic.svg";
-import { fbUploadRecording, fbUploadAudioFile, fbGetUrl } from '../../../service/firebase/fbConfig';
+import { fbUploadRecording, fbUploadAudioFile } from '../../../service/firebase/fbConfig';
 import axios from 'axios';
 // RESOURCES
 // https://medium.com/front-end-weekly/recording-audio-in-mp3-using-reactjs-under-5-minutes-5e960defaf10
@@ -17,29 +17,18 @@ import axios from 'axios';
 // https://github.com/tameemsafi/typewriterjs
 import Typewriter from "typewriter-effect";
 
-const { Countdown } = Statistic;
-
-/**
- * 
- * @param {*} arr array of items
- * @returns random index of the array arr
- */
-const randomIndex = (arr) => {
-    return Math.floor(Math.random() * arr.length);
-}
-
-const OneMinPage = () => {
-    const question = useState(randomPrompts[randomIndex(randomPrompts)]); // question generated upon load
+const TopicSelectPage = () => {
+    const [question, setQuestion] = useState(null); // question inputted by user
+    const [hasPrompt, setHasPrompt] = useState(false); // whether or not the user has set a prompt
     const [isRecording, setIsRecording] = useState(false); // is recording state
-    const [countdownValue, setCountdownValue] = useState(0); // countdown value
     const [isUploading, setisUploading] = useState(false); // true when assemblyAI/firebase uploading
     const [blobURL, setBlobURL] = useState(null); // blob url of recording
     const [isBlocked, setIsBlocked] = useState(false); // true when recording is blocked (permission issue)
     const [assemblyData, setAssemblyData] = useState(null); // assembly data of recording
     const [transcription, setTranscription] = useState(null); // transcription of recording
-    const [audioUrl, setAudioUrl] = useState(null); // url of recording
 
     const [savefile, setSaveFile] = useState(null);
+    const [time, setTime] = useState(0); // recording length
     
     // new instance of the mic recorder
     const [mp3Recorder, setmp3Recorder] = useState(
@@ -61,33 +50,33 @@ const OneMinPage = () => {
             setIsBlocked(true);
           }
         );
-      }, [])
+        let interval = null;
+        if(isRecording) {
+            interval = setInterval(() => {
+                setTime((time) => time + 10);
+            }, 10);
+        } else {
+            clearInterval(interval);
+        }
+        return () => {
+        clearInterval(interval);
+        };
+      }, [isRecording]);
 
     /**
      * @description start audio recording with mp3Recorder -> returns Promise
      */
     const startRecording = () => {
-        if(!isRecording && !isBlocked) {
+        if(!isRecording && !isBlocked && hasPrompt) {
             setIsRecording(!isRecording); // start false and then set to true on click
-            setCountdownValue(Date.now() + 6 * 10 * 1000); // 60 seconds
             mp3Recorder
                 .start()
                 .then(() => {
                     setIsRecording(true);
                 })
                 .catch((e) => console.error(e));
-            // setTimeout(() => {stopRecording();}, 60000);
         }
     };
-
-    /**
-     * @description stops recording after 60 seconds
-     */
-    // TODO: Add some kind of buffering animation while we wait for analysis to complete
-    const handleCountdownFinish = () => {
-        setisUploading(true);
-        stopRecording();
-    }
 
     // stop recording -> calls getMp3() which returns a Promise
     // blob and buffers received as arguments when Promise is resolved
@@ -96,6 +85,8 @@ const OneMinPage = () => {
             .stop()
             .getMp3()
             .then(([buffer, blob]) => {
+                setIsRecording(false);
+                setisUploading(true);
                 // Make each file name unique
                 const dateNow = Date.now();
                 const name = `${dateNow}.mp3`;
@@ -108,7 +99,6 @@ const OneMinPage = () => {
 
                 const  blobURL = URL.createObjectURL(file);
                 setBlobURL(blobURL);
-                setIsRecording(false);
 
                 // Upload audioFile info to assemblyAI and firebase
                 // transcribeAudio(file);
@@ -165,7 +155,6 @@ const OneMinPage = () => {
                 "content-type": "application/json",
             },
         });
-        // setTimeout(() => {
         assembly2
             .get(`/transcript/${transcriptID}`)
             .then((res3) => {
@@ -175,97 +164,22 @@ const OneMinPage = () => {
                 
                 console.log("savefile.name: ", name);
                 // Push transcription to Firebase database
-                fbUploadRecording(name, question[0], res3.data.text);
-                // setAudioUrl(fbGetUrl(audioFile.name));
+                fbUploadRecording(name, question, res3.data.text);
                 setisUploading(false);
-                // const audio_url = fbGetUrl(audioFile.name);
-                // handleUploadFinish(audioFile.name, audio_url);
+                // Go to finished page
                 history("/finished", {state: {name: name}});
             })
             .catch((err) => console.error("getTranscript Error: ", err));
-        // }, 5000);
     }
 
-//ox60jdc4dr-af03-4126-8203-e05442adc5a9
-//ox60cuj3dy-77d9-4d47-9f9c-d860c7b4d366
-
-
-    /**
-     * @description once the countdown is finished, we need to
-     * transcribe the audio and render the finished page.
-     */
-    const transcribeAudio = (audioFile) => {
-        // Use AssemblyAI to transcribe audioFile
-        var current1 = new Date();
-        var current2 = new Date();
-        const assembly = axios.create({
-            baseURL: "https://api.assemblyai.com/v2",
-            headers: {
-                authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
-                "content-type": "application/json",
-                "transfer-encoding": "chunked-request",
-            },
-        });
-        assembly
-            .post("/upload", audioFile)
-            .then((res1) => {
-                console.log(`URL: ${res1.data['upload_url']}`);         //FIRST LOG URL
-                const assembly1 = axios.create({
-                    baseURL: "https://api.assemblyai.com/v2",
-                    headers: {
-                        authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
-                        "content-type": "application/json",
-                    },
-                });
-            
-                assembly1
-                    .post("/transcript", {
-                        audio_url: res1.data['upload_url'],
-                        disfluencies: true,
-                        sentiment_analysis: true,
-                    })
-                    .then((res2) => {
-                        console.log(res2.data.id);                          //SECOND LOG receiving transcript code
-                        current1 = Date.now();
-                        const assembly2 = axios.create({
-                            baseURL: "https://api.assemblyai.com/v2",
-                            headers: {
-                                authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
-                                "content-type": "application/json",
-                            },
-                        });
-                        setTimeout(() => {
-                            assembly2
-                            .get(`/transcript/${res2.data.id}`)
-                            .then((res3) => {
-                                current2 = Date.now();
-                                setAssemblyData(res3.data);
-                                setTranscription(res3.data.text);
-                                
-                                // Push transcription to Firebase database
-                                fbUploadRecording(audioFile.name, question[0], res3.data.text);
-                                // setAudioUrl(fbGetUrl(audioFile.name));
-                                setisUploading(false);
-                                // const audio_url = fbGetUrl(audioFile.name);
-                                // handleUploadFinish(audioFile.name, audio_url);
-                                history("/finished", {state: {name: audioFile.name}});
-                            })
-                            .catch((err) => console.error(err));
-                        }, 30000);
-
-                    })
-                    .catch((err) => console.error(err));
-            })
-            .catch((err) => console.log(err));
+    const onInputChange = (e) => {
+        setQuestion(e.target.value);
     }
-
-    /**
-     * @description once the uploading is finished, we need to redirect to finish page with info
-     * about the recording.
-     */
-    // const handleUploadFinish = (filename, audio_url) => {
-    //     history("/finished", {state: {name: filename, prompt: question[0], transcription: transcription, assemblyData: assemblyData, url: audio_url}});
-    // }
+    const onSetPrompt = () => {
+        if(question != '') {
+            setHasPrompt(true);
+        }
+    }
 
     const renderTimer = () => {
         console.log(isUploading);
@@ -283,19 +197,30 @@ const OneMinPage = () => {
                             value={sliderValue}
                         /> */}
                         <div className="clock">
-                            <img className="clock-icon" src={Clock} alt="clock" />
-                            <Countdown format="mm:ss" value={isRecording ? countdownValue : countdownValue} valueStyle={{ color: "#fff" }} onFinish={handleCountdownFinish} />
+                            <span className="digits">
+                                {("0" + Math.floor((time / 60000) % 60)).slice(-2)}:
+                            </span>
+                            <span className="digits">
+                                {("0" + Math.floor((time / 1000) % 60)).slice(-2)}.
+                            </span>
+                            <span className="digits mili-sec">
+                                {("0" + ((time / 10) % 100)).slice(-2)}
+                            </span>
                         </div>
                     </div>
+                    {hasPrompt ?
                     <div className="question">
                         <h1 className="question-prompt">{question}</h1>
                     </div>
+                    : 
+                    <div className="question">
+                        <Input showCount maxLength={50} onChange={onInputChange} onPressEnter={onSetPrompt} style={{width:'50%',marginTop:'5%',marginBottom:'10%'}}/>
+                    </div> }
                     <div className="record">
                         <div className='ButtonRecord'>
-                            {/* onclick should change state, change icon, change padding bc of icon, and change to disabled */}
                             <button
                                 className='record-btn'
-                                onClick={isRecording ? null : startRecording}
+                                onClick={isRecording ? stopRecording : startRecording}
                                 style={isRecording ? { padding: "1rem", cursor: "not-allowed"} : {padding: "1rem 0.8125rem 1rem 1.1875rem"}}>
                                 <img src={isRecording ? Mic : Play} alt="Play Button" />
                             </button>
@@ -323,10 +248,10 @@ const OneMinPage = () => {
     }
 
     return (
-        <div className="oneMinPage">
+        <div className="oneMinPage" style={{height:'100vh'}}>
             {renderTimer()}
         </div>
     )
 }
 
-export default OneMinPage;
+export default TopicSelectPage;

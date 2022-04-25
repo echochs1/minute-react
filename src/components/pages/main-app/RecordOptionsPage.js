@@ -11,6 +11,10 @@ const Record = () => {
         history("/one-min");
     }
 
+    const handleTopicClick = () => {
+        history("/topic-select");
+    }
+
     return (
         <div className="recordOptionsPage">
             <button className="recordOptionsPage-button recordOptionsPage-button-1" onClick={handleOneMinClick}>
@@ -22,7 +26,7 @@ const Record = () => {
                         <span className="button-small-text">Test your skills on a random topic for a whole minute. Make an elevator pitch, come up with a story, say what's on your mind! We'll do our best pick it apart for you!</span>
                     </div>
             </button>
-            <button className="recordOptionsPage-button recordOptionsPage-button-2">
+            <button className="recordOptionsPage-button recordOptionsPage-button-2" onClick={handleTopicClick}>
                 <div className="button-icon-img">
                     <img src={Topic} alt="fire" />
                 </div>

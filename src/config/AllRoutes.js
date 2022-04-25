@@ -11,6 +11,7 @@ import LandingPage from "../components/pages/landing/LandingPage";
 import PageNotFound from "../components/pages/main-app/PageNotFound";
 import Rewriter from "../components/pages/main-app/RewriteSamplePage";
 import Finished from "../components/pages/recording/FinishedPage";
+import TopicSelectPage from "../components/pages/recording/TopicSelectPage";
 
 const AllRoutes = () => {
     return (
@@ -20,6 +21,7 @@ const AllRoutes = () => {
             <Route exact path="how-it-works" element={<HowItWorksPage />} />
             <Route path="app/*" element={<AppLayout />} />
             <Route path="one-min" element={<OneMinRecordLayout />} />
+            <Route path="topic-select" element={<TopicSelectPage/>} />
             <Route path="finished" element={<Finished />} />
             <Route path="rewrite" element={<Rewriter />} />
             <Route path="*" exact={true} element={<PageNotFound/>} />
