@@ -178,3 +178,28 @@ export const fbUploadAudioFileDownloadURL = (fileName) => {
 //     const list = listAll(storageRef);
 //     return list;
 // }
+
+// Upload user created goals
+export const fbUploadGoal = (goal) => {
+    const storageRef = storRef(storage, `users/${auth.currentUser.uid}/goals/${goal.name}`);
+
+    uploadBytes(storageRef, goal).then((snapshot) => {
+        console.log('Uploaded a goal: ' + goal.name);
+    });
+}
+
+// Get all user goals
+export const fbGetAllGoals = () => {
+    const goals = [];
+    onValue(dbRef(db, `users/${auth.currentUser.uid}/goals`), (snapshot) => {
+        snapshot.forEach((goal) => {
+            const goalData = {};
+            goalData.name = goal.val().name;
+            goalData.description = goal.val().description;
+            goalData.date = goal.val().date;
+            goalData.freq = goal.val().freq;
+            goals.push(goalData);
+        });
+    })
+    return goals;
+}

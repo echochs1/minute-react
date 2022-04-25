@@ -1,7 +1,7 @@
 // RESOURCES
 // https://ant.design/components/form/#components-form-demo-time-related-controls
 
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Button, Modal } from 'antd';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -12,30 +12,14 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import moment from 'moment';
 import { FirebaseContext } from "../../../service/firebase/fbContext";
+import { fbUploadGoal, fbGetAllGoals } from "../../../service/firebase/fbConfig";
 moment().format();
 
 const tips = "We recommend you practice daily, but you can also practice twice a day, twice a week, or once a week.";
 
-const { Option } = Select;
-
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
 const defaultValues = {
   name: "",
-  type: "",
+  description: "",
   date: "",
   freq: "",
 };
@@ -45,10 +29,20 @@ const defaultValues = {
 const Goals = () => {
   const [formValues, setFormValues] = useState(defaultValues)
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [goals, setGoals] = useState(null);
   const {authUser} = useContext(FirebaseContext);
 
+  useEffect(() => {
+    setGoals(fbGetAllGoals().reverse());
+    console.log(goals)
+}, []);
+
   const handleChange = (event) => {
-    console.log(event);
+    const { name, value } = event.target;
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
   };
 
   const openCreateGoalModal = () => {
@@ -59,6 +53,7 @@ const Goals = () => {
   const handleOk = () => {
     setIsModalVisible(false);
     console.log(formValues);
+    fbUploadGoal(formValues);
   };
 
   const handleCancel = () => {
@@ -93,7 +88,7 @@ const Goals = () => {
         <Grid item>
           <h1>Goals</h1>
         </Grid>
-        <Grid item direction="column"
+        <Grid item
         align-items="center"
         justify-content="center">
           <Button type='primary' onClick={openCreateGoalModal}>
@@ -115,6 +110,7 @@ const Goals = () => {
                   <Select
                     labelId="freq"
                     id="freq"
+                    name="freq"
                     value={formValues.freq}
                     label="Practice Frequency"
                     onChange={handleChange}
@@ -132,23 +128,27 @@ const Goals = () => {
                   style={{ width: "350px" }}
                   variant="filled"
                   id="date"
+                  name='date'
                   label="Goal Date"
                   type="date"
                   sx={{ width: 220 }}
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item>
                 <TextField
                   style={{ width: "350px" }}
                   id="goal_description"
+                  name="description"
                   label="Goal Description"
                   multiline
                   rows={4}
                   defaultValue=""
                   variant="filled"
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>
