@@ -38,8 +38,6 @@ const OneMinPage = (props) => {
     const [assemblyData, setAssemblyData] = useState(null); // assembly data of recording
     const [transcription, setTranscription] = useState(null); // transcription of recording
     const [audioUrl, setAudioUrl] = useState(null); // url of recording
-
-    const [savefile, setSaveFile] = useState(null);
     
     // new instance of the mic recorder
     const [mp3Recorder, setmp3Recorder] = useState(
@@ -76,7 +74,6 @@ const OneMinPage = (props) => {
                     setIsRecording(true);
                 })
                 .catch((e) => console.error(e));
-            // setTimeout(() => {stopRecording();}, 60000);
         }
     };
 
@@ -103,6 +100,7 @@ const OneMinPage = (props) => {
                     type: blob.type,
                     lastModified: dateNow
                 });
+
                 // Upload audioFile to Firebase Storage
                 fbUploadAudioFile(file);
 
@@ -110,15 +108,16 @@ const OneMinPage = (props) => {
                 setBlobURL(blobURL);
                 setIsRecording(false);
 
-                // Upload audioFile info to assemblyAI and firebase
-                // transcribeAudio(file);
-                setSaveFile(file.name);
+                // Upload audioFile info to firebase and make AssemblyAI API calls
                 console.log(file.name);
                 uploadAudio(file);
             })
             .catch((e) => console.error(e));
     }
 
+    /**
+     * @description uploads audio file to AssemblyAI and creates a readable URL for the file
+     */
     const uploadAudio = (audioFile) => {
         const assembly = axios.create({
             baseURL: "https://api.assemblyai.com/v2",
@@ -130,142 +129,63 @@ const OneMinPage = (props) => {
         });
         assembly
             .post("/upload", audioFile)
-            .then((res1) => {console.log("reaced URL:", res1.data['upload_url']);         //FIRST LOG URL
-            postTranscript(res1.data['upload_url'], audioFile.name);})
+            .then((response) => {console.log("reaced URL:", response.data['upload_url']);         //FIRST LOG URL
+            postTranscript(response.data['upload_url'], audioFile.name);})
             .catch((err) => console.log(err));
             }
 
-    const postTranscript = (fileURL, name) => {
-        const assembly1 = axios.create({
-            baseURL: "https://api.assemblyai.com/v2",
-            headers: {
-                authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
-                "content-type": "application/json",
-            },
-        });
-        assembly1
-            .post("/transcript", {
-                audio_url: fileURL,
-                disfluencies: true
-            })
-            .then((res) => {console.log("postTranscript returns: ", res.data.id);
-            setTimeout(() => {
-            getTranscript(res.data.id, name)
-        }, 30000);
-        })
-            .catch((err) => console.error("postTranscript Error: ",err));
-    }
-
-    const getTranscript = (transcriptID, name) => {
-        console.log("getTranscript input: ", transcriptID);
-        const assembly2 = axios.create({
-            baseURL: "https://api.assemblyai.com/v2",
-            headers: {
-                authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
-                "content-type": "application/json",
-            },
-        });
-        // setTimeout(() => {
-        assembly2
-            .get(`/transcript/${transcriptID}`)
-            .then((res3) => {
-                console.log("getTranscript returns: ", res3)
-                setAssemblyData(res3.data);
-                setTranscription(res3.data.text);
-                
-                console.log("savefile.name: ", name);
-                // Push transcription to Firebase database
-                fbUploadRecording(name, question[0], res3.data.text);
-                // setAudioUrl(fbGetUrl(audioFile.name));
-                setisUploading(false);
-                // const audio_url = fbGetUrl(audioFile.name);
-                // handleUploadFinish(audioFile.name, audio_url);
-                history("/finished", {state: {name: name}});
-            })
-            .catch((err) => console.error("getTranscript Error: ", err));
-        // }, 5000);
-    }
-
-//ox60jdc4dr-af03-4126-8203-e05442adc5a9
-//ox60cuj3dy-77d9-4d47-9f9c-d860c7b4d366
-
-
     /**
-     * @description once the countdown is finished, we need to
-     * transcribe the audio and render the finished page.
+     * @description sends audiofile url to AssemblyAI and creates a transcription and an id linked to the transcription
      */
-    const transcribeAudio = (audioFile) => {
-        // Use AssemblyAI to transcribe audioFile
-        var current1 = new Date();
-        var current2 = new Date();
+    const postTranscript = (fileURL, filename) => {
         const assembly = axios.create({
             baseURL: "https://api.assemblyai.com/v2",
             headers: {
                 authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
                 "content-type": "application/json",
-                "transfer-encoding": "chunked-request",
             },
         });
         assembly
-            .post("/upload", audioFile)
-            .then((res1) => {
-                console.log(`URL: ${res1.data['upload_url']}`);         //FIRST LOG URL
-                const assembly1 = axios.create({
-                    baseURL: "https://api.assemblyai.com/v2",
-                    headers: {
-                        authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
-                        "content-type": "application/json",
-                    },
-                });
-            
-                assembly1
-                    .post("/transcript", {
-                        audio_url: res1.data['upload_url'],
-                        disfluencies: true,
-                        sentiment_analysis: true,
-                    })
-                    .then((res2) => {
-                        console.log(res2.data.id);                          //SECOND LOG receiving transcript code
-                        current1 = Date.now();
-                        const assembly2 = axios.create({
-                            baseURL: "https://api.assemblyai.com/v2",
-                            headers: {
-                                authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
-                                "content-type": "application/json",
-                            },
-                        });
-                        setTimeout(() => {
-                            assembly2
-                            .get(`/transcript/${res2.data.id}`)
-                            .then((res3) => {
-                                current2 = Date.now();
-                                setAssemblyData(res3.data);
-                                setTranscription(res3.data.text);
-                                
-                                // Push transcription to Firebase database
-                                fbUploadRecording(audioFile.name, question[0], res3.data.text);
-                                // setAudioUrl(fbGetUrl(audioFile.name));
-                                setisUploading(false);
-                                // const audio_url = fbGetUrl(audioFile.name);
-                                // handleUploadFinish(audioFile.name, audio_url);
-                                history("/finished", {state: {name: audioFile.name}});
-                            })
-                            .catch((err) => console.error(err));
-                        }, 30000);
-
-                    })
-                    .catch((err) => console.error(err));
+            .post("/transcript", {
+                audio_url: fileURL,
+                disfluencies: true
             })
-            .catch((err) => console.log(err));
+            .then((response) => {console.log("postTranscript returns: ", response.data.id);
+            setTimeout(() => {
+            getTranscript(response.data.id, filename)
+        }, 21000);
+        })
+            .catch((err) => console.error("postTranscript Error: ",err));
     }
 
     /**
-     * @description once the uploading is finished, we need to redirect to finish page with info
-     * about the recording.
+     * @description sends ID to AssemblyAI and receives transcription
+     * the transcription is then uploaded to Firebase and the app is directed to the finished page to display
      */
-    // const handleUploadFinish = (filename, audio_url) => {
-    //     history("/finished", {state: {name: filename, prompt: question[0], transcription: transcription, assemblyData: assemblyData, url: audio_url}});
-    // }
+    const getTranscript = (transcriptID, filename) => {
+        console.log("getTranscript input: ", transcriptID);
+        const assembly = axios.create({
+            baseURL: "https://api.assemblyai.com/v2",
+            headers: {
+                authorization: process.env.REACT_APP_ASSEMBLYAI_API_KEY,
+                "content-type": "application/json",
+            },
+        });
+        assembly
+            .get(`/transcript/${transcriptID}`)
+            .then((response) => {
+                console.log("getTranscript returns: ", response)
+                setAssemblyData(response.data);
+                setTranscription(response.data.text);
+                
+                // Push transcription to Firebase database
+                fbUploadRecording(filename, question[0], response.data.text);
+                setisUploading(false);
+                //redirected to finished page
+                history("/finished", {state: {name: filename}});
+            })
+            .catch((err) => console.error("getTranscript Error: ", err));
+    }
 
     const renderTimer = () => {
         console.log(isUploading);
