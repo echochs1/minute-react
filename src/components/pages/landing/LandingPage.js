@@ -1,17 +1,28 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Button } from "antd";
 import { AudioFilled } from '@ant-design/icons';
 import LandingNavbar from "../../layouts/LandingNavbar";
 import backgroundVideo from "./landing-background-comp.mp4";
 import { useNavigate } from "react-router-dom";
 import { fbSignIn } from "../../../service/firebase/fbConfig";
+import { FirebaseContext } from "../../../service/firebase/fbContext";
 
 const LandingPage = () => {
     const history = useNavigate();
+    const { authUser } = useContext(FirebaseContext);
+
     const handleLoginClick = () => {
         fbSignIn();
-        history("app/record");
+        // history("app/record");
     }
+
+    useEffect(() => {
+        if (authUser.loggedIn) {
+            history("app/record");
+        }
+    }, [authUser]);
+
+
 
     return (
         <div className="landing">
