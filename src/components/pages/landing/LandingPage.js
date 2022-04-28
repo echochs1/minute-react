@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 import { AudioFilled } from '@ant-design/icons';
 import LandingNavbar from "../../layouts/LandingNavbar";
 import backgroundVideo from "./landing-background-comp.mp4";
@@ -20,17 +20,6 @@ const LandingPage = () => {
         history("app/record");
     }
 
-    // useEffect sends user to app when the login process is complete
-    // NOTE: downside of this is that the user will be automatically sent to the app
-    // when they want to access the landing page logged in
-    // we can add an onboarding process in order to fix this
-    useEffect(() => {
-        if (authUser.loggedIn) {
-            handleAppClick();
-        }
-    }, [authUser.loggedIn]);
-
-
     return (
         <div className="landing">
             <video loop autoPlay muted id="video">
@@ -44,7 +33,10 @@ const LandingPage = () => {
             <div className="landing-hero">
                 <span className="med-bold-text text-white text-shadow-dark landing-line-1">Build public speaking confidence in </span>
                 <span className="large-bold-text text-teal text-shadow-dark landing-line-2">one minute.</span>
-                <Button type="primary" size="large" id="btnMain" icon={<AudioFilled />} onClick={handleLoginClick} className="landing-button"><span className="button-primary-text">Start Recording</span></Button>
+                {authUser.loggedIn ?
+                <Button type="primary" size="large" id="btnMain" icon={<AudioFilled />} onClick={handleAppClick} className="landing-button"><span className="button-primary-text">Start Recording</span></Button>
+                : <Button type="primary" size="large" id="btnMain" icon={<AudioFilled />} onClick={handleLoginClick} className="landing-button"><span className="button-primary-text">Get Started</span></Button>
+                }
             </div>
         </div>
     )

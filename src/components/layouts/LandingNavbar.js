@@ -22,14 +22,11 @@ const LandingNavbar = () => {
         history("how-it-works");
     }
     
-    const handleLoginClick = () => {
-        if(!authUser.loggedIn) {
-            fbSignIn();
-        }
-        history("app/record");
-    }
-
-    console.log(authUser);
+    // const handleLoginClick = () => {
+    //     if(!authUser.loggedIn) {
+    //         fbSignIn();
+    //     }
+    // }
 
     // Tooltip on avatar not working :(
     return (
@@ -43,14 +40,13 @@ const LandingNavbar = () => {
                 <Button type="text" onClick={handleHowItWorksClick}><span className="button-text-text text-white">How It Works</span></Button>
                 {authUser.loggedIn ?
                     <div style={{paddingRight: "8em", marginLeft: "0.5em"}}>
-                        <Tooltip title={authUser.displayName} color="white" placement="bottom" >
-                        {authUser.photoUrl ?
-                        <Avatar src={authUser.photoUrl} alt={authUser.displayName} size="large" onClick={handleLoginClick}/> 
-                        : <Avatar icon={<UserOutlined />} alt={authUser.displayName} size="large" onClick={handleLoginClick}/>}
+                        <Tooltip title={authUser.displayName} placement="bottom" >
+                                {authUser.photoUrl ?
+                                <Avatar src={authUser.photoUrl} alt={authUser.displayName} size="large"/> 
+                                : <Avatar icon={<UserOutlined />} alt={authUser.displayName} size="large"/>}
                         </Tooltip>
                     </div>
-                : <Button type="text" onClick={handleLoginClick}><span className="button-text-text text-white">Login</span></Button>
-                }
+                : <></>}
             </div>
         </div>
     )
