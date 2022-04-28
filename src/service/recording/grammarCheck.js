@@ -48,8 +48,8 @@ export const underlineErrors = (transcription, data) => {
     // array of transcript substrings, alternating between words and errors
     const splitArr = breakWhere(errors, transcription);
     // underline alternatively between array items
-    // if first item is an error
     let errIndex = -1;
+    // if first item is an error (transcription begins with a grammar error)
     if(data.matches[0].offset === 0) {
         const underlined = splitArr.map((x, i) => {
             if(i%2 === 0) {
@@ -66,7 +66,7 @@ export const underlineErrors = (transcription, data) => {
             }
         });
         return underlined;
-    } else {
+    } else {    // first item is correct, error starting second item
         const underlined = splitArr.map((x, i) => {
             if(i%2 === 0) {
                 return <span key={i}>{x}</span>
