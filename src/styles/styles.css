@@ -391,3 +391,9 @@ audio.finishedResults-audio {
 .redHighlight {
   color: #F06A6A;
 }
+
+.errorUnderline {
+  text-decoration: underline;
+  text-decoration-color: #6FCDB4;
+  text-decoration-style:wavy;
+}

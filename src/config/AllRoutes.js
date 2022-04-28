@@ -10,6 +10,7 @@ import HowItWorksPage from "../components/pages/landing/HowItWorksPage";
 import LandingPage from "../components/pages/landing/LandingPage";
 import PageNotFound from "../components/pages/main-app/PageNotFound";
 import Rewriter from "../components/pages/main-app/RewriteSamplePage";
+import GrammarPage from "../components/pages/recording/GrammarPage";
 import Finished from "../components/pages/recording/FinishedPage";
 import TopicSelectPage from "../components/pages/recording/TopicSelectPage";
 
@@ -24,6 +25,7 @@ const AllRoutes = () => {
             <Route path="topic-select" element={<TopicSelectPage/>} />
             <Route path="finished" element={<Finished />} />
             <Route path="rewrite" element={<Rewriter />} />
+            <Route path="grammar" element={<GrammarPage />} />
             <Route path="*" exact={true} element={<PageNotFound/>} />
         </Routes>
     );
