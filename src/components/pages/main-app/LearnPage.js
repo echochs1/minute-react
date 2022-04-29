@@ -65,7 +65,7 @@ const Learn = () => {
   ];
 
   const randomIndex = (arr) => {
-    return Math.floor(Math.random() * articles.length);
+    return Math.floor(Math.random() * arr.length);
   };
 
   const IconText = ({ icon, text }) => (
@@ -76,6 +76,7 @@ const Learn = () => {
   );
 
   const renderLearn = () => {
+    return (
     <div style={{ height: "100vh" }}>
       <List
         itemLayout="vertical"
@@ -94,7 +95,7 @@ const Learn = () => {
         // }
         renderItem={(item) => (
           <List.Item
-            key={item.title}
+            key={item.id}
             // actions={[
             //   <IconText
             //     icon={StarOutlined}
@@ -112,18 +113,18 @@ const Learn = () => {
             //     key="list-vertical-message"
             //   />,
             // ]}
-            extra={
-              <div className="recordingImage">
-                <img
-                  width={100}
-                  src={moneyverse[randomIndex(moneyverse)]}
-                  alt="fun recording img"
-                />
-              </div>
-            }
+            // extra={
+            //   <div className="recordingImage">
+            //     <img
+            //       width={100}
+            //       src={moneyverse[randomIndex(moneyverse)]}
+            //       alt="fun recording img"
+            //     />
+            //   </div>
+            // }
           >
             <List.Item.Meta
-              avatar={<Avatar src={item.avatar} />}
+              avatar={<Avatar src={moneyverse[randomIndex(moneyverse)]} />}
               title={
                 <a href={item.address} target="_blank">
                   {item.name}
@@ -135,7 +136,8 @@ const Learn = () => {
           </List.Item>
         )}
       />
-    </div>;
+    </div>
+    );
   };
 
   return (

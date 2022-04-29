@@ -30,7 +30,7 @@ export const grammarCheck = async function (text) {
 // transcription = original transcription string
 // data = response from grammarbot API
 export const underlineErrors = (transcription, data) => {
-    // console.log(data);
+    console.log(data);
     if(data == null || data.matches == null) {
         return;
     }
@@ -40,7 +40,8 @@ export const underlineErrors = (transcription, data) => {
         const errorSubstr = {
             offset: data.matches[i].offset,
             length: data.matches[i].length,
-            message: data.matches[i].shortMessage,
+            title: data.matches[i].shortMessage,
+            message: data.matches[i].message,  // or matches[i].shortMessage
             replacement: data.matches[i].replacements[0].value
         }
         errors.push(errorSubstr);
@@ -56,7 +57,7 @@ export const underlineErrors = (transcription, data) => {
                 errIndex++;
                 return (
                     // <Tooltip title="Grammar Correction">
-                    <Popover content={popupContent(errors[errIndex].message, errors[errIndex].replacement)} title="Grammar Correction" trigger="hover">
+                    <Popover content={popupContent(errors[errIndex].message, errors[errIndex].replacement)} title={errors[errIndex].title} trigger="hover">
                         <span key={i} className="errorUnderline">{x}</span>
                     </Popover>
                     // </Tooltip>
@@ -74,7 +75,7 @@ export const underlineErrors = (transcription, data) => {
                 errIndex++;
                 return (
                 // <Tooltip title="Grammar Correction">
-                <Popover content={popupContent(errors[errIndex].message, errors[errIndex].replacement)} title="Grammar Correction" trigger="hover">
+                <Popover content={popupContent(errors[errIndex].message, errors[errIndex].replacement)} title={errors[errIndex].title} trigger="hover">
                     <span key={i} className="errorUnderline">{x}</span>
                 </Popover>
                 // </Tooltip>
@@ -102,7 +103,7 @@ const popupContent = (message, replacement) => {
     return (
         <div>
             <p>{message}</p>
-            <p>{replacement}</p>
+            <p>Suggestion: {replacement}</p>
         </div>
     )
 }
