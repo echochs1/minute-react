@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import { Popover, Tooltip } from 'antd';
+// import { Popover, Tooltip } from 'antd';
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
 export const grammarCheck = async function (text) {
     const encodedParams = new URLSearchParams();
@@ -34,7 +36,7 @@ export const underlineErrors = (transcription, data) => {
     if(data == null || data.matches == null) {
         return;
     }
-    const errors = [];
+    let errors = [];
     // loop through error matches, break up transcription into alternating words and errors
     for(let i=0; i<data.matches.length; i++) {
         const errorSubstr = {
@@ -49,18 +51,24 @@ export const underlineErrors = (transcription, data) => {
     // array of transcript substrings, alternating between words and errors
     const splitArr = breakWhere(errors, transcription);
     // underline alternatively between array items
-    let errIndex = -1;
     // if first item is an error (transcription begins with a grammar error)
     if(data.matches[0].offset === 0) {
         const underlined = splitArr.map((x, i) => {
             if(i%2 === 0) {
-                errIndex++;
+                const errIndex = i/2;
+                console.log(errors[errIndex]);
                 return (
-                    // <Tooltip title="Grammar Correction">
-                    <Popover content={popupContent(errors[errIndex].message, errors[errIndex].replacement)} title={errors[errIndex].title} trigger="hover">
+                    <OverlayTrigger 
+                        key={x} 
+                        // trigger = 'click'
+                        trigger={['hover', 'focus']} 
+                        placement="top" 
+                        overlay={popover(errors[errIndex].title, errors[errIndex].message, errors[errIndex].replacement)}
+                    >
+                        {({placement, show, ...props}) => (
                         <span key={i} className="errorUnderline">{x}</span>
-                    </Popover>
-                    // </Tooltip>
+                        )}
+                    </OverlayTrigger>
                 )
             } else {
                 return <span key={i}>{x}</span>
@@ -72,13 +80,20 @@ export const underlineErrors = (transcription, data) => {
             if(i%2 === 0) {
                 return <span key={i}>{x}</span>
             } else {
-                errIndex++;
+                const errIndex = Math.floor(i/2);
+                console.log(errors[errIndex]);
                 return (
-                // <Tooltip title="Grammar Correction">
-                <Popover content={popupContent(errors[errIndex].message, errors[errIndex].replacement)} title={errors[errIndex].title} trigger="hover">
+                <OverlayTrigger 
+                    key={x} 
+                    // trigger = 'click'
+                    trigger={['hover', 'focus']} 
+                    placement="top" 
+                    overlay={popover(errors[errIndex].title, errors[errIndex].message, errors[errIndex].replacement)}
+                    >
+                    {({placement, show, ...props}) => (
                     <span key={i} className="errorUnderline">{x}</span>
-                </Popover>
-                // </Tooltip>
+                    )}
+                </OverlayTrigger>
                 )
             }
         });
@@ -99,11 +114,12 @@ const breakWhere = (words, str) => breakAt(
   str
 )
 
-const popupContent = (message, replacement) => {
-    return (
-        <div>
-            <p>{message}</p>
-            <p>Suggestion: {replacement}</p>
-        </div>
-    )
+const popover = (title, message, replacement) => {
+    <Popover id="popover-basic">
+        <Popover.Header as="h3">{title}</Popover.Header>
+        <Popover.Body>
+            {/* <p>{message}</p> */}
+            <p className="greenText">Did you mean: <strong>{replacement}</strong></p>
+        </Popover.Body>
+    </Popover>
 }

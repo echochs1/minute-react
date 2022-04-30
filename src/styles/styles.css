@@ -392,6 +392,10 @@ audio.finishedResults-audio {
   color: #F06A6A;
 }
 
+.greenText {
+  color: #269372;
+}
+
 .errorUnderline {
   text-decoration: underline;
   text-decoration-color: #6FCDB4;

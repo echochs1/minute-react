@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from "react";
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import { grammarCheck, underlineErrors } from "../../../service/recording/grammarCheck";
 
 const Home = () => {
@@ -11,13 +13,13 @@ const Home = () => {
         });
     }
     useEffect(() => {
-    setTranscript();
-    }, []);
+        setTranscript();
+    }, []);    
 
     return (
         <div style={{height: '100vh'}}>
             <h1>Grammar Check Test</h1>
-            <p>{editedTranscript ? editedTranscript : ""}</p>
+            <div>{editedTranscript ? editedTranscript : ""}</div>
         </div>
     );
 }
