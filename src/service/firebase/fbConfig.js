@@ -103,11 +103,34 @@ export const fbUploadUrl = (audioFile, url) => {
     });
 }
 
-// Upload user created goals
+// Upload or edit user created goals
 export const fbUploadGoal = (goal) => {
     const goalsArr = fbGetAllGoals();
     console.log(goalsArr);
-    goalsArr.push(goal);
+    const index = goalsArr.findIndex(x => x.dateCreated === goal.dateCreated);
+    console.log(index);
+    // If the goal is already in the array, update it
+    if(index > -1) {
+        console.log("editing goal");
+        const oldGoal = goalsArr[index];
+        console.log(oldGoal);
+        const creationDate = oldGoal.dateCreated;
+        console.log(creationDate);
+        // editing a goal: update goal in goalsArr
+        goalsArr[index] = {
+            name: goal.name, 
+            description: goal.description, 
+            date: goal.date, 
+            freq: goal.freq, 
+            dateCreated: creationDate,
+            dateModified: goal.dateModified
+        };
+    } else {
+        console.log("new goal");
+        // new goal: add goal to goalsArr
+        goalsArr.push(goal);
+    }
+    console.log(goalsArr);
     set(dbRef(db, `users/${auth.currentUser.uid}/goals`), goalsArr)
     .then(() => {
         console.log("Goal successfully uploaded to database");
@@ -179,6 +202,8 @@ export const fbGetAllGoals = () => {
             goalData.description = goal.val().description;
             goalData.date = goal.val().date;
             goalData.freq = goal.val().freq;
+            goalData.dateCreated = goal.val().dateCreated;
+            goalData.dateModified = goal.val().dateModified;
             goals.push(goalData);
         });
     })

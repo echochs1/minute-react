@@ -34,6 +34,7 @@ const defaultValues = {
   description: "",
   date: "",
   freq: "",
+  dateCreated: ""
 };
 
 const createGoalModalTitle = "Create a Goal";
@@ -47,6 +48,7 @@ const Goals = () => {
   const [goals, setGoals] = useState(null);
   const [modalTitle, setModalTitle] = useState(createGoalModalTitle);
   const { authUser } = useContext(FirebaseContext);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     setGoals(fbGetAllGoals());
@@ -83,13 +85,24 @@ const Goals = () => {
       description: goal.description,
       date: goal.date,
       freq: goal.freq,
+      dateCreated: goal.dateCreated
     });
+    setIsEditing(true);
     setIsModalVisible(true);
     // handleClose();
   }
   const handleOk = () => {
     setIsModalVisible(false);
-    fbUploadGoal(formValues);
+    const newGoal = formValues;
+    // editing an existing goal
+    if (isEditing) {
+      newGoal.dateModified = Date.now();
+      setIsEditing(false);
+    } else {  // creating a new goal
+      newGoal.dateCreated = Date.now();
+      newGoal.dateModified = Date.now();
+    }
+    fbUploadGoal(newGoal);
   };
 
   const handleCancel = () => {
