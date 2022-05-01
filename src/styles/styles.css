@@ -296,26 +296,29 @@ li.recordingItem {
 li.recordingItem .recordingContent {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
 }
 li.recordingItem .recordingImage {
   width: 4rem;
   height: 4rem;
   margin-right: 2rem;
+  position: relative;
 }
 li.recordingItem .recordingImage img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-li.recordingItem .recordingItem-info {
+li.recordingItem .recordingInfo {
+  width: 80vw;
+  height: auto;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
 }
-li.recordingItem .recordingLine {
-  margin-top: 1rem;
+.history-item-button {
+  margin-bottom: 2rem;
 }
 .goalPage {
   width: 100%;
@@ -361,8 +364,14 @@ li.goalItem .goalLine {
 li.goalItem .goalOptions {
   padding-right: 2rem;
   z-index: 10;
-  display: flex;
-  flex-direction: column;
+}
+/* LOADING PAGE */
+.loading-page {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow-y: none;
+  background-color: #F7FAFC;
 }
 /* FINISHED PAGE */
 .finishedPage {
@@ -371,6 +380,7 @@ li.goalItem .goalOptions {
   position: relative;
   overflow-y: auto;
   padding: 2rem;
+  background-color: #F7FAFC;
 }
 .loadingResults {
   width: 100vw;
@@ -392,7 +402,9 @@ li.goalItem .goalOptions {
   color: #1D3953;
 }
 .finishedResults-textWrapper {
+  margin-top: 2rem;
   margin-bottom: 2rem;
+  color: #1D3953;
 }
 audio.finishedResults-audio {
   width: 100%;
@@ -404,4 +416,20 @@ audio.finishedResults-audio {
 .redHighlight {
   color: #F06A6A;
   font-weight: 700;
+}
+audio.audio {
+  width: 100%;
+  height: auto;
+}
+audio.audio-historyresults {
+  margin: 2rem 0 2rem 0;
+}
+/* HISTORY RESULTS */
+.historyResults {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow-y: auto;
+  padding: 2rem;
+  background-color: #fff;
 }

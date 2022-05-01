@@ -13,6 +13,7 @@ import Settings from "../components/pages/main-app/SettingsPage";
 import PageNotFound from "../components/pages/main-app/PageNotFound";
 import PageNotAuthenticated from "../components/pages/main-app/PageNotAuthenticated";
 import { FirebaseContext } from "../service/firebase/fbContext";
+import HistoryResults from "../components/pages/main-app/HistoryResultsPage";
 
 const ApplicationRoutes = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -36,6 +37,7 @@ const ApplicationRoutes = () => {
             <Route path="goal" element={<Goals />} />
             <Route path="learn" element={<Learn />} />
             <Route path="history" element={<History />} />
+            <Route path="history/results" element={<HistoryResults />} />
             <Route path="setting" element={<Settings />} />
             <Route path="logout" component={() => <Navigate to="/" />} />
             <Route path="*" element={<PageNotFound/>} />

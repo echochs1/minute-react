@@ -2,8 +2,9 @@ import React, {useState, useContext, useEffect} from "react";
 import { moneyverse } from "../../../assets/images/moneyverse";
 import { fbGetAllRecordings } from "../../../service/firebase/fbConfig";
 import { FirebaseContext } from "../../../service/firebase/fbContext";
-import { Space, Spin } from "antd";
+import { Button, Space, Spin } from "antd";
 import { redHighlight } from "../../../service/recording/fillerWordDetect";
+import { useNavigate } from "react-router-dom";
 
 /**
  * 
@@ -20,10 +21,15 @@ const History = () => {
     // const [isLoading, setIsLoading] = useState(true);
     const [recordings, setRecordings] = useState(null);
     const {authUser} = useContext(FirebaseContext);
+    const history = useNavigate();
 
     useEffect(() => {
         setRecordings(fbGetAllRecordings().reverse());
     }, []);
+
+    const handleHistoryResultsClick = (recording) => {
+        history("/app/history/results", {state: { recordingData: recording }});
+    }
 
     const renderHistory = () => {
         if (recordings) {
@@ -42,6 +48,7 @@ const History = () => {
                                     <audio controls>
                                         <source src={recording.url} type="audio/mpeg" />
                                     </audio>
+                                    <Button className="history-item-button" type='link' onClick={() => handleHistoryResultsClick(recording)}>Show Results Page</Button>
                                 </div>
                             </div>
                             <hr className="recordingLine" size="2px" width="100%" color="#BBD2E7"></hr>
