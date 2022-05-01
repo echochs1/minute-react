@@ -5,6 +5,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Button, Modal, Space, Spin } from 'antd';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
+import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -14,6 +15,8 @@ import moment from 'moment';
 import { FirebaseContext } from "../../../service/firebase/fbContext";
 import { fbUploadGoal, fbGetAllGoals } from "../../../service/firebase/fbConfig";
 import { moneyverse } from "../../../assets/images/moneyverse";
+import { MoreOutlined } from '@ant-design/icons';
+// moment.format();
 
 /**
  * 
@@ -73,6 +76,7 @@ const Goals = () => {
   };
 
   const openEditGoalModal = goal => {
+    setAnchorEl(null);
     setModalTitle(editGoalModalTitle);
     setFormValues({
       name: goal.name,
@@ -81,6 +85,7 @@ const Goals = () => {
       freq: goal.freq,
     });
     setIsModalVisible(true);
+    // handleClose();
   }
   const handleOk = () => {
     setIsModalVisible(false);
@@ -91,22 +96,55 @@ const Goals = () => {
     setIsModalVisible(false);
   };
 
+  // menu stuff w material ui
+  // https://mui.com/material-ui/react-menu/
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const renderGoals = () => {
     if (goals) {
       return (
         <ul className="goalsList">
           {goals.map((goal, index) =>
-            <li key={index} className="goalItem" onClick={() => openEditGoalModal(goal)}>
-              <div className="goalContent">
-                <div className="goalImage">
-                  <img src={moneyverse[randomIndex(moneyverse)]} alt="fun recording img" />
+            <li key={index} className="goalItem" >
+              <div className="goalWrapper">
+                <div className="goalContent">
+                  <div className="goalImage">
+                    <img src={moneyverse[randomIndex(moneyverse)]} alt="fun recording img" />
+                  </div>
+                  <div className="goalInfo">
+                    <p className="goalName"><b>Name: </b>{goal.name}</p>
+                    <p className="goalDate"><b>Target Date: </b>{goal.date}</p>
+                    <p className="goalDaysLeft"><b>Days Left: </b>{getDaysLeft(goal.date)}</p>
+                    <p className="goalFreq"><b>Practice Frequency: </b>{goal.freq}</p>
+                    <p className="goalDescription"><b>Description: </b>{goal.description}</p>
+                  </div>
                 </div>
-                <div className="goalInfo">
-                  <p className="goalName"><b>Name: </b>{goal.name}</p>
-                  <p className="goalDate"><b>Target Date: </b>{goal.date}</p>
-                  <p className="goalDaysLeft"><b>Days Left: </b>{getDaysLeft(goal.date)}</p>
-                  <p className="goalFreq"><b>Practice Frequency: </b>{goal.freq}</p>
-                  <p className="goalDescription"><b>Description: </b>{goal.description}</p>
+                <div className="goalOptions">
+                  <Button shape='circle' type='primary' icon={<MoreOutlined />} onClick={handleClick} />
+                  <Menu
+                    id="long-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left',
+                    }}
+                  >
+                    <MenuItem onClick={() => openEditGoalModal(goal)}>Edit Goal</MenuItem>
+                    <MenuItem onClick={handleClose}>Delete Goal</MenuItem>
+                  </Menu>
                 </div>
               </div>
               <hr className="goalLine" size="2px" width="100%" color="#BBD2E7"></hr>

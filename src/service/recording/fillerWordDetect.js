@@ -21,15 +21,25 @@ export const redHighlight = (string) => {
     const arr = parseDisfluencies(string).stringSplit;
     const newArr = [];
     for (let i = 0; i < arr.length; i++) {
-        if (arr[i].includes("um" || "Um")) {
+        if (arr[i].includes("um")) {
             newArr.push(<span className="redHighlight">{arr[i]}</span>);
-        } else if (arr[i].includes("uh" || "Uh")) {
+        } else if (arr[i].includes("Um")) {
             newArr.push(<span className="redHighlight">{arr[i]}</span>);
-        } else if (arr[i].includes("hmm" || "Hmm")) {
+        } else if (arr[i].includes("uh")) {
             newArr.push(<span className="redHighlight">{arr[i]}</span>);
-        } else if (arr[i].includes("mhm" || "Mhm")) {
+        } else if (arr[i].includes("Uh")) {
             newArr.push(<span className="redHighlight">{arr[i]}</span>);
-        } else if (arr[i].includes("uh huh" || "Uh huh")) {
+        } else if (arr[i].includes("hmm")) {
+            newArr.push(<span className="redHighlight">{arr[i]}</span>);
+        } else if (arr[i].includes("Hmm")) {
+            newArr.push(<span className="redHighlight">{arr[i]}</span>);
+        } else if (arr[i].includes("mhm")) {
+            newArr.push(<span className="redHighlight">{arr[i]}</span>);
+        } else if (arr[i].includes("Mhm")) {
+            newArr.push(<span className="redHighlight">{arr[i]}</span>);
+        } else if (arr[i].includes("uh huh")) {
+            newArr.push(<span className="redHighlight">{arr[i]}</span>);
+        } else if (arr[i].includes("Uh huh")) {
             newArr.push(<span className="redHighlight">{arr[i]}</span>);
         } else {
             newArr.push(<span>{arr[i]}</span>);

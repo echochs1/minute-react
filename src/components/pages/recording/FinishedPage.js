@@ -37,19 +37,21 @@ const Finished = () => {
                     <div className="finishedResults-textWrapper">
                         <span className="finishedResults-textContent"><b>Topic:</b> {recordingData.prompt}</span>
                     </div>
+                    <hr className="recordingLine" size="2px" width="100%" color="#BBD2E7"></hr>
                     <div className="finishedResults-textWrapper">
                         <span className="finishedResults-textContent"><b>Text:</b> {redHighlight(recordingData.transcript)}</span>
                     </div>
-                    
+                    <hr className="recordingLine" size="2px" width="100%" color="#BBD2E7"></hr>
                     {recordingData.url && 
                         <audio controls>
                             <source src={recordingData.url} type="audio/mpeg" />
                         </audio>
                     }
-                    <br></br>
-                    <button onClick={handleRecordClick}>Generate another prompt</button>
-                    <br></br>
-                    <button onClick={handleHomeClick}>Return to app</button>
+                    <Space size="large" style={{ marginTop: "20px" }} />
+                    <div className="finishedResults-buttons">
+                        <button className="finishedResults-button-1" onClick={handleRecordClick}>Generate another prompt</button>
+                        <button className="finishedResults-button-2" onClick={handleHomeClick}>Return to app</button>
+                    </div>
 
                     {/* <div>
                         <h3>{typeof(recordingData.transcript)}</h3>

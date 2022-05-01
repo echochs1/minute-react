@@ -140,10 +140,11 @@ video#video {
 /* RECORD OPTIONS */
 .recordOptionsPage {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   position: relative;
   background-image: url("/src/assets/images/speech-bubbles.svg");
   background-repeat: no-repeat;
+  background-position: center center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -334,6 +335,11 @@ li.goalItem {
   flex-direction: column;
   justify-content: space-between;
 }
+li.goalItem .goalWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 li.goalItem .goalImage {
   width: 4rem;
   height: 4rem;
@@ -352,6 +358,12 @@ li.goalItem .goalContent {
 li.goalItem .goalLine {
   margin-top: 1rem;
 }
+li.goalItem .goalOptions {
+  padding-right: 2rem;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
 /* FINISHED PAGE */
 .finishedPage {
   width: 100%;
@@ -367,6 +379,7 @@ li.goalItem .goalLine {
   padding-top: 2rem;
   background-image: url("/src/assets/images/finish-line.svg");
   background-repeat: no-repeat;
+  background-position: center center;
 }
 .loadingResults .question-prompt {
   margin-bottom: 2rem;
@@ -390,14 +403,5 @@ audio.finishedResults-audio {
 }
 .redHighlight {
   color: #F06A6A;
-}
-
-.greenText {
-  color: #269372;
-}
-
-.errorUnderline {
-  text-decoration: underline;
-  text-decoration-color: #6FCDB4;
-  text-decoration-style:wavy;
+  font-weight: 700;
 }

@@ -3,6 +3,7 @@ import { moneyverse } from "../../../assets/images/moneyverse";
 import { fbGetAllRecordings } from "../../../service/firebase/fbConfig";
 import { FirebaseContext } from "../../../service/firebase/fbContext";
 import { Space, Spin } from "antd";
+import { redHighlight } from "../../../service/recording/fillerWordDetect";
 
 /**
  * 
@@ -37,7 +38,7 @@ const History = () => {
                                 <div className="recordingInfo">
                                     {/* <h3 className="fieldName">{index+1}.</h3> */}
                                     <p className="fieldValue"><b>Topic: </b>{recording.prompt}</p>
-                                    <p className="fieldName"><b>Transcription: </b>{recording.transcript}</p>
+                                    <p className="fieldName"><b>Transcription: </b>{recording.transcript ? redHighlight(recording.transcript) : ""}</p>
                                     <audio controls>
                                         <source src={recording.url} type="audio/mpeg" />
                                     </audio>
