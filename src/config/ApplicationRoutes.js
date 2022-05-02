@@ -30,9 +30,9 @@ const ApplicationRoutes = () => {
     // https://stackoverflow.com/questions/49208310/is-it-possible-to-have-multiple-switch-in-react-js
     return (
         <Routes>
-            <Route path="/" element={<Home />} />
             {isAuthenticated ?
             <>
+            <Route path="/" element={<Home />} />
             <Route path="record" element={<Record />} />
             <Route path="goal" element={<Goals />} />
             <Route path="learn" element={<Learn />} />
@@ -44,6 +44,7 @@ const ApplicationRoutes = () => {
             </>
             : 
             <>
+            <Route path="/" element={<PageNotAuthenticated route="/"/>} />
             <Route path="record" element={<PageNotAuthenticated route="record"/>} />
             <Route path="goal" element={<PageNotAuthenticated route="goal"/>} />
             <Route path="learn" element={<PageNotAuthenticated route="learn"/>} />

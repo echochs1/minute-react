@@ -13,7 +13,7 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import moment from 'moment';
 import { FirebaseContext } from "../../../service/firebase/fbContext";
-import { fbUploadGoal, fbGetAllGoals } from "../../../service/firebase/fbConfig";
+import { fbUploadGoal, fbDeleteGoal, fbGetAllGoals } from "../../../service/firebase/fbConfig";
 import { moneyverse } from "../../../assets/images/moneyverse";
 import { MoreOutlined } from '@ant-design/icons';
 // moment.format();
@@ -68,7 +68,7 @@ const Goals = () => {
     var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
     return diffDays;
   }
-
+  
   const openCreateGoalModal = () => {
     setModalTitle(createGoalModalTitle);
     setFormValues(defaultValues);

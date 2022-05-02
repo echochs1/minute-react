@@ -152,6 +152,7 @@ export const fbDeleteGoal = (goal) => {
     if(index > -1) {
         goalsArr.splice(index, 1);
     }
+    console.log(goalsArr);
     set(dbRef(db, `users/${auth.currentUser.uid}/goals`), goalsArr)
     .then(() => {
         console.log("Goal successfully deleted from database");

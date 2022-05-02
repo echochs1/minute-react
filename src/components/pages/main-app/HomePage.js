@@ -4,14 +4,14 @@ import { Card, Space, Spin } from "antd";
 import V, { VictoryTheme, VictoryChart, VictoryScatter, VictoryAxis, VictoryLabel } from 'victory';
 import { fbGetAllRecordings } from "../../../service/firebase/fbConfig";
 import { redHighlight, fillerWordCount } from "../../../service/recording/fillerWordDetect";
-
+import { FirebaseContext } from "../../../service/firebase/fbContext";
 
 const Home = () => {
     const [recordings, setRecordings] = useState(null);
     const [recordingsCount, setRecordingsCount] = useState(0);
     const [fillerWordData, setFillerWordData] = useState(null)
     const [maxFillerWords, setMaxFillerWords] = useState(5)
-
+    const {auth} = useContext(FirebaseContext);
 
     useEffect(() => {
         processRecordings(fbGetAllRecordings().reverse());
@@ -38,10 +38,10 @@ const Home = () => {
         console.log(data)
     };
 
-    return (
-        <div className='homePage' style={{ height: '100vh' }}>
-            <h1>Home</h1>
-            <div>
+    const renderGraph = () => {
+        if (recordings) {
+            return (
+                <div>
                 <Grid container direction="row">
                     {/* render progress */}
                     <Grid item>
@@ -61,7 +61,20 @@ const Home = () => {
                         </Card>
                     </Grid>
                 </Grid>
-            </div>
+            </div> 
+            )
+        } else {
+            return (
+                <Spin size="large" />
+            )
+        }
+    }
+
+
+    return (
+        <div className='homePage' style={{ height: '100vh' }}>
+            <h1>Home</h1>
+            {renderGraph()}
         </div>
     );
 }

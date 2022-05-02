@@ -439,6 +439,12 @@ audio.finishedResults-audio {
   color: #F06A6A;
   font-weight: 700;
 }
+.errorUnderline {
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: rgb(123, 192, 19);
+
+}
 audio.audio {
   width: 100%;
   height: auto;
