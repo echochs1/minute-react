@@ -4,6 +4,7 @@ import { getDatabase, onValue, set, update, ref as dbRef } from "firebase/databa
 import { getStorage, ref as storRef, uploadBytes, getDownloadURL } from "firebase/storage";
 // import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import {redHighlight} from '../recording/fillerWordDetect';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -82,7 +83,10 @@ export const fbUploadRecording = (fileName, prompt, transcript) => {
     const uploadData = {
         'audioFile': fileName,
         'prompt': prompt,
-        'transcript': transcript
+        'transcript': transcript,
+        'dateCreated': Date.now(),
+        'fillerHighlight': redHighlight(transcript),
+        // 'grammarHighlight': 
     }
     set(dbRef(db, `users/${auth.currentUser.uid}/recordings/${audioFile}`), uploadData)
     .then(() => {
@@ -106,16 +110,16 @@ export const fbUploadUrl = (audioFile, url) => {
 // Upload or edit user created goals
 export const fbUploadGoal = (goal) => {
     const goalsArr = fbGetAllGoals();
-    console.log(goalsArr);
+    // console.log(goalsArr);
     const index = goalsArr.findIndex(x => x.dateCreated === goal.dateCreated);
-    console.log(index);
+    // console.log(index);
     // If the goal is already in the array, update it
     if(index > -1) {
         console.log("editing goal");
         const oldGoal = goalsArr[index];
-        console.log(oldGoal);
+        // console.log(oldGoal);
         const creationDate = oldGoal.dateCreated;
-        console.log(creationDate);
+        // console.log(creationDate);
         // editing a goal: update goal in goalsArr
         goalsArr[index] = {
             name: goal.name, 
@@ -137,6 +141,23 @@ export const fbUploadGoal = (goal) => {
     }
     ).catch((error) => {
         console.log("Error uploading goal to database: "+error);
+    });
+}
+
+// Delete a goal from the database
+export const fbDeleteGoal = (goal) => {
+    const goalsArr = fbGetAllGoals();
+    const index = goalsArr.findIndex(x => x.dateCreated === goal.dateCreated);
+    // remove item at index from array
+    if(index > -1) {
+        goalsArr.splice(index, 1);
+    }
+    set(dbRef(db, `users/${auth.currentUser.uid}/goals`), goalsArr)
+    .then(() => {
+        console.log("Goal successfully deleted from database");
+    }
+    ).catch((error) => {
+        console.log("Error deleting goal from database: "+error);
     });
 }
 

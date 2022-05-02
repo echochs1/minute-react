@@ -91,6 +91,12 @@ const Goals = () => {
     setIsModalVisible(true);
     // handleClose();
   }
+
+  const handleDeleteGoal = (goal) => {
+    console.log(goal);
+    fbDeleteGoal(goal);
+  }
+
   const handleOk = () => {
     setIsModalVisible(false);
     const newGoal = formValues;
@@ -156,7 +162,7 @@ const Goals = () => {
                     }}
                   >
                     <MenuItem onClick={() => openEditGoalModal(goal)}>Edit Goal</MenuItem>
-                    <MenuItem onClick={handleClose}>Delete Goal</MenuItem>
+                    <MenuItem onClick={() => handleDeleteGoal(goal)}>Delete Goal</MenuItem>
                   </Menu>
                 </div>
               </div>
