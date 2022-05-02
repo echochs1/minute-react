@@ -225,6 +225,7 @@ video#video {
   height: 100%;
   position: relative;
   padding: 2rem;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

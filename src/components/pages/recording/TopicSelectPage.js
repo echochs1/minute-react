@@ -203,7 +203,7 @@ const TopicSelectPage = () => {
                     </div>
                     : 
                     <div className="question">
-                        <Input showCount maxLength={50} placeholder="What topic is on your mind?" bordered={false} onChange={onInputChange} onPressEnter={onSetPrompt} style={{width:'50%',marginTop:'5%',marginBottom:'10%'}}/>
+                        <Input showCount maxLength={50} placeholder="What topic is on your mind?" bordered={false} onChange={onInputChange} onPressEnter={onSetPrompt} style={{width:'100%', marginTop:'5%', marginBottom:'10%', fontFamily:'Raleway', border:'4px white', borderStyle:'none none solid none'}}/>
                     </div> }
                     <div className="record">
                         <div className='ButtonRecord'>
