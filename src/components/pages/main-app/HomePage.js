@@ -1,16 +1,43 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
-import V, { VictoryTheme, VictoryChart, VictoryScatter } from 'victory';
+import { Card, Space, Spin } from "antd";
+import V, { VictoryTheme, VictoryChart, VictoryScatter, VictoryAxis, VictoryLabel } from 'victory';
+import { fbGetAllRecordings } from "../../../service/firebase/fbConfig";
+import { redHighlight, fillerWordCount } from "../../../service/recording/fillerWordDetect";
+
 
 const Home = () => {
+    const [recordings, setRecordings] = useState(null);
+    const [recordingsCount, setRecordingsCount] = useState(0);
     const [fillerWordData, setFillerWordData] = useState(null)
+    const [maxFillerWords, setMaxFillerWords] = useState(5)
 
-    const data = [
-        { quarter: 1, earnings: 13000 },
-        { quarter: 2, earnings: 16500 },
-        { quarter: 3, earnings: 14250 },
-        { quarter: 4, earnings: 19000 }
-    ];
+
+    useEffect(() => {
+        processRecordings(fbGetAllRecordings().reverse());
+    }, []);
+
+    const processRecordings = (recordings) => {
+        setRecordings(recordings);
+        setRecordingsCount(recordings.length);
+        setFillerWordCount(recordings);
+    }
+
+    const setFillerWordCount = (recordings) => {
+        var data = [];
+        if (recordings) {
+            for (let i = 0; i < recordings.length; i++) {
+                var count = fillerWordCount(recordings[i].transcript);
+                data.push({ x: i + 1, y: count });
+                if (count > maxFillerWords) {
+                    setMaxFillerWords(count);
+                }
+            }
+            setFillerWordData(data);
+        }
+        console.log(data)
+    };
+
     return (
         <div className='homePage' style={{ height: '100vh' }}>
             <h1>Home</h1>
@@ -18,21 +45,20 @@ const Home = () => {
                 <Grid container direction="row">
                     {/* render progress */}
                     <Grid item>
-                        <VictoryChart
-                            theme={VictoryTheme.material}
-                        >
-                            <VictoryScatter
-                                style={{ data: { fill: "#6FCDB4" } }}
-                                size={7}
-                                data={[
-                                    { x: 1, y: 2 },
-                                    { x: 2, y: 3 },
-                                    { x: 3, y: 5 },
-                                    { x: 4, y: 4 },
-                                    { x: 5, y: 7 }
-                                ]}
-                            />
-                        </VictoryChart>
+                        <Card size="small" title="Filler Word Progress">
+                            <VictoryChart
+                                theme={VictoryTheme.material}
+                            >
+                                
+                                <VictoryScatter
+                                    style={{ data: { fill: "#6FCDB4" } }}
+                                    size={7}
+                                    data={fillerWordData}
+                                    domain={{ x: [0, recordingsCount + 1], y: [0, maxFillerWords + 1] }}
+
+                                />
+                            </VictoryChart>
+                        </Card>
                     </Grid>
                 </Grid>
             </div>
