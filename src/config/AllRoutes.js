@@ -12,7 +12,7 @@ import PageNotFound from "../components/pages/main-app/PageNotFound";
 import Rewriter from "../components/pages/main-app/RewriteSamplePage";
 import GrammarPage from "../components/pages/recording/GrammarPage";
 import Finished from "../components/pages/recording/FinishedPage";
-import TopicSelectPage from "../components/pages/recording/TopicSelectPage";
+import TopicRecordLayout from "../components/layouts/TopicRecordLayout";
 
 const AllRoutes = () => {
     return (
@@ -22,7 +22,7 @@ const AllRoutes = () => {
             <Route exact path="how-it-works" element={<HowItWorksPage />} />
             <Route path="app/*" element={<AppLayout />} />
             <Route path="one-min" element={<OneMinRecordLayout />} />
-            <Route path="topic-select" element={<TopicSelectPage/>} />
+            <Route path="topic-select" element={<TopicRecordLayout/>} />
             <Route path="finished" element={<Finished />} />
             <Route path="rewrite" element={<Rewriter />} />
             <Route path="grammar" element={<GrammarPage />} />

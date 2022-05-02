@@ -208,7 +208,7 @@ video#video {
   flex-direction: column;
   align-items: flex-start;
 }
-/* ONE-MIN RECORD PAGE */
+/* ONE-MIN & TOPIC SELECTOR RECORD PAGE */
 .oneMinRecordLayout {
   width: 100vw;
   height: 100vh;
@@ -255,6 +255,27 @@ video#video {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.oneMinPage .tip {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  bottom: 2rem;
+}
+.clock-digits {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #fff;
+}
+.ButtonRecord {
+  padding: 2rem;
 }
 .record-btn {
   width: fit-content;
@@ -318,7 +339,7 @@ li.recordingItem .recordingInfo {
   justify-content: center;
 }
 .history-item-button {
-  margin-bottom: 2rem;
+  margin: 1rem 0 2rem 0;
 }
 .goalPage {
   width: 100%;

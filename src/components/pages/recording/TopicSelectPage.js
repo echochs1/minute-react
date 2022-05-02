@@ -1,17 +1,17 @@
+// RESOURCES
+// https://medium.com/front-end-weekly/recording-audio-in-mp3-using-reactjs-under-5-minutes-5e960defaf10
+// https://github.com/Matheswaaran/react-mp3-audio-recording/blob/master/src/App.js
+// https://github.com/tameemsafi/typewriterjs
+
 import React, {useState, useEffect} from "react";
-import { Input, Slider } from "antd";
+import { Input } from "antd";
 import { useNavigate } from "react-router-dom";
-// import LoadingPage from "./LoadingPage";
+import Clock from "../../../assets/images/clock.svg";
 import MicRecorder from 'mic-recorder-to-mp3';
 import Play from "../../../assets/images/play.svg";
 import Mic from "../../../assets/images/mic.svg";
 import { fbUploadRecording, fbUploadAudioFile } from '../../../service/firebase/fbConfig';
 import axios from 'axios';
-// RESOURCES
-// https://medium.com/front-end-weekly/recording-audio-in-mp3-using-reactjs-under-5-minutes-5e960defaf10
-// https://github.com/Matheswaaran/react-mp3-audio-recording/blob/master/src/App.js
-
-// https://github.com/tameemsafi/typewriterjs
 import Typewriter from "typewriter-effect";
 
 const TopicSelectPage = () => {
@@ -184,25 +184,17 @@ const TopicSelectPage = () => {
             return (
                 <div>
                     <div className="timer">
-                        {/* <Slider
-                            min={0}
-                            max={60}
-                            defaultValue={60}
-                            reverse={true}
-                            // handleStyle={{margin: "1rem"}}
-                            onChange={handleSliderChange}
-                            value={sliderValue}
-                        /> */}
                         <div className="clock">
-                            <span className="digits">
+                            <img className="clock-icon" src={Clock} alt="clock" />
+                            <span className="clock-digits">
                                 {("0" + Math.floor((time / 60000) % 60)).slice(-2)}:
                             </span>
-                            <span className="digits">
-                                {("0" + Math.floor((time / 1000) % 60)).slice(-2)}.
+                            <span className="clock-digits">
+                                {("0" + Math.floor((time / 1000) % 60)).slice(-2)}{/* . */}
                             </span>
-                            <span className="digits mili-sec">
+                            {/* <span className="clock-digits mili-sec">
                                 {("0" + ((time / 10) % 100)).slice(-2)}
-                            </span>
+                            </span> */}
                         </div>
                     </div>
                     {hasPrompt ?
@@ -211,7 +203,7 @@ const TopicSelectPage = () => {
                     </div>
                     : 
                     <div className="question">
-                        <Input showCount maxLength={50} onChange={onInputChange} onPressEnter={onSetPrompt} style={{width:'50%',marginTop:'5%',marginBottom:'10%'}}/>
+                        <Input showCount maxLength={50} placeholder="What topic is on your mind?" bordered={false} onChange={onInputChange} onPressEnter={onSetPrompt} style={{width:'50%',marginTop:'5%',marginBottom:'10%'}}/>
                     </div> }
                     <div className="record">
                         <div className='ButtonRecord'>
@@ -222,6 +214,9 @@ const TopicSelectPage = () => {
                                 <img src={isRecording ? Mic : Play} alt="Play Button" />
                             </button>
                         </div>
+                    </div>
+                    <div className="tip">
+                        <h3 className="tip-text">Hi! Input your topic, <span className="redHighlight">press ENTER</span>, and then click the Play Button! Good luck and take your time :D</h3>
                     </div>
                 </div>)
         
@@ -245,7 +240,7 @@ const TopicSelectPage = () => {
     }
 
     return (
-        <div className="oneMinPage" style={{height:'100vh'}}>
+        <div className="oneMinPage">
             {renderTimer()}
         </div>
     )

@@ -68,3 +68,8 @@ span.finishedResults-textContent {
     text-align: left;
     line-height: 3.125rem;
 }
+
+h3.tip-text {
+    font-size: 1rem;
+    color: #fff;
+}

@@ -1,20 +1,18 @@
+// RESOURCES
+// https://medium.com/front-end-weekly/recording-audio-in-mp3-using-reactjs-under-5-minutes-5e960defaf10
+// https://github.com/Matheswaaran/react-mp3-audio-recording/blob/master/src/App.js
+// https://github.com/tameemsafi/typewriterjs
+
 import React, {useState, useEffect} from "react";
-import { Statistic, Slider } from "antd";
+import { Statistic } from "antd";
 import { randomPrompts } from "../../../service/recording/one-min/randomPrompts";
 import Clock from "../../../assets/images/clock.svg";
-// import ButtonRecord from "../main-app/ButtonRecord";
 import { useNavigate } from "react-router-dom";
-// import LoadingPage from "./LoadingPage";
 import MicRecorder from 'mic-recorder-to-mp3';
 import Play from "../../../assets/images/play.svg";
 import Mic from "../../../assets/images/mic.svg";
 import { fbUploadRecording, fbUploadAudioFile } from '../../../service/firebase/fbConfig';
 import axios from 'axios';
-// RESOURCES
-// https://medium.com/front-end-weekly/recording-audio-in-mp3-using-reactjs-under-5-minutes-5e960defaf10
-// https://github.com/Matheswaaran/react-mp3-audio-recording/blob/master/src/App.js
-
-// https://github.com/tameemsafi/typewriterjs
 import Typewriter from "typewriter-effect";
 
 const { Countdown } = Statistic;
@@ -193,15 +191,6 @@ const OneMinPage = () => {
             return (
                 <div>
                     <div className="timer">
-                        {/* <Slider
-                            min={0}
-                            max={60}
-                            defaultValue={60}
-                            reverse={true}
-                            // handleStyle={{margin: "1rem"}}
-                            onChange={handleSliderChange}
-                            value={sliderValue}
-                        /> */}
                         <div className="clock">
                             <img className="clock-icon" src={Clock} alt="clock" />
                             <Countdown format="mm:ss" value={isRecording ? countdownValue : countdownValue} valueStyle={{ color: "#fff" }} onFinish={handleCountdownFinish} />
@@ -220,6 +209,9 @@ const OneMinPage = () => {
                                 <img src={isRecording ? Mic : Play} alt="Play Button" />
                             </button>
                         </div>
+                    </div>
+                    <div className="tip">
+                        <h3 className="tip-text">Hello there! Take a breath. Once you're ready, <span className="redHighlight">press the Play button</span> and present!</h3>
                     </div>
                 </div>)
         
