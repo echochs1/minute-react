@@ -21,29 +21,29 @@ export const redHighlight = (string) => {
     const arr = parseDisfluencies(string).stringSplit;
     const newArr = [];
     for (let i = 0; i < arr.length; i++) {
-        if (arr[i].includes("um")) {
-            newArr.push(<span className="redHighlight">{arr[i]}</span>);
-        } else if (arr[i].includes("Um")) {
-            newArr.push(<span className="redHighlight">{arr[i]}</span>);
-        } else if (arr[i].includes("uh")) {
-            newArr.push(<span className="redHighlight">{arr[i]}</span>);
-        } else if (arr[i].includes("Uh")) {
-            newArr.push(<span className="redHighlight">{arr[i]}</span>);
-        } else if (arr[i].includes("hmm")) {
-            newArr.push(<span className="redHighlight">{arr[i]}</span>);
-        } else if (arr[i].includes("Hmm")) {
-            newArr.push(<span className="redHighlight">{arr[i]}</span>);
-        } else if (arr[i].includes("mhm")) {
-            newArr.push(<span className="redHighlight">{arr[i]}</span>);
-        } else if (arr[i].includes("Mhm")) {
-            newArr.push(<span className="redHighlight">{arr[i]}</span>);
-        } else if (arr[i].includes("uh huh")) {
-            newArr.push(<span className="redHighlight">{arr[i]}</span>);
-        } else if (arr[i].includes("Uh huh")) {
+        if (arr[i].includes("um") || arr[i].includes("Um") 
+        || arr[i].includes("uh") || arr[i].includes("Uh")
+        || arr[i].includes("hmm") || arr[i].includes("Hmm") 
+        || arr[i].includes("mhm") || arr[i].includes("Mhm")
+        || arr[i].includes("uh huh") || arr[i].includes("Uh huh")) {
             newArr.push(<span className="redHighlight">{arr[i]}</span>);
         } else {
             newArr.push(<span>{arr[i]}</span>);
         }
     }
     return newArr;
+}
+export const fillerWordCount = (string) => {
+    const arr = parseDisfluencies(string).stringSplit;
+    var count = 0;
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i].includes("um") || arr[i].includes("Um") 
+        || arr[i].includes("uh") || arr[i].includes("Uh")
+        || arr[i].includes("hmm") || arr[i].includes("Hmm") 
+        || arr[i].includes("mhm") || arr[i].includes("Mhm")
+        || arr[i].includes("uh huh") || arr[i].includes("Uh huh")) {
+            count++;
+        }
+    }
+    return count;
 }

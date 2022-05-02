@@ -3,7 +3,7 @@ import { moneyverse } from "../../../assets/images/moneyverse";
 import { fbGetAllRecordings } from "../../../service/firebase/fbConfig";
 import { FirebaseContext } from "../../../service/firebase/fbContext";
 import { Button, Space, Spin } from "antd";
-import { redHighlight } from "../../../service/recording/fillerWordDetect";
+import { redHighlight, fillerWordCount } from "../../../service/recording/fillerWordDetect";
 import { useNavigate } from "react-router-dom";
 
 /**
@@ -54,6 +54,11 @@ const History = () => {
                     <b>Transcription: </b>
                     {recording.transcript
                       ? redHighlight(recording.transcript)
+                      : ""}
+                      <br/>
+                    <b>Filler Word Count: </b>
+                    {recording.transcript
+                      ? fillerWordCount(recording.transcript)
                       : ""}
                   </p>
                   <audio controls>
