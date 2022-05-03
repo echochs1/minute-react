@@ -95,6 +95,9 @@ const Goals = () => {
   const handleDeleteGoal = (goal) => {
     console.log(goal);
     fbDeleteGoal(goal);
+    setGoals(fbGetAllGoals());
+    console.log("goals num", goals.length);
+    handleClose();
   }
 
   const handleOk = () => {
@@ -109,6 +112,8 @@ const Goals = () => {
       newGoal.dateModified = Date.now();
     }
     fbUploadGoal(newGoal);
+    setGoals(fbGetAllGoals());
+    handleClose();
   };
 
   const handleCancel = () => {
