@@ -65,7 +65,7 @@ const OneMinPage = () => {
     const startRecording = () => {
         if(!isRecording && !isBlocked) {
             setIsRecording(!isRecording); // start false and then set to true on click
-            setCountdownValue(Date.now() + 1 * 10 * 1000); // 60 seconds
+            setCountdownValue(Date.now() + 6 * 10 * 1000); // 60 seconds
             mp3Recorder
                 .start()
                 .then(() => {
