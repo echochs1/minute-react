@@ -5,6 +5,9 @@
   padding: 0;
   overflow: hidden;
 }
+.appWrapper {
+  overflow-y: hidden;
+}
 /* ANT DESIGN OVERWRITES */
 /* LANDING */
 .text-white {
@@ -32,23 +35,6 @@
   min-height: 100vh;
   min-width: 100vw;
   background-color: transparent;
-}
-.landing-navbar {
-  background-color: transparent;
-  position: fixed;
-  width: 100%;
-  height: 15vh;
-  z-index: 100;
-  padding: 1rem 2rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.landing-navbar .nav-links {
-  float: right;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 }
 .landing-overlay {
   position: absolute;
@@ -107,6 +93,25 @@
   box-shadow: 0 0.25rem 0 #4A86C0;
   transition: 100ms ease-in-out;
 }
+.landing-navbar {
+  background-color: transparent;
+  position: absolute;
+  width: 100%;
+  height: 15vh;
+  z-index: 100;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.landing-navbar .nav-links {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  align-items: center;
+}
 .logo {
   width: 100%;
   height: 100%;
@@ -136,6 +141,25 @@ video#video {
   left: 0;
   object-fit: cover;
   opacity: 0.8;
+}
+/* ABOUT US PAGE */
+.about {
+  background-color: #1D3953;
+  overflow: visible;
+}
+.about-content {
+  margin-top: 15vh;
+}
+.about-content .section1 {
+  padding: 20% 25%;
+  width: 100vw;
+  height: auto;
+  background-color: #1D3953;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 /* RECORD OPTIONS */
 .recordOptionsPage {
@@ -326,8 +350,8 @@ li.recordingItem .recordingImage {
   position: relative;
 }
 li.recordingItem .recordingImage img {
-  width: 100%;
-  height: 100%;
+  width: 3rem;
+  height: 3rem;
   object-fit: cover;
 }
 li.recordingItem .recordingInfo {
@@ -439,12 +463,6 @@ audio.finishedResults-audio {
   color: #F06A6A;
   font-weight: 700;
 }
-.errorUnderline {
-  text-decoration: underline;
-  text-decoration-style: wavy;
-  text-decoration-color: rgb(123, 192, 19);
-
-}
 audio.audio {
   width: 100%;
   height: auto;
@@ -468,8 +486,4 @@ audio.audio-historyresults {
   position: relative;
   overflow-y: auto;
   padding: 2rem 2rem 0 2rem;
-}
-
-.homePage > div:nth-child(2) {
-    
 }

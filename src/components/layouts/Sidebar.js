@@ -11,18 +11,24 @@ import {
     AudioTwoTone,
     CalendarTwoTone,
     BookTwoTone,
-    TrophyTwoTone,
+    // TrophyTwoTone,
     SettingTwoTone,
-    LogoutOutlined,
-    LoginOutlined
+    // LogoutOutlined,
+    // LoginOutlined,
+    ClockCircleTwoTone,
+    RightSquareTwoTone,
+    LeftSquareTwoTone
 } from '@ant-design/icons';
 // import { ReactComponent as Logo } from './src/assets/images/logo-blue-teal.svg';
 import Logo from './logo-blue-teal.svg';
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { fbSignIn, fbSignOut } from '../../service/firebase/fbConfig';
 import { FirebaseContext } from "../../service/firebase/fbContext";
+import { setTwoToneColor } from '@ant-design/icons';
 
 const SidebarNav = () => {
+    setTwoToneColor('#6FCDB4');
+
     const history = useNavigate();
 
     const handleRecordClick = () => {
@@ -66,7 +72,7 @@ const SidebarNav = () => {
                     {/* <h1>Minute</h1> */}
                 </Link>
             </div>
-            <Menu theme="light" mode="inline" defaultSelectedKeys={['1']}>
+            <Menu theme="dark" style={{ background:'#1D3953' }} mode="inline" defaultSelectedKeys={['1']}>
             {/* <Menu theme="light" mode="inline"> -> for no default selection */}
                 <Menu.Item key="1" >
                     <Link to="record">
@@ -83,7 +89,7 @@ const SidebarNav = () => {
                     <span> Learn</span>
                 </Menu.Item>
                 <Menu.Item key="4" onClick={handleHistoryClick}>
-                    <TrophyTwoTone />
+                    <ClockCircleTwoTone />
                     <span> History</span>
                 </Menu.Item>
                 <Menu.Item key="5" onClick={handleSettingClick}>
@@ -92,12 +98,12 @@ const SidebarNav = () => {
                 </Menu.Item>
                 {authUser.loggedIn ?
                     <Menu.Item key="6" onClick={handleLogoutClick}>
-                        <LogoutOutlined />
+                        <RightSquareTwoTone />
                         <span> Logout</span>
                     </Menu.Item>
                     :
                     <Menu.Item key="6" onClick={handleLoginClick}>
-                        <LoginOutlined />
+                        <LeftSquareTwoTone />
                         <span> Login</span>
                     </Menu.Item>
                 }

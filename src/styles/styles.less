@@ -26,6 +26,10 @@
     overflow: hidden;
 }
 
+.appWrapper {
+    overflow-y: hidden;
+}
+
 @button-shadow-blue-600: 0 0.5rem 0 @blue600;
 @button-shadow-blue-600-hover: 0 1rem 0 @blue600;
 @button-shadow-blue-600-active: 0 0.25rem 0 @blue600;
@@ -90,25 +94,6 @@
     min-height: 100vh;
     min-width: 100vw;
     background-color: transparent;
-
-    &-navbar {
-        background-color: transparent;
-        position: fixed;
-        width: 100%;
-        height: 15vh;
-        z-index: 100;
-        padding: 1rem 2rem;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-
-        .nav-links {
-            float: right;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-    }
 
     &-overlay {
         position: absolute;
@@ -177,6 +162,28 @@
     }
 }
 
+.landing-navbar {
+    background-color: transparent;
+    position: absolute;
+    width: 100%;
+    height: 15vh;
+    z-index: 100;
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .nav-links {
+        width: 100%;
+        // float: right;
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
 .logo {
     width: 100%;
     height: 100%;
@@ -209,6 +216,29 @@ video#video {
     left: 0;
     object-fit: cover;
     opacity: 0.8;
+}
+
+/* ABOUT US PAGE */
+.about {
+    background-color: @blue900;
+    overflow: visible;
+}
+
+.about-content {
+    margin-top: 15vh;
+
+    .section1 {
+        padding: 20% 25%;
+        width: 100vw;
+        height: auto;
+        background-color: @blue900;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        
+    }
 }
 
 /* RECORD OPTIONS */
@@ -438,8 +468,8 @@ li.recordingItem {
         margin-right: 2rem;
         position: relative;
         img {
-            width: 100%;
-            height: 100%;
+            width: 3rem;
+            height: 3rem;
             object-fit: cover;
         }
     }

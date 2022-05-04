@@ -39,14 +39,14 @@ const LandingNavbar = () => {
                 <Button type="text" onClick={handleAboutClick}><span className="button-text-text text-white">About Us</span></Button>
                 <Button type="text" onClick={handleHowItWorksClick}><span className="button-text-text text-white">How It Works</span></Button>
                 {authUser.loggedIn ?
-                    <div style={{paddingRight: "8em", marginLeft: "0.5em"}}>
+                    <div style={{marginLeft: "0.5em"}}>
                         <Tooltip title={authUser.displayName} placement="bottom" >
                                 {authUser.photoUrl ?
                                 <Avatar src={authUser.photoUrl} alt={authUser.displayName} size="large"/> 
                                 : <Avatar icon={<UserOutlined />} alt={authUser.displayName} size="large"/>}
                         </Tooltip>
                     </div>
-                : <></>}
+                : <></>/*<Button type="text" ></Button>*/}
             </div>
         </div>
     )

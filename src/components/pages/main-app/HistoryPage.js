@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { moneyverse } from "../../../assets/images/moneyverse";
+import { logos } from "../../../assets/images/logos/logos";
 import { fbGetAllRecordings } from "../../../service/firebase/fbConfig";
 import { FirebaseContext } from "../../../service/firebase/fbContext";
 import { Button, Space, Spin } from "antd";
@@ -40,7 +41,7 @@ const History = () => {
               <div className="recordingContent">
                 <div className="recordingImage">
                   <img
-                    src={moneyverse[randomIndex(moneyverse)]}
+                    src={logos[randomIndex(logos)]}
                     alt="fun recording img"
                   />
                 </div>
