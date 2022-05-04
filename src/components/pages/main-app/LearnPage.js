@@ -168,4 +168,24 @@ const Learn = () => {
   );
 };
 
+
+// const renderLearnPage = () => {
+//   return (
+//     <ul className="articleList">
+//       {articles.map((articles, index) => (
+//         <li key={index} className="articleItem">
+//           <div className="articleContent">
+//             <div className="articleTitle">
+//               <p className="fieldValue" style={{ fontSize: "18px" }}>
+//                 <b>{articles.name}</b>
+//                 {articles.}
+//               </p>
+//             </div>
+//           </div>
+//         </li>
+//       ))}
+//     </ul>
+//   )
+// }
+
 export default Learn;

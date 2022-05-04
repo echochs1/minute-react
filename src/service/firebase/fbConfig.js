@@ -85,7 +85,7 @@ export const fbUploadRecording = (fileName, prompt, transcript) => {
         'prompt': prompt,
         'transcript': transcript,
         'dateCreated': Date.now(),
-        'fillerHighlight': redHighlight(transcript),
+        // 'fillerHighlight': redHighlight(transcript),
         // 'grammarHighlight': 
     }
     set(dbRef(db, `users/${auth.currentUser.uid}/recordings/${audioFile}`), uploadData)
