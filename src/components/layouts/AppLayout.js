@@ -10,7 +10,7 @@ const AppLayout = () => {
     const [collapsed, setCollapsed] = useState(false);
     return (
         <div className="appWrapper">
-            <Layout>
+            <Layout style={{height:"100vh"}}>
                 <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed} style={{background: "#1D3953" }} >
                     <SidebarNav />
                 </Sider>

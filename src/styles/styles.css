@@ -3,7 +3,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
 }
 .appWrapper {
   overflow-y: hidden;
@@ -410,6 +414,10 @@ li.goalItem .goalLine {
 li.goalItem .goalOptions {
   padding-right: 2rem;
   z-index: 10;
+}
+/* LEARN PAGE */
+.learnPage {
+  overflow-y: auto;
 }
 /* LOADING PAGE */
 .loading-page {
