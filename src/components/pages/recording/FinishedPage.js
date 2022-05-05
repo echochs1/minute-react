@@ -101,10 +101,10 @@ const Finished = () => {
             width="100%"
             color="#BBD2E7"
           ></hr>
-          <Select defaultValue="0" style={{ width: 120 }} onChange={handleTextChange}>
+          {/* <Select defaultValue="0" style={{ width: 120 }} onChange={handleTextChange}>
             <Option value="0">Filler Words</Option>
             <Option value="1">Grammar</Option>
-          </Select>
+          </Select> */}
           
           <div className="finishedResults-textWrapper">
             <span className="finishedResults-textContent">
