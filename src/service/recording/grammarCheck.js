@@ -1,8 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-// import { Popover, Tooltip } from 'antd';
-import Popover from 'react-bootstrap/Popover';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import ReactTooltip from "react-tooltip";
 
 export const grammarCheck = async function (text) {
     const encodedParams = new URLSearchParams();
@@ -33,20 +31,42 @@ export const grammarCheck = async function (text) {
 // data = response from grammarbot API
 export const underlineErrors = (transcription, data) => {
     console.log(data);
-    if(data == null || data.matches == null) {
-        return;
+    if(data == null || data.matches == null || data.matches.length == 0) {
+        return transcription;
     }
     let errors = [];
     // loop through error matches, break up transcription into alternating words and errors
     for(let i=0; i<data.matches.length; i++) {
-        const errorSubstr = {
-            offset: data.matches[i].offset,
-            length: data.matches[i].length,
-            title: data.matches[i].shortMessage,
-            message: data.matches[i].message,  // or matches[i].shortMessage
-            replacement: data.matches[i].replacements[0].value
+        // let errorSubstr = {};
+        if (data.matches[i].replacements != [] && data.matches[i].replacements != null) {
+            let errorSubstr = {
+                offset: data.matches[i].offset,
+                length: data.matches[i].length,
+                title: data.matches[i].shortMessage,
+                message: data.matches[i].message,  // or matches[i].shortMessage
+                replacement: data.matches[i].replacements[0]
+            }
+            errors.push(errorSubstr);
+            // errorSubstr.offset = data.matches[i].offset,
+            // errorSubstr.length = data.matches[i].length,
+            // errorSubstr.title = data.matches[i].shortMessage,
+            // errorSubstr.message = data.matches[i].message,  // or matches[i].shortMessage
+            // errorSubstr.replacement = data.matches[i].replacements[0].value
+        } else {
+            // errorSubstr.offset = data.matches[i].offset,
+            // errorSubstr.length = data.matches[i].length,
+            // errorSubstr.title = data.matches[i].shortMessage,
+            // errorSubstr.message = data.matches[i].message  // or matches[i].shortMessage
+            // errorSubstr.replacement = "None"
+            let errorSubstr = {
+                offset: data.matches[i].offset,
+                length: data.matches[i].length,
+                title: data.matches[i].shortMessage,
+                message: data.matches[i].message,  // or matches[i].shortMessage
+                replacement: "None"
+            }
+            errors.push(errorSubstr);
         }
-        errors.push(errorSubstr);
     }
     // array of transcript substrings, alternating between words and errors
     const splitArr = breakWhere(errors, transcription);
@@ -58,17 +78,21 @@ export const underlineErrors = (transcription, data) => {
                 const errIndex = i/2;
                 console.log(errors[errIndex]);
                 return (
-                    <OverlayTrigger 
-                        key={x} 
-                        // trigger = 'click'
-                        trigger={['hover', 'focus']} 
-                        placement="top" 
-                        overlay={popover(errors[errIndex].title, errors[errIndex].message, errors[errIndex].replacement)}
-                    >
-                        {({placement, show, ...props}) => (
-                        <span key={i} className="errorUnderline">{x}</span>
-                        )}
-                    </OverlayTrigger>
+                    <>
+                        <a data-for={x}
+                            data-tip={tooltip(errors[errIndex].title, errors[errIndex].message, errors[errIndex].replacement)}
+                            data-iscapture="true">
+                            <span key={i} className="grammarHighlight">{x}</span>
+                        </a>
+                        <ReactTooltip
+                            id={x}
+                            place="top"
+                            type="success"
+                            effect="solid"
+                            multiline={true}
+                        />
+                    </>
+                    
                 )
             } else {
                 return <span key={i}>{x}</span>
@@ -83,17 +107,20 @@ export const underlineErrors = (transcription, data) => {
                 const errIndex = Math.floor(i/2);
                 console.log(errors[errIndex]);
                 return (
-                <OverlayTrigger 
-                    key={x} 
-                    // trigger = 'click'
-                    trigger={['hover', 'focus']} 
-                    placement="top" 
-                    overlay={popover(errors[errIndex].title, errors[errIndex].message, errors[errIndex].replacement)}
-                    >
-                    {({placement, show, ...props}) => (
-                    <span key={i} className="errorUnderline">{x}</span>
-                    )}
-                </OverlayTrigger>
+                    <>
+                    <a data-for={x}
+                        data-tip={tooltip(errors[errIndex].title, errors[errIndex].message, errors[errIndex].replacement)}
+                        data-iscapture="true">
+                        <span key={i} className="grammarHighlight">{x}</span>
+                    </a>
+                    <ReactTooltip
+                        id={x}
+                        place="top"
+                        type="success"
+                        effect="solid"
+                        multiline={true}
+                    />
+                </>
                 )
             }
         });
@@ -114,12 +141,10 @@ const breakWhere = (words, str) => breakAt(
   str
 )
 
-const popover = (title, message, replacement) => {
-    <Popover id="popover-basic">
-        <Popover.Header as="h3">{title}</Popover.Header>
-        <Popover.Body>
-            {/* <p>{message}</p> */}
-            <p className="greenText">Did you mean: <strong>{replacement}</strong></p>
-        </Popover.Body>
-    </Popover>
+// Tooltip tooltip
+const tooltip = (title, message, replacement) => {
+    return (
+        // `${title}<br/>${message}<br/>Replacement Suggestion: ${replacement}`
+        `${message}<br/>Replacement Suggestion: ${replacement}`
+    )
 }

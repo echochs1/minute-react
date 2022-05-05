@@ -17,9 +17,11 @@ const Home = () => {
     }, []);    
 
     return (
-        <div style={{height: '100vh'}}>
-            <h1>Grammar Check Test</h1>
-            <div>{editedTranscript ? editedTranscript : ""}</div>
+        <div>
+            <div style={{height: '100vh'}}>
+                <h1>Grammar Check Test</h1>
+                <div>{editedTranscript ? editedTranscript : ""}</div>
+            </div>
         </div>
     );
 }

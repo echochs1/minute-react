@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fbGetRecording } from "../../../service/firebase/fbConfig";
-import { Space, Spin } from "antd";
+import { Space, Spin, Select } from "antd";
 import Typewriter from "typewriter-effect";
 import {
   parseDisfluencies,
   redHighlight,
 } from "../../../service/recording/fillerWordDetect";
+import { grammarCheck, underlineErrors } from "../../../service/recording/grammarCheck";
 
 const Finished = () => {
+  const { Option } = Select;
   const location = useLocation();
   const history = useNavigate();
   const [recordingData, setRecordingData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedOpt, setSelectedOpt] = useState(0);
+  const [grammarTrans, setGrammarTrans] = useState(null);
 
   useEffect(() => {
     // setRecordingData({name: location.state.name, prompt: location.state.prompt, transcript: location.state.transcript, url:fbGetUrl(location.state.name)});
@@ -27,43 +31,53 @@ const Finished = () => {
   };
 
   const handleRecordClick = () => {
-    emotion();
+    // emotion();
     history("/one-min");
   };
 
-  const emotion = () => {
-    const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1');
-const { IamAuthenticator } = require('ibm-watson/auth');
-
-const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
-  version: '2022-04-07',
-  authenticator: new IamAuthenticator({
-    apikey: process.env.REACT_APP_IBM_NATURAL_LANGUAGE_API_KEY,
-  }),
-  serviceUrl: "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com",
-});
-
-const analyzeParams = {
-  'html': '<html><head><title>Fruits</title></head><body><h1>Apples and Oranges</h1><p>I love apples! I don\'t like oranges.</p></body></html>',
-  'features': {
-    'emotion': {
-      'targets': [
-        'apples',
-        'oranges'
-      ]
-    }
-  }
-};
-
-naturalLanguageUnderstanding.analyze(analyzeParams)
-  .then(analysisResults => {
-    console.log(JSON.stringify(analysisResults, null, 2));
-  })
-  .catch(err => {
-    console.log('error:', err);
-  });
+  const setGrammar = (transcript) => {
+    grammarCheck(transcript)
+    .then(function(response) {
+      setGrammarTrans(underlineErrors(transcript, response.data));
+    });
   }
 
+//   const emotion = () => {
+//     const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1');
+// const { IamAuthenticator } = require('ibm-watson/auth');
+
+// const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
+//   version: '2022-04-07',
+//   authenticator: new IamAuthenticator({
+//     apikey: process.env.REACT_APP_IBM_NATURAL_LANGUAGE_API_KEY,
+//   }),
+//   serviceUrl: "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com",
+// });
+
+// const analyzeParams = {
+//   'html': '<html><head><title>Fruits</title></head><body><h1>Apples and Oranges</h1><p>I love apples! I don\'t like oranges.</p></body></html>',
+//   'features': {
+//     'emotion': {
+//       'targets': [
+//         'apples',
+//         'oranges'
+//       ]
+//     }
+//   }
+// };
+
+  // naturalLanguageUnderstanding.analyze(analyzeParams)
+  //   .then(analysisResults => {
+  //     console.log(JSON.stringify(analysisResults, null, 2));
+  //   })
+  //   .catch(err => {
+  //     console.log('error:', err);
+  //   });
+  //   }
+
+  const handleTextChange = (value) => {
+    setSelectedOpt(value);
+  }
 
   const renderResults = () => {
     console.log(isLoading);
@@ -84,11 +98,17 @@ naturalLanguageUnderstanding.analyze(analyzeParams)
             width="100%"
             color="#BBD2E7"
           ></hr>
+          <Select defaultValue="0" style={{ width: 120 }} onChange={handleTextChange}>
+            <Option value="0">Filler Words</Option>
+            <Option value="1">Grammar</Option>
+          </Select>
+          
           <div className="finishedResults-textWrapper">
             <span className="finishedResults-textContent">
-              <b>Text:</b> {redHighlight(recordingData.transcript)}
+              <b>Text:</b> {selectedOpt == 0 ? redHighlight(recordingData.transcript) : setGrammar(recordingData.transcript)}
             </span>
           </div>
+
           <hr
             className="recordingLine"
             size="2px"

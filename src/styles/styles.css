@@ -526,6 +526,15 @@ audio.finishedResults-audio {
   color: #f06a6a;
   font-weight: 700;
 }
+
+.grammarHighlight {
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: rgb(87, 145, 196);
+  color:rgb(50, 126, 193);
+  display:inline-flex;
+}
+
 audio.audio {
   width: 100%;
   height: auto;
