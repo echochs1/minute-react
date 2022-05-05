@@ -73,3 +73,20 @@ h3.tip-text {
     font-size: 1rem;
     color: #fff;
 }
+
+h1.about-header {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+p.about-paragraph {
+    font-size: 1.125rem;
+    font-weight: 500;
+}
+
+h2.process-header {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+}

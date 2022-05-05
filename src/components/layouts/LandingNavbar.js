@@ -11,15 +11,15 @@ const LandingNavbar = () => {
     const history = useNavigate();
     
     const handleLogoClick = () => {
-        history("/record");
+        history("/");
     }
     
     const handleAboutClick = () => {
-        history("about");
+        history("/about");
     }
 
     const handleHowItWorksClick = () => {
-        history("how-it-works");
+        history("/how-it-works");
     }
     
     // const handleLoginClick = () => {
