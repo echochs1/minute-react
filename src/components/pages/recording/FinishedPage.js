@@ -13,6 +13,7 @@ const Finished = () => {
   const history = useNavigate();
   const [recordingData, setRecordingData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [emotion, setEmotion] = useState(emotion);
 
   useEffect(() => {
     // setRecordingData({name: location.state.name, prompt: location.state.prompt, transcript: location.state.transcript, url:fbGetUrl(location.state.name)});
@@ -66,6 +67,7 @@ const Finished = () => {
 
   const renderResults = () => {
     console.log(isLoading);
+    console.log("emotion", emotion);
     if (!isLoading && recordingData) {
       return (
         <div className="finishedResults">
@@ -94,6 +96,11 @@ const Finished = () => {
             width="100%"
             color="#BBD2E7"
           ></hr>
+          <div className="finishedResults-textWrapper">
+            <span className="finishedResults-textContent">
+              <b>Tone:</b> {recordingData.emotion}
+            </span>
+          </div>
           {recordingData.url && (
             <audio controls>
               <source src={recordingData.url} type="audio/mpeg" />

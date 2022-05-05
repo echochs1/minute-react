@@ -36,6 +36,7 @@ const OneMinPage = () => {
     const [assemblyData, setAssemblyData] = useState(null); // assembly data of recording
     const [transcription, setTranscription] = useState(null); // transcription of recording
     const [audioUrl, setAudioUrl] = useState(null); // url of recording
+    const [emote, setEmotion] = useState(null);
     
     // new instance of the mic recorder
     const [mp3Recorder, setmp3Recorder] = useState(
@@ -58,6 +59,29 @@ const OneMinPage = () => {
           }
         );
       }, [])
+
+
+      const e2 = () => {
+      const axios = require("axios");
+
+      const options = {
+        method: 'GET',
+        url: 'https://twinword-emotion-analysis-v1.p.rapidapi.com/analyze/',
+        params: {
+          text: 'After living abroad for such a long time, seeing my family was the best present I could have ever wished for.'
+        },
+        headers: {
+          'X-RapidAPI-Host': 'twinword-emotion-analysis-v1.p.rapidapi.com',
+          'X-RapidAPI-Key': 'cb9f5b157bmsh0a86dcea0bc848cp17bec8jsn32cba3b8c673'
+        }
+      };
+      
+      axios.request(options).then(function (response) {
+          setEmotion(response.data.emotions_detected[0]);
+      }).catch(function (error) {
+          console.error(error);
+      });
+    }
 
     /**
      * @description start audio recording with mp3Recorder -> returns Promise
@@ -151,7 +175,7 @@ const OneMinPage = () => {
             .then((response) => {console.log("postTranscript returns: ", response.data.id);
             setTimeout(() => {
             getTranscript(response.data.id, filename)
-        }, 21000);
+        }, 30000);
         })
             .catch((err) => console.error("postTranscript Error: ",err));
     }
@@ -175,9 +199,10 @@ const OneMinPage = () => {
                 console.log("getTranscript returns: ", response)
                 setAssemblyData(response.data);
                 setTranscription(response.data.text);
+                e2(response.data.text);
                 
                 // Push transcription to Firebase database
-                fbUploadRecording(filename, question[0], response.data.text);
+                fbUploadRecording(filename, question[0], response.data.text, emote);
                 setisUploading(false);
                 //redirected to finished page
                 history("/finished", {state: {name: filename}});

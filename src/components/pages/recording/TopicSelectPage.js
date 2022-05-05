@@ -23,6 +23,7 @@ const TopicSelectPage = () => {
     const [isBlocked, setIsBlocked] = useState(false); // true when recording is blocked (permission issue)
     const [assemblyData, setAssemblyData] = useState(null); // assembly data of recording
     const [transcription, setTranscription] = useState(null); // transcription of recording
+    const [emote, setEmotion] = useState(null);
 
     const [savefile, setSaveFile] = useState(null);
     const [time, setTime] = useState(0); // recording length
@@ -106,6 +107,29 @@ const TopicSelectPage = () => {
             .catch((e) => console.error(e));
     }
 
+    const e2 = () => {
+        const axios = require("axios");
+  
+        const options = {
+          method: 'GET',
+          url: 'https://twinword-emotion-analysis-v1.p.rapidapi.com/analyze/',
+          params: {
+            text: 'After living abroad for such a long time, seeing my family was the best present I could have ever wished for.'
+          },
+          headers: {
+            'X-RapidAPI-Host': 'twinword-emotion-analysis-v1.p.rapidapi.com',
+            'X-RapidAPI-Key': 'cb9f5b157bmsh0a86dcea0bc848cp17bec8jsn32cba3b8c673'
+          }
+        };
+        
+        axios.request(options).then(function (response) {
+            setEmotion(response.data.emotions_detected[0]);
+            history("/finished", {state: {name: name}});
+        }).catch(function (error) {
+            console.error(error);
+        });
+      }
+
     const uploadAudio = (audioFile) => {
         const assembly = axios.create({
             baseURL: "https://api.assemblyai.com/v2",
@@ -158,13 +182,15 @@ const TopicSelectPage = () => {
                 console.log("getTranscript returns: ", res3)
                 setAssemblyData(res3.data);
                 setTranscription(res3.data.text);
+
                 
                 console.log("savefile.name: ", name);
                 // Push transcription to Firebase database
                 fbUploadRecording(name, question, res3.data.text);
                 setisUploading(false);
+                e2(res3.data.text);
                 // Go to finished page
-                history("/finished", {state: {name: name}});
+
             })
             .catch((err) => console.error("getTranscript Error: ", err));
     }
