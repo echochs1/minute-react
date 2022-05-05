@@ -657,6 +657,7 @@ li.goalItem .goalOptions {
 }
 .finishedResults {
   color: #1d3953;
+  padding: 2rem;
 }
 .finishedResults-title {
   margin-bottom: 2rem;
