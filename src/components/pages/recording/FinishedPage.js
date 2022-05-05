@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fbGetRecording } from "../../../service/firebase/fbConfig";
 import { Space, Spin } from "antd";
+import Typewriter from "typewriter-effect";
 import {
   parseDisfluencies,
   redHighlight,
@@ -89,13 +90,20 @@ const Finished = () => {
       );
     } else {
       return (
-        <div className="loadingResults">
-          <h1 className="question-prompt">Congrats! You did it!</h1>
-          <Space size="middle">
-            <Spin size="large" />
-          </Space>
+        <div className="loading-page">
+            <h1 className="question-prompt">
+                <Typewriter
+                    options={{
+                        strings: ["Getting your audio file...", "Building your recording...", "Writing your transcription...", "Analyzing the data...", "Finding those filler words..."],
+                        autoStart: true,
+                        loop: true,
+                        color: "#fff",
+                        delay: 75,
+                    }}
+                />
+            </h1>
         </div>
-      );
+    );
     }
   };
 
