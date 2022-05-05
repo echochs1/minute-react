@@ -648,7 +648,6 @@ li.goalItem .goalOptions {
   height: 100vh;
   position: relative;
   padding-top: 2rem;
-  background-image: url("/src/assets/images/finish-line.svg");
   background-repeat: no-repeat;
   background-position: center center;
 }
