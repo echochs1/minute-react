@@ -482,7 +482,7 @@ li.goalItem .goalOptions {
   cursor: pointer;
 }
 
-/* .loadingResults {
+.loadingResults {
   width: 100vw;
   height: 900px;
   position: relative;
@@ -491,8 +491,8 @@ li.goalItem .goalOptions {
   background-color: #2a5278;
   /* background-image: url("/src/assets/images/finish-line.svg");
   background-repeat: no-repeat;
-  background-position: center center;
-} */
+  background-position: center center; */
+}
 
 .loadingResults .question-prompt {
   margin-bottom: 2rem;
