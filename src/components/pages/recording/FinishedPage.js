@@ -114,7 +114,7 @@ const Finished = () => {
     }
   };
 
-  return <div className="finishedPage">{renderResults()}</div>;
+  return <div>{renderResults()}</div>;
 };
 
 export default Finished;
