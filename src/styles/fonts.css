@@ -1,75 +1,79 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Raleway:wght@100;200;300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Raleway:wght@100;200;300;400;500;600;700&display=swap");
 
 h1 {
-    font-family: 'Fredoka', sans-serif;
-    font-size: 2rem;
-    font-weight: 700;
+  font-family: "Fredoka", sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
 }
 
 p {
-    font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
+}
+
+a {
+  font-family: "Raleway", sans-serif;
+  font-weight: 600;
 }
 
 span.med-bold-text {
-    font-family: 'Fredoka', sans-serif;
-    font-size: 4rem;
-    font-weight: 400;
+  font-family: "Fredoka", sans-serif;
+  font-size: 4rem;
+  font-weight: 400;
 }
 
 span.large-bold-text {
-    font-family: 'Fredoka', sans-serif;
-    font-size: 7rem;
-    font-weight: 700;
+  font-family: "Fredoka", sans-serif;
+  font-size: 7rem;
+  font-weight: 700;
 }
 
 span.button-primary-text {
-    font-family: 'Fredoka', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
+  font-family: "Fredoka", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 span.button-text-text {
-    font-family: 'Raleway', sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    transition: all 0.2s ease-in-out;
+  font-family: "Raleway", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  transition: all 0.2s ease-in-out;
 }
 
 span.button-text-text:hover {
-    font-weight: 600;
-    cursor: pointer;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 span.button-large-text {
-    font-family: 'Fredoka', sans-serif;
-    font-size: 2rem;
-    font-weight: 700;
-    
+  font-family: "Fredoka", sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
 }
 
 span.button-small-text {
-    font-family: 'Raleway', sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    text-align: left;
-    text-transform: none;
+  font-family: "Raleway", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: left;
+  text-transform: none;
 }
 
 h1.question-prompt {
-    font-family: 'Raleway', sans-serif;
-    font-size: 6rem;
-    font-weight: 700;
+  font-family: "Raleway", sans-serif;
+  font-size: 6rem;
+  font-weight: 700;
 }
 
 span.finishedResults-textContent {
-    font-family: 'Raleway', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 400;
-    text-align: left;
-    line-height: 3.125rem;
+  font-family: "Raleway", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  text-align: left;
+  line-height: 3.125rem;
 }
 
 h3.tip-text {
-    font-size: 1rem;
-    color: #fff;
+  font-size: 1rem;
+  color: #fff;
 }

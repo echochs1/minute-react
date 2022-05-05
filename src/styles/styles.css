@@ -338,7 +338,7 @@ ul.recordingsList {
 li.recordingItem {
   width: 100%;
   height: auto;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -417,9 +417,9 @@ li.goalItem .goalOptions {
 }
 /* LEARN PAGE */
 .learnPage {
-  overflow-y: auto;
   width: 100%;
   height: 97vh;
+  overflow-y: auto;
   padding: 2rem;
 }
 /* LOADING PAGE */
@@ -428,35 +428,32 @@ li.goalItem .goalOptions {
   height: 100vh;
   position: relative;
   overflow-y: none;
+  background-color: #f7fafc;
 }
 /* FINISHED PAGE */
-/* .finishedPage {
+.finishedPage {
   width: 100%;
   height: 100%;
   position: relative;
-  overflow-y: auto;
-  padding: 2rem;
-  background-color: #f7fafc;
-} */
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: row;
+}
 .finishedPage-button {
   padding: 1rem 2rem;
   width: fit-content;
-  max-width: 64vw;
-  height: auto;
+  height: fit-content;
   color: #1d3953;
   border-radius: 1rem;
   border: none;
   text-decoration: none;
   text-transform: uppercase;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
 }
 .finishedPage-button-1 {
   background-color: #bbd2e7;
   box-shadow: 0 0.5rem 0 #386c9f;
   transition: 300ms ease-in-out;
+  margin-right: 2rem;
 }
 .finishedPage-button-1:hover {
   box-shadow: 0 1rem 0 #386c9f;
@@ -466,9 +463,8 @@ li.goalItem .goalOptions {
   transition: 100ms ease-in-out;
 }
 .finishedPage-button-2 {
-  background-color: #a3e9d6;
+  background-color: #bbe7db;
   box-shadow: 0 0.5rem 0 #6fcdb4;
-  margin-top: 2rem;
   transition: 300ms ease-in-out;
 }
 .finishedPage-button-2:hover {
@@ -481,30 +477,20 @@ li.goalItem .goalOptions {
 .finishedPage-button:hover {
   cursor: pointer;
 }
-
 .loadingResults {
   width: 100vw;
-  height: 900px;
+  height: 100vh;
   position: relative;
   padding-top: 2rem;
-  overflow-y: auto;
-  background-color: #2a5278;
-  /* background-image: url("/src/assets/images/finish-line.svg");
+  background-image: url("/src/assets/images/finish-line.svg");
   background-repeat: no-repeat;
-  background-position: center center; */
+  background-position: center center;
 }
-
 .loadingResults .question-prompt {
   margin-bottom: 2rem;
 }
 .finishedResults {
   color: #1d3953;
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow-y: auto;
-  padding: 2rem;
-  background-color: #f7fafc;
 }
 .finishedResults-title {
   margin-bottom: 2rem;

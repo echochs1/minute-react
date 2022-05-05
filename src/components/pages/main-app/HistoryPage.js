@@ -4,7 +4,10 @@ import { logos } from "../../../assets/images/logos/logos";
 import { fbGetAllRecordings } from "../../../service/firebase/fbConfig";
 import { FirebaseContext } from "../../../service/firebase/fbContext";
 import { Button, Space, Spin } from "antd";
-import { redHighlight, fillerWordCount } from "../../../service/recording/fillerWordDetect";
+import {
+  redHighlight,
+  fillerWordCount,
+} from "../../../service/recording/fillerWordDetect";
 import { useNavigate } from "react-router-dom";
 
 /**
@@ -56,7 +59,7 @@ const History = () => {
                     {recording.transcript
                       ? redHighlight(recording.transcript)
                       : ""}
-                      <br/>
+                    <br />
                     <b>Filler Word Count: </b>
                     {recording.transcript
                       ? fillerWordCount(recording.transcript)
@@ -76,7 +79,7 @@ const History = () => {
               </div>
               <hr
                 className="recordingLine"
-                size="2px"
+                size="10px"
                 width="100%"
                 color="#BBD2E7"
               ></hr>

@@ -44,6 +44,10 @@
 @button-shadow-gold-600: 0 0.5rem 0 @gold600;
 @button-shadow-gold-600-hover: 0 1rem 0 @gold600;
 @button-shadow-gold-600-active: 0 0.25rem 0 @gold600;
+@button-shadow-teal-200: 0 0.5rem 0 @teal200;
+@button-shadow-teal-500: 0 0.5rem 0 @teal500;
+@button-shadow-teal-500-hover: 0 1rem 0 @teal500;
+@button-shadow-teal-500-active: 0 0.25rem 0 @teal500;
 
 @button-transition: 300ms ease-in-out;
 @button-transition-active: 100ms ease-in-out;
@@ -455,7 +459,7 @@ ul.recordingsList {
 li.recordingItem {
   width: 100%;
   height: auto;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   // padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -555,6 +559,7 @@ li.goalItem:hover {
   width: 100%;
   height: 97vh;
   overflow-y: auto;
+  padding: 2rem;
 }
 
 /* LOADING PAGE */
@@ -571,9 +576,57 @@ li.goalItem:hover {
   width: 100%;
   height: 100%;
   position: relative;
-  overflow-y: auto;
-  padding: 2rem;
-  background-color: @blue050;
+  //   overflow-y: auto;
+  padding: 2rem 0;
+  //   background-color: @blue050;
+  display: flex;
+  flex-direction: row;
+
+  &-button {
+    padding: 1rem 2rem;
+    width: fit-content;
+    height: fit-content;
+    color: @blue900;
+    border-radius: 1rem;
+    border: none;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    &-1 {
+      background-color: @blue200;
+      box-shadow: @button-shadow-blue-700;
+      transition: 300ms ease-in-out;
+      margin-right: 2rem;
+    }
+
+    &-1:hover {
+      box-shadow: @button-shadow-blue-700-hover;
+    }
+
+    &-1:active {
+      box-shadow: @button-shadow-blue-700-active;
+      transition: 100ms ease-in-out;
+    }
+
+    &-2 {
+      background-color: @teal200;
+      box-shadow: @button-shadow-teal-500;
+      transition: 300ms ease-in-out;
+    }
+
+    &-2:hover {
+      box-shadow: @button-shadow-teal-500-hover;
+    }
+
+    &-2:active {
+      box-shadow: @button-shadow-teal-500-active;
+      transition: 100ms ease-in-out;
+    }
+  }
+
+  &-button:hover {
+    cursor: pointer;
+  }
 }
 
 .loadingResults {
