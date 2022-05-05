@@ -77,7 +77,7 @@ const AboutPage = () => {
                 </div>
             </div>
         </div>
-    );
-}
+  );
+};
 
 export default AboutPage;

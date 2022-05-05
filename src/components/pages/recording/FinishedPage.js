@@ -27,8 +27,42 @@ const Finished = () => {
   };
 
   const handleRecordClick = () => {
+    // emotion();
     history("/one-min");
   };
+
+  //   const emotion = () => {
+  //     const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1');
+  // const { IamAuthenticator } = require('ibm-watson/auth');
+
+  // const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
+  //   version: '2022-04-07',
+  //   authenticator: new IamAuthenticator({
+  //     apikey: process.env.REACT_APP_IBM_NATURAL_LANGUAGE_API_KEY,
+  //   }),
+  //   serviceUrl: "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com",
+  // });
+
+  // const analyzeParams = {
+  //   'html': '<html><head><title>Fruits</title></head><body><h1>Apples and Oranges</h1><p>I love apples! I don\'t like oranges.</p></body></html>',
+  //   'features': {
+  //     'emotion': {
+  //       'targets': [
+  //         'apples',
+  //         'oranges'
+  //       ]
+  //     }
+  //   }
+  // };
+
+  // naturalLanguageUnderstanding.analyze(analyzeParams)
+  //   .then(analysisResults => {
+  //     console.log(JSON.stringify(analysisResults, null, 2));
+  //   })
+  //   .catch(err => {
+  //     console.log('error:', err);
+  //   });
+  //   }
 
   const renderResults = () => {
     console.log(isLoading);
@@ -91,7 +125,7 @@ const Finished = () => {
       );
     } else {
       return (
-        <div className="loading-page">
+        <div className="loadingResults" style={{ backgroundColor: "#2a5278" }}>
           <h1 className="question-prompt">
             <Typewriter
               options={{
@@ -114,7 +148,7 @@ const Finished = () => {
     }
   };
 
-  return <div className="finishedPage">{renderResults()}</div>;
+  return <div>{renderResults()}</div>;
 };
 
 export default Finished;

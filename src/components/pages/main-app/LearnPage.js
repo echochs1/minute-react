@@ -157,7 +157,7 @@ const Learn = () => {
                 }
                 description={item.type}
               />
-              {item.content}
+              <p>{item.content}</p>
             </List.Item>
           )}
         />
