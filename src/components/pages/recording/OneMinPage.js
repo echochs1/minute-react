@@ -151,7 +151,7 @@ const OneMinPage = () => {
             .then((response) => {console.log("postTranscript returns: ", response.data.id);
             setTimeout(() => {
             getTranscript(response.data.id, filename)
-        }, 21000);
+        }, 30000);
         })
             .catch((err) => console.error("postTranscript Error: ",err));
     }
