@@ -23,6 +23,9 @@ const Finished = () => {
     setRecordingData(fbGetRecording(location.state.name));
     setTimeout(() => {
       setIsLoading(false);
+      // setTimeout(() => {
+      //   setGrammar(recordingData.transcript);
+      // }, 10000);
     }, 5000); // sleep for 5 seconds before fetching the recoding to ensure url has been uploaded
   }, []);
 
@@ -105,9 +108,14 @@ const Finished = () => {
           
           <div className="finishedResults-textWrapper">
             <span className="finishedResults-textContent">
-              <b>Text:</b> {selectedOpt == 0 ? redHighlight(recordingData.transcript) : setGrammar(recordingData.transcript)}
+              <b>Text:</b> {redHighlight(recordingData.transcript)}
             </span>
           </div>
+          {/* <div className="finishedResults-textWrapper">
+            <span className="finishedResults-textContent">
+              <b>Text:</b> {setGrammar(recordingData.transcript)}
+            </span>
+          </div> */}
 
           <hr
             className="recordingLine"

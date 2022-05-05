@@ -37,16 +37,16 @@ export const underlineErrors = (transcription, data) => {
     let errors = [];
     // loop through error matches, break up transcription into alternating words and errors
     for(let i=0; i<data.matches.length; i++) {
-        // let errorSubstr = {};
+        let errorSubstr = {};
         if (data.matches[i].replacements != [] && data.matches[i].replacements != null) {
-            let errorSubstr = {
+            errorSubstr = {
                 offset: data.matches[i].offset,
                 length: data.matches[i].length,
                 title: data.matches[i].shortMessage,
                 message: data.matches[i].message,  // or matches[i].shortMessage
                 replacement: data.matches[i].replacements[0]
             }
-            errors.push(errorSubstr);
+            // errors.push(errorSubstr);
             // errorSubstr.offset = data.matches[i].offset,
             // errorSubstr.length = data.matches[i].length,
             // errorSubstr.title = data.matches[i].shortMessage,
@@ -58,15 +58,15 @@ export const underlineErrors = (transcription, data) => {
             // errorSubstr.title = data.matches[i].shortMessage,
             // errorSubstr.message = data.matches[i].message  // or matches[i].shortMessage
             // errorSubstr.replacement = "None"
-            let errorSubstr = {
+            errorSubstr = {
                 offset: data.matches[i].offset,
                 length: data.matches[i].length,
                 title: data.matches[i].shortMessage,
                 message: data.matches[i].message,  // or matches[i].shortMessage
                 replacement: "None"
             }
-            errors.push(errorSubstr);
         }
+        errors.push(errorSubstr);
     }
     // array of transcript substrings, alternating between words and errors
     const splitArr = breakWhere(errors, transcription);
