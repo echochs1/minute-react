@@ -67,10 +67,10 @@ const SidebarNav = () => {
     return (
         <div>
             <div style={{height: "3rem", margin: "1rem"}}>
-                <Link to="/app" style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                {/* <Link to="/app/record" style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}> */}
                     <img src={Logo} alt="logo" style={{height: "32px", width: "32px", margin: "8px"}}/>
                     {/* <h1>Minute</h1> */}
-                </Link>
+                {/* </Link> */}
             </div>
             <Menu theme="dark" style={{ background:'#1D3953' }} mode="inline" defaultSelectedKeys={['1']}>
             {/* <Menu theme="light" mode="inline"> -> for no default selection */}

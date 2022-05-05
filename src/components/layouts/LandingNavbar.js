@@ -11,7 +11,7 @@ const LandingNavbar = () => {
     const history = useNavigate();
     
     const handleLogoClick = () => {
-        history("/");
+        history("/record");
     }
     
     const handleAboutClick = () => {
