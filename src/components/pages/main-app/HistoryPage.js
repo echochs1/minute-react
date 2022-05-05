@@ -6,6 +6,7 @@ import { FirebaseContext } from "../../../service/firebase/fbContext";
 import { Button, Space, Spin } from "antd";
 import { redHighlight, fillerWordCount } from "../../../service/recording/fillerWordDetect";
 import { useNavigate } from "react-router-dom";
+import { MonkeyLearn } from "monkeylearn";
 
 /**
  *
@@ -27,12 +28,31 @@ const History = () => {
   useEffect(() => {
     setRecordings(fbGetAllRecordings().reverse());
   }, []);
+ 
+  const emotion = () => {
+    const ml = new MonkeyLearn(process.env.REACT_APP_MONKEY_LEARN_API_KEY);
+    // let model_id = 'cl_pi3C7JiL'
+    // let data = ['This is a great tool!', {text: 'The location is excellent.', external_id: 'ANY_ID'}]
+    // ml.classifiers.classify(model_id, data).then(res => {
+    //     console.log(res.body)
+    // })
+
+    let model_id = 'ex_YCya9nrn'
+    let data = [
+        "I have to say that this hotel has the worst customer support ever. It is a shame that people in management positions (who should be more respectful of their customers) are rude and have bad attitudes. They completely ruined my vacations.",
+      ]
+  
+    ml.extractors.extract(model_id, data).then(res => {
+      console.log(res)
+  })
+  }
 
   const handleHistoryResultsClick = (recording) => {
     history("/app/history/results", { state: { recordingData: recording } });
   };
 
   const renderHistory = () => {
+    <div>{emotion()}</div>
     if (recordings) {
       return (
         <ul className="recordingsList">
@@ -56,7 +76,7 @@ const History = () => {
                     {recording.transcript
                       ? redHighlight(recording.transcript)
                       : ""}
-                      <br/>
+                    <br />
                     <b>Filler Word Count: </b>
                     {recording.transcript
                       ? fillerWordCount(recording.transcript)

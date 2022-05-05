@@ -3,7 +3,7 @@
 // https://github.com/Matheswaaran/react-mp3-audio-recording/blob/master/src/App.js
 // https://github.com/tameemsafi/typewriterjs
 
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Statistic } from "antd";
 import { randomPrompts } from "../../../service/recording/one-min/randomPrompts";
 import Clock from "../../../assets/images/clock.svg";
@@ -14,6 +14,8 @@ import Mic from "../../../assets/images/mic.svg";
 import { fbUploadRecording, fbUploadAudioFile } from '../../../service/firebase/fbConfig';
 import axios from 'axios';
 import Typewriter from "typewriter-effect";
+import { MonkeyLearn } from "monkeylearn";
+
 
 const { Countdown } = Statistic;
 
@@ -36,34 +38,37 @@ const OneMinPage = () => {
     const [assemblyData, setAssemblyData] = useState(null); // assembly data of recording
     const [transcription, setTranscription] = useState(null); // transcription of recording
     const [audioUrl, setAudioUrl] = useState(null); // url of recording
-    
+    const [keywordClassification, setKeywordClassification] = useState(null);
+    const [profanityClassification, setProfanityClassification] = useState(null);
+
+
     // new instance of the mic recorder
     const [mp3Recorder, setmp3Recorder] = useState(
         new MicRecorder({ bitRate: 128 })
-        );
+    );
 
     const history = useNavigate();
 
     useEffect(() => {
         // check if the user has granted the permission to record audio
         navigator.getUserMedia(
-          { audio: true },
-          () => {
-            console.log("Permission Granted");
-            setIsBlocked(false);
-          },
-          () => {
-            console.log("Permission Denied");
-            setIsBlocked(true);
-          }
+            { audio: true },
+            () => {
+                console.log("Permission Granted");
+                setIsBlocked(false);
+            },
+            () => {
+                console.log("Permission Denied");
+                setIsBlocked(true);
+            }
         );
-      }, [])
+    }, [])
 
     /**
      * @description start audio recording with mp3Recorder -> returns Promise
      */
     const startRecording = () => {
-        if(!isRecording && !isBlocked) {
+        if (!isRecording && !isBlocked) {
             setIsRecording(!isRecording); // start false and then set to true on click
             setCountdownValue(Date.now() + 6 * 10 * 1000); // 60 seconds
             mp3Recorder
@@ -102,7 +107,7 @@ const OneMinPage = () => {
                 // Upload audioFile to Firebase Storage
                 fbUploadAudioFile(file);
 
-                const  blobURL = URL.createObjectURL(file);
+                const blobURL = URL.createObjectURL(file);
                 setBlobURL(blobURL);
                 setIsRecording(false);
 
@@ -127,10 +132,12 @@ const OneMinPage = () => {
         });
         assembly
             .post("/upload", audioFile)
-            .then((response) => {console.log("reaced URL:", response.data['upload_url']);         //FIRST LOG URL
-            postTranscript(response.data['upload_url'], audioFile.name);})
+            .then((response) => {
+                console.log("reaced URL:", response.data['upload_url']);         //FIRST LOG URL
+                postTranscript(response.data['upload_url'], audioFile.name);
+            })
             .catch((err) => console.log(err));
-            }
+    }
 
     /**
      * @description sends audiofile url to AssemblyAI and creates a transcription and an id linked to the transcription
@@ -148,12 +155,13 @@ const OneMinPage = () => {
                 audio_url: fileURL,
                 disfluencies: true
             })
-            .then((response) => {console.log("postTranscript returns: ", response.data.id);
-            setTimeout(() => {
-            getTranscript(response.data.id, filename)
-        }, 21000);
-        })
-            .catch((err) => console.error("postTranscript Error: ",err));
+            .then((response) => {
+                console.log("postTranscript returns: ", response.data.id);
+                setTimeout(() => {
+                    getTranscript(response.data.id, filename)
+                }, 21000);
+            })
+            .catch((err) => console.error("postTranscript Error: ", err));
     }
 
     /**
@@ -175,19 +183,41 @@ const OneMinPage = () => {
                 console.log("getTranscript returns: ", response)
                 setAssemblyData(response.data);
                 setTranscription(response.data.text);
-                
+
                 // Push transcription to Firebase database
                 fbUploadRecording(filename, question[0], response.data.text);
                 setisUploading(false);
-                //redirected to finished page
-                history("/finished", {state: {name: filename}});
+
+                // Analysis 
+                const ml = new MonkeyLearn(process.env.REACT_APP_MONKEY_LEARN_API_KEY);
+                let keyword_model_id = 'ex_YCya9nrn'
+                let profanity_model_id = 'cl_KFXhoTdt'
+                let data = [response.data.text];
+                ml.extractors.extract(keyword_model_id, data).then(res => {
+                    console.log(res)
+                    setKeywordClassification(res);
+                    ml.classifiers.classify(profanity_model_id, data).then(res => {
+                        console.log(res)
+                        setProfanityClassification(res);
+                        //redirected to finished page
+                        history("/finished", {
+                            state: {
+                                name: filename,
+                                keywordClassification: keywordClassification,
+                                profanityClassification: profanityClassification
+                            }
+                        });
+                    })
+                })
+
+
             })
             .catch((err) => console.error("getTranscript Error: ", err));
     }
 
     const renderTimer = () => {
         console.log(isUploading);
-        if(!isUploading) {
+        if (!isUploading) {
             return (
                 <div>
                     <div className="timer">
@@ -205,7 +235,7 @@ const OneMinPage = () => {
                             <button
                                 className='record-btn'
                                 onClick={isRecording ? null : startRecording}
-                                style={isRecording ? { padding: "1rem", cursor: "not-allowed"} : {padding: "1rem 0.8125rem 1rem 1.1875rem"}}>
+                                style={isRecording ? { padding: "1rem", cursor: "not-allowed" } : { padding: "1rem 0.8125rem 1rem 1.1875rem" }}>
                                 <img src={isRecording ? Mic : Play} alt="Play Button" />
                             </button>
                         </div>
@@ -214,7 +244,7 @@ const OneMinPage = () => {
                         <h3 className="tip-text">Hello there! Take a breath. Once you're ready, <span className="redHighlight">press the Play button</span> and present!</h3>
                     </div>
                 </div>)
-        
+
         } else {
             return (
                 <div className="loading-page">

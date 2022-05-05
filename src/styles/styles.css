@@ -304,6 +304,7 @@ video#video {
   color: #fff;
 }
 .ButtonRecord {
+  position: absolute;
   padding: 2rem;
 }
 .record-btn {

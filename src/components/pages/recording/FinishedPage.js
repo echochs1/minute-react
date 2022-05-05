@@ -9,7 +9,10 @@ const Finished = () => {
     const history = useNavigate();
     const [recordingData, setRecordingData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [keywordClassification, setKeywordClassification] = useState(location.state.keywordClassification);
+    const [profanityClassification, setProfanityClassification] = useState(location.state.profanityClassification);
 
+console.log(location);
     useEffect(() => {
         // setRecordingData({name: location.state.name, prompt: location.state.prompt, transcript: location.state.transcript, url:fbGetUrl(location.state.name)});
         setRecordingData(fbGetRecording(location.state.name));
@@ -27,7 +30,9 @@ const Finished = () => {
     }
 
     const renderResults = () => {
-        console.log(isLoading);
+        console.log(keywordClassification);
+        console.log(profanityClassification);
+
         if(!isLoading && recordingData) {
             return (
                 <div className="finishedResults">
