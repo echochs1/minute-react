@@ -32,13 +32,13 @@ const ApplicationRoutes = () => {
         <Routes>
             {isAuthenticated ?
             <>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Record />} />
             <Route path="record" element={<Record />} />
             <Route path="goal" element={<Goals />} />
             <Route path="learn" element={<Learn />} />
             <Route path="history" element={<History />} />
             <Route path="history/results" element={<HistoryResults />} />
-            <Route path="setting" element={<Settings />} />
+            {/* <Route path="setting" element={<Settings />} /> */}
             <Route path="logout" component={() => <Navigate to="/" />} />
             <Route path="*" element={<PageNotFound/>} />
             </>

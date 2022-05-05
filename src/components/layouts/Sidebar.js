@@ -92,10 +92,10 @@ const SidebarNav = () => {
                     <ClockCircleTwoTone />
                     <span> History</span>
                 </Menu.Item>
-                <Menu.Item key="5" onClick={handleSettingClick}>
+                {/* <Menu.Item key="5" onClick={handleSettingClick}>
                     <SettingTwoTone />
                     <span> Settings</span>
-                </Menu.Item>
+                </Menu.Item> */}
                 {authUser.loggedIn ?
                     <Menu.Item key="6" onClick={handleLogoutClick}>
                         <RightSquareTwoTone />
