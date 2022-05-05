@@ -66,18 +66,19 @@ const Finished = () => {
             </audio>
           )}
           <Space size="large" style={{ marginTop: "20px" }} />
-          <div className="finishedResults-buttons">
+
+          <div className="finishedPage">
             <button
-              className="finishedResults-button-1"
+              className="finishedPage-button finishedPage-button-1"
               onClick={handleRecordClick}
             >
-              Generate another prompt
+              <span className="button-small-text">Generate another prompt</span>
             </button>
             <button
-              className="finishedResults-button-2"
+              className="finishedPage-button finishedPage-button-2"
               onClick={handleHomeClick}
             >
-              Return to app
+              <span className="button-small-text">Return to app</span>
             </button>
           </div>
 
@@ -91,19 +92,25 @@ const Finished = () => {
     } else {
       return (
         <div className="loading-page">
-            <h1 className="question-prompt">
-                <Typewriter
-                    options={{
-                        strings: ["Getting your audio file...", "Building your recording...", "Writing your transcription...", "Analyzing the data...", "Finding those filler words..."],
-                        autoStart: true,
-                        loop: true,
-                        color: "#fff",
-                        delay: 75,
-                    }}
-                />
-            </h1>
+          <h1 className="question-prompt">
+            <Typewriter
+              options={{
+                strings: [
+                  "Getting your audio file...",
+                  "Building your recording...",
+                  "Writing your transcription...",
+                  "Analyzing the data...",
+                  "Finding those filler words...",
+                ],
+                autoStart: true,
+                loop: true,
+                color: "#fff",
+                delay: 75,
+              }}
+            />
+          </h1>
         </div>
-    );
+      );
     }
   };
 

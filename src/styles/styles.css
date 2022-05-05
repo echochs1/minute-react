@@ -438,6 +438,50 @@ li.goalItem .goalOptions {
   padding: 2rem;
   background-color: #f7fafc;
 }
+.finishedPage-button {
+  padding: 1rem 2rem;
+  width: fit-content;
+  max-width: 64vw;
+  height: auto;
+  color: #1d3953;
+  border-radius: 1rem;
+  border: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.finishedPage-button-1 {
+  background-color: #bbd2e7;
+  box-shadow: 0 0.5rem 0 #386c9f;
+  transition: 300ms ease-in-out;
+}
+.finishedPage-button-1:hover {
+  box-shadow: 0 1rem 0 #386c9f;
+}
+.finishedPage-button-1:active {
+  box-shadow: 0 0.25rem 0 #386c9f;
+  transition: 100ms ease-in-out;
+}
+.finishedPage-button-2 {
+  background-color: #a3e9d6;
+  box-shadow: 0 0.5rem 0 #6fcdb4;
+  margin-top: 2rem;
+  transition: 300ms ease-in-out;
+}
+.finishedPage-button-2:hover {
+  box-shadow: 0 1rem 0 #6fcdb4;
+}
+.finishedPage-button-2:active {
+  box-shadow: 0 0.25rem 0 #6fcdb4;
+  transition: 100ms ease-in-out;
+}
+.finishedPage-button:hover {
+  cursor: pointer;
+}
+
 .loadingResults {
   width: 100vw;
   height: 100vh;
